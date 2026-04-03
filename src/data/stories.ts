@@ -18,6 +18,8 @@ import storyKadabra from '@/assets/story-kadabra.jpg';
 import storyShadow from '@/assets/story-shadow.jpg';
 import storyMushrooms from '@/assets/story-mushrooms.jpg';
 import storyKangaskhan from '@/assets/story-kangaskhan.jpg';
+import storyForestNight from '@/assets/story-forest-night.png';
+import storyForestFriends from '@/assets/story-forest-friends.png';
 
 export const stories: Story[] = [
   {

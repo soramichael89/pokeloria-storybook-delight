@@ -73,21 +73,11 @@ export const stories: Story[] = [
     colorKey: 'sky',
     coverImage: storyKangaskhan,
     pages: [
-      {
-        text: "Un cri résonna dans la prairie. Un tout petit Kangourex était là, seul, au milieu des fleurs bleues. Il pleurait, ses petites pattes tremblaient, et il appelait sa maman.",
-      },
-      {
-        text: "Mila l'entendit la première. « Viens, dit-elle doucement. Je vais t'aider. » Le petit Kangourex hésita, puis trottina jusqu'à elle avec des yeux pleins de larmes.",
-      },
-      {
-        text: "Ensemble, ils traversèrent la colline, le ruisseau, le champ de baies. Mila demandait à chaque Pokémon qu'elle croisait : « Avez-vous vu sa maman ? »",
-      },
-      {
-        text: "Finalement, au sommet de la colline, une immense Kangourex apparut en courant, le regard affolé. Quand elle vit son bébé, elle s'arrêta net. Ses yeux se remplirent de douceur.",
-      },
-      {
-        text: "Le petit sauta dans ses bras. Et Mila comprit quelque chose de précieux : ceux qui semblent perdus n'ont pas besoin qu'on les juge. Ils ont juste besoin que quelqu'un les aide à retrouver leur chemin.",
-      },
+      { type: 'text', text: "Un cri résonna dans la prairie. Un tout petit Kangourex était là, seul, au milieu des fleurs bleues. Il pleurait, ses petites pattes tremblaient, et il appelait sa maman." },
+      { type: 'text', text: "Mila l'entendit la première. « Viens, dit-elle doucement. Je vais t'aider. » Le petit Kangourex hésita, puis trottina jusqu'à elle avec des yeux pleins de larmes." },
+      { type: 'text-image', text: "Ensemble, ils traversèrent la colline, le ruisseau, le champ de baies. Mila demandait à chaque Pokémon qu'elle croisait : « Avez-vous vu sa maman ? »", image: storyKangaskhan },
+      { type: 'text', text: "Finalement, au sommet de la colline, une immense Kangourex apparut en courant, le regard affolé. Quand elle vit son bébé, elle s'arrêta net. Ses yeux se remplirent de douceur." },
+      { type: 'text', text: "Le petit sauta dans ses bras. Et Mila comprit quelque chose de précieux : ceux qui semblent perdus n'ont pas besoin qu'on les juge. Ils ont juste besoin que quelqu'un les aide à retrouver leur chemin." },
     ],
   },
 ];

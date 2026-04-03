@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Story } from '@/data/stories';
+import { Story, StoryPage } from '@/data/stories';
 
 interface StoryReaderProps {
   story: Story;
@@ -9,29 +9,78 @@ interface StoryReaderProps {
 }
 
 const bgColorMap = {
-  peach: 'from-peach/60 to-peach-deep/30',
-  lavender: 'from-lavender/60 to-lavender-deep/30',
-  sage: 'from-sage/60 to-sage-deep/30',
-  sky: 'from-sky/60 to-sky-deep/30',
+  peach: 'bg-peach/40',
+  lavender: 'bg-lavender/40',
+  sage: 'bg-sage/40',
+  sky: 'bg-sky/40',
+} as const;
+
+const bgGradientMap = {
+  peach: 'from-peach/20 via-background to-peach-deep/10',
+  lavender: 'from-lavender/20 via-background to-lavender-deep/10',
+  sage: 'from-sage/20 via-background to-sage-deep/10',
+  sky: 'from-sky/20 via-background to-sky-deep/10',
 } as const;
 
 const pageVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 300 : -300,
+    x: direction > 0 ? '100%' : '-100%',
     opacity: 0,
-    scale: 0.95,
   }),
   center: {
     x: 0,
     opacity: 1,
-    scale: 1,
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 300 : -300,
+    x: direction < 0 ? '100%' : '-100%',
     opacity: 0,
-    scale: 0.95,
   }),
 };
+
+/* ─── Page renderers ─── */
+
+const TextPage = ({ page, colorKey }: { page: StoryPage; colorKey: string }) => (
+  <div className={`h-full flex flex-col justify-center items-center px-8 bg-gradient-to-b ${bgGradientMap[colorKey as keyof typeof bgGradientMap]}`}>
+    <p className="text-lg font-body text-foreground leading-[1.9] text-center max-w-[340px]">
+      {page.text}
+    </p>
+  </div>
+);
+
+const TextImagePage = ({ page, colorKey }: { page: StoryPage; colorKey: string }) => (
+  <div className={`h-full flex flex-col px-6 pt-6 pb-4 bg-gradient-to-b ${bgGradientMap[colorKey as keyof typeof bgGradientMap]}`}>
+    <div className="flex-shrink-0 mb-5">
+      <p className="text-base font-body text-foreground leading-[1.85] text-center">
+        {page.text}
+      </p>
+    </div>
+    <div className="flex-1 min-h-0 flex items-center justify-center">
+      <div className="w-full rounded-2xl overflow-hidden shadow-card">
+        <img
+          src={page.image}
+          alt=""
+          className="w-full h-full object-cover aspect-[4/3]"
+        />
+      </div>
+    </div>
+  </div>
+);
+
+const ImmersivePage = ({ page }: { page: StoryPage }) => (
+  <div className="h-full relative">
+    <img
+      src={page.image}
+      alt=""
+      className="absolute inset-0 w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 px-6 pb-8">
+      <p className="text-base font-body text-background leading-[1.85] text-center drop-shadow-md">
+        {page.text}
+      </p>
+    </div>
+  </div>
+);
 
 const StoryReader = ({ story, onClose }: StoryReaderProps) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -54,7 +103,7 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
     }
   }, [currentPage]);
 
-  // Swipe handling
+  // Swipe
   const [touchStart, setTouchStart] = useState<number | null>(null);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -71,49 +120,31 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
     setTouchStart(null);
   };
 
+  const renderPage = (p: StoryPage) => {
+    switch (p.type) {
+      case 'immersive':
+        return <ImmersivePage page={p} />;
+      case 'text-image':
+        return <TextImagePage page={p} colorKey={story.colorKey} />;
+      case 'text':
+      default:
+        return <TextPage page={p} colorKey={story.colorKey} />;
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.35 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-muted/50"
     >
       <div className="relative w-full max-w-[430px] h-screen sm:h-[860px] sm:rounded-[2.5rem] overflow-hidden bg-background flex flex-col">
-        {/* Background gradient */}
-        <div className={`absolute inset-0 bg-gradient-to-b ${bgColorMap[story.colorKey]} pointer-events-none`} />
 
-        {/* Top bar */}
-        <div className="relative z-10 flex items-center justify-between px-5 pt-14 pb-2">
-          <button
-            onClick={onClose}
-            className="w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-soft transition-transform active:scale-90"
-          >
-            <X className="w-5 h-5 text-foreground" />
-          </button>
-          <span className="text-xs font-body text-muted-foreground">
-            {currentPage + 1} / {totalPages}
-          </span>
-          <div className="w-10" />
-        </div>
-
-        {/* Story title on first page */}
-        {currentPage === 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="relative z-10 px-6 pt-2 pb-1"
-          >
-            <span className="text-3xl mb-2 block">{story.emoji}</span>
-            <h2 className="text-xl font-display font-bold text-foreground leading-snug">
-              {story.title}
-            </h2>
-          </motion.div>
-        )}
-
-        {/* Page content area */}
+        {/* Page content — full height, no scroll */}
         <div
-          className="relative z-10 flex-1 flex flex-col px-6 overflow-hidden"
+          className="absolute inset-0 overflow-hidden"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -125,32 +156,34 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="flex-1 flex flex-col justify-center"
+              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute inset-0"
             >
-              {/* Illustration */}
-              <div className="rounded-2xl overflow-hidden shadow-card mb-5 aspect-[4/3]">
-                <img
-                  src={story.coverImage}
-                  alt={story.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Text */}
-              <p className="text-base font-body text-foreground leading-relaxed text-center px-2">
-                {page.text}
-              </p>
+              {renderPage(page)}
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Navigation buttons */}
-        <div className="relative z-10 flex items-center justify-between px-6 pb-10 pt-4">
+        {/* Overlay UI — close button & page counter */}
+        <div className="relative z-10 flex items-center justify-between px-5 pt-14 pb-2 pointer-events-none">
+          <button
+            onClick={onClose}
+            className="pointer-events-auto w-10 h-10 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center shadow-soft transition-transform active:scale-90"
+          >
+            <X className="w-5 h-5 text-foreground" />
+          </button>
+          <span className="text-xs font-body text-muted-foreground bg-background/60 backdrop-blur-sm rounded-full px-3 py-1">
+            {currentPage + 1} / {totalPages}
+          </span>
+          <div className="w-10" />
+        </div>
+
+        {/* Bottom navigation */}
+        <div className="relative z-10 mt-auto flex items-center justify-between px-6 pb-10 pt-4 pointer-events-none">
           <button
             onClick={goPrev}
             disabled={currentPage === 0}
-            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-soft transition-all active:scale-90 disabled:opacity-30 disabled:cursor-default"
+            className="pointer-events-auto w-12 h-12 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center shadow-soft transition-all active:scale-90 disabled:opacity-30 disabled:cursor-default"
           >
             <ChevronLeft className="w-5 h-5 text-foreground" />
           </button>
@@ -162,7 +195,7 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
                 key={i}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   i === currentPage
-                    ? 'w-6 bg-foreground/60'
+                    ? 'w-6 bg-foreground/50'
                     : 'w-1.5 bg-foreground/15'
                 }`}
               />
@@ -171,7 +204,7 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
 
           <button
             onClick={currentPage === totalPages - 1 ? onClose : goNext}
-            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-soft transition-all active:scale-90"
+            className="pointer-events-auto w-12 h-12 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center shadow-soft transition-all active:scale-90"
           >
             {currentPage === totalPages - 1 ? (
               <X className="w-5 h-5 text-foreground" />

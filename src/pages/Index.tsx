@@ -3,15 +3,26 @@ import { AnimatePresence } from 'framer-motion';
 import MobileShell from '@/components/MobileShell';
 import StoryLibrary from '@/components/StoryLibrary';
 import StoryReader from '@/components/StoryReader';
+import CharactersTab from '@/components/CharactersTab';
+import WorldTab from '@/components/WorldTab';
+import BottomNav, { TabId } from '@/components/BottomNav';
 import { Story } from '@/data/stories';
 
 const Index = () => {
   const [activeStory, setActiveStory] = useState<Story | null>(null);
+  const [activeTab, setActiveTab] = useState<TabId>('stories');
 
   return (
     <>
       <MobileShell>
-        <StoryLibrary onOpenStory={setActiveStory} />
+        <div className="relative h-full min-h-screen sm:min-h-[860px] flex flex-col">
+          <div className="flex-1 pb-20">
+            {activeTab === 'stories' && <StoryLibrary onOpenStory={setActiveStory} />}
+            {activeTab === 'characters' && <CharactersTab />}
+            {activeTab === 'world' && <WorldTab />}
+          </div>
+          <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+        </div>
       </MobileShell>
 
       <AnimatePresence>

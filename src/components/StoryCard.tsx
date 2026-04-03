@@ -51,8 +51,7 @@ const StoryCard = ({ story, onOpen, index }: StoryCardProps) => {
           {!transparent && (
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
           )}
-
-        {/* Text area */}
+        </div>
         <div className="p-4 pb-5">
           <h3 className="font-display font-bold text-base leading-snug text-foreground line-clamp-2">
             {story.title}

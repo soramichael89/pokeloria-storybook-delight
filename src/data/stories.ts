@@ -43,21 +43,11 @@ export const stories: Story[] = [
     colorKey: 'lavender',
     coverImage: storyShadow,
     pages: [
-      {
-        text: "Depuis plusieurs nuits, une ombre immense rôdait autour de Pokopia. Les habitants avaient peur. « C'est un monstre ! » chuchotaient-ils derrière leurs portes fermées.",
-      },
-      {
-        text: "Mais la petite Lina, elle, n'était pas comme les autres. Elle avait peur, oui — mais elle était aussi terriblement curieuse. Cette nuit-là, elle prit sa lanterne et suivit les traces dans la brume.",
-      },
-      {
-        text: "L'ombre était grande, très grande. Elle grondait doucement. Mais quand Lina s'approcha… elle découvrit un grand Pokémon blessé, tremblant de froid, qui projetait une ombre démesurée à cause de la lumière de la lune.",
-      },
-      {
-        text: "« Tu n'es pas un monstre, murmura Lina. Tu es juste perdu. » Elle posa sa couverture sur lui et resta à ses côtés jusqu'à l'aube.",
-      },
-      {
-        text: "Le lendemain matin, les villageois découvrirent Lina endormie contre un Arcanin fatigué. Et ils comprirent : ce qui fait peur dans le noir n'est pas toujours ce qu'on croit.",
-      },
+      { type: 'text', text: "Depuis plusieurs nuits, une ombre immense rôdait autour de Pokopia. Les habitants avaient peur. « C'est un monstre ! » chuchotaient-ils derrière leurs portes fermées." },
+      { type: 'text', text: "Mais la petite Lina, elle, n'était pas comme les autres. Elle avait peur, oui — mais elle était aussi terriblement curieuse. Cette nuit-là, elle prit sa lanterne et suivit les traces dans la brume." },
+      { type: 'text-image', text: "L'ombre était grande, très grande. Elle grondait doucement. Mais quand Lina s'approcha… elle découvrit un grand Pokémon blessé, tremblant de froid, qui projetait une ombre démesurée à cause de la lumière de la lune.", image: storyShadow },
+      { type: 'text', text: "« Tu n'es pas un monstre, murmura Lina. Tu es juste perdu. » Elle posa sa couverture sur lui et resta à ses côtés jusqu'à l'aube." },
+      { type: 'text', text: "Le lendemain matin, les villageois découvrirent Lina endormie contre un Arcanin fatigué. Et ils comprirent : ce qui fait peur dans le noir n'est pas toujours ce qu'on croit." },
     ],
   },
   {

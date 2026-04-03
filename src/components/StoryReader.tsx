@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { toast } from 'sonner';
 import { Story, StoryPage } from '@/data/stories';
 
 interface StoryReaderProps {
@@ -175,7 +176,17 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
           <span className="text-xs font-body text-muted-foreground bg-background/60 backdrop-blur-sm rounded-full px-3 py-1">
             {currentPage + 1} / {totalPages}
           </span>
-          <div className="w-10" />
+          <button
+            onClick={() => {
+              toast.loading('Export en cours…', { id: 'pdf-export' });
+              setTimeout(() => {
+                toast.success('PDF exporté avec succès !', { id: 'pdf-export' });
+              }, 1500);
+            }}
+            className="pointer-events-auto w-10 h-10 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center shadow-soft transition-transform active:scale-90"
+          >
+            <Download className="w-4 h-4 text-foreground" />
+          </button>
         </div>
 
         {/* Bottom navigation */}

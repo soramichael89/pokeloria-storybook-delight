@@ -42,6 +42,9 @@ const Index = () => {
             onClose={() => setActiveStory(null)}
           />
         )}
+        {showSettings && (
+          <SettingsScreen onClose={() => setShowSettings(false)} />
+        )}
       </AnimatePresence>
     </>
   );

@@ -58,21 +58,11 @@ export const stories: Story[] = [
     colorKey: 'sage',
     coverImage: storyMushrooms,
     pages: [
-      {
-        text: "Quand la nuit tombait sur Pokopia, tout devenait sombre. Tellement sombre que même les plus courageux hésitaient à sortir. Mais cette nuit-là, quelque chose d'étrange illumina la forêt.",
-      },
-      {
-        text: "Des champignons lumineux. Des dizaines, des centaines, apparus comme par magie. Ils brillaient doucement — verts, bleus, dorés — comme des étoiles tombées au sol.",
-      },
-      {
-        text: "Le petit Noa et son ami Pichu suivirent le chemin de lumière. Chaque champignon semblait les guider un peu plus loin, un peu plus profond, vers le cœur secret de la forêt.",
-      },
-      {
-        text: "Là, au centre de la clairière, un vieux Shiinotic dansait en silence sous les étoiles. « C'est moi qui les fais pousser, dit-il doucement. Pour que ceux qui ont peur du noir sachent qu'il y a toujours une lumière quelque part. »",
-      },
-      {
-        text: "Noa sourit. Cette nuit-là, il rentra chez lui sans avoir peur. Et chaque soir désormais, il regardait par la fenêtre, juste pour voir briller les champignons.",
-      },
+      { type: 'text', text: "Quand la nuit tombait sur Pokopia, tout devenait sombre. Tellement sombre que même les plus courageux hésitaient à sortir. Mais cette nuit-là, quelque chose d'étrange illumina la forêt." },
+      { type: 'text-image', text: "Des champignons lumineux. Des dizaines, des centaines, apparus comme par magie. Ils brillaient doucement — verts, bleus, dorés — comme des étoiles tombées au sol.", image: storyMushrooms },
+      { type: 'text', text: "Le petit Noa et son ami Pichu suivirent le chemin de lumière. Chaque champignon semblait les guider un peu plus loin, un peu plus profond, vers le cœur secret de la forêt." },
+      { type: 'text', text: "Là, au centre de la clairière, un vieux Shiinotic dansait en silence sous les étoiles. « C'est moi qui les fais pousser, dit-il doucement. Pour que ceux qui ont peur du noir sachent qu'il y a toujours une lumière quelque part. »" },
+      { type: 'text', text: "Noa sourit. Cette nuit-là, il rentra chez lui sans avoir peur. Et chaque soir désormais, il regardait par la fenêtre, juste pour voir briller les champignons." },
     ],
   },
   {

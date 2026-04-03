@@ -48,18 +48,16 @@ const TextPage = ({ page, colorKey }: { page: StoryPage; colorKey: string }) => 
 );
 
 const TextImagePage = ({ page, colorKey }: { page: StoryPage; colorKey: string }) => (
-  <div className={`h-full flex flex-col px-6 pt-6 pb-4 bg-gradient-to-b ${bgGradientMap[colorKey as keyof typeof bgGradientMap]}`}>
-    <div className="flex-shrink-0 mb-5">
+  <div className={`h-full flex flex-col items-center justify-center px-6 bg-gradient-to-b ${bgGradientMap[colorKey as keyof typeof bgGradientMap]}`}>
+    <div className="flex flex-col items-center gap-6 max-w-[340px]">
       <p className="text-base font-body text-foreground leading-[1.85] text-center">
         {page.text}
       </p>
-    </div>
-    <div className="flex-1 min-h-0 flex items-center justify-center">
-      <div className="w-full rounded-2xl overflow-hidden shadow-card">
+      <div className="w-full flex items-center justify-center">
         <img
           src={page.image}
           alt=""
-          className="w-full h-full object-cover aspect-[4/3]"
+          className="max-w-[280px] max-h-[320px] w-auto h-auto object-contain drop-shadow-md"
         />
       </div>
     </div>

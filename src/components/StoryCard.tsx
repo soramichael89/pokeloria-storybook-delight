@@ -21,7 +21,7 @@ const StoryCard = ({ story, onOpen, index }: StoryCardProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5, ease: 'easeOut' }}
       onClick={() => onOpen(story)}
-      className="flex-shrink-0 w-[280px] group cursor-pointer text-left"
+      className="w-full group cursor-pointer text-left"
     >
       <div className={`${colorMap[story.colorKey]} rounded-2xl overflow-hidden shadow-card transition-shadow duration-300 group-hover:shadow-card-hover`}>
         {/* Cover image */}

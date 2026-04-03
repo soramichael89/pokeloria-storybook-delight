@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { stories, Story } from '@/data/stories';
 import StoryCard from './StoryCard';
@@ -7,8 +7,55 @@ interface StoryLibraryProps {
   onOpenStory: (story: Story) => void;
 }
 
+const CARD_WIDTH = 260;
+const CARD_GAP = 16;
+
 const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState<number[]>(stories.map((_, i) => i === 0 ? 0 : 1));
+
+  const computeProgress = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const containerCenter = el.scrollLeft + el.clientWidth / 2;
+    const newProgress = stories.map((_, i) => {
+      const cardCenter = (CARD_WIDTH + CARD_GAP) * i + CARD_WIDTH / 2;
+      // padding offset
+      const offset = (el.clientWidth - CARD_WIDTH) / 2;
+      const adjustedCenter = cardCenter + offset;
+      const distance = Math.abs(containerCenter - adjustedCenter);
+      // Normalize: 0 = center, 1 = far away
+      return Math.min(distance / (CARD_WIDTH + CARD_GAP), 1);
+    });
+
+    setScrollProgress(newProgress);
+
+    // Find closest to center
+    let minDist = Infinity;
+    let closest = 0;
+    newProgress.forEach((p, i) => {
+      if (p < minDist) { minDist = p; closest = i; }
+    });
+    setActiveIndex(closest);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', computeProgress, { passive: true });
+    computeProgress();
+    return () => el.removeEventListener('scroll', computeProgress);
+  }, [computeProgress]);
+
+  const scrollToIndex = (index: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const padding = (el.clientWidth - CARD_WIDTH) / 2;
+    const scrollTarget = (CARD_WIDTH + CARD_GAP) * index + CARD_WIDTH / 2 - el.clientWidth / 2 + padding;
+    el.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -43,18 +90,53 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
         </motion.h2>
       </div>
 
-      {/* Horizontal carousel */}
+      {/* Coverflow carousel */}
       <div
         ref={scrollRef}
-        className="flex gap-5 overflow-x-auto hide-scrollbar px-6 pb-6 snap-x snap-mandatory"
+        className="flex overflow-x-auto hide-scrollbar pb-8 snap-x snap-mandatory"
+        style={{
+          gap: `${CARD_GAP}px`,
+          paddingLeft: `calc((100% - ${CARD_WIDTH}px) / 2)`,
+          paddingRight: `calc((100% - ${CARD_WIDTH}px) / 2)`,
+        }}
       >
-        {stories.map((story, index) => (
-          <div key={story.id} className="snap-start">
-            <StoryCard story={story} onOpen={onOpenStory} index={index} />
-          </div>
+        {stories.map((story, index) => {
+          const progress = scrollProgress[index] ?? 1;
+          const scale = 1 - progress * 0.15; // 1 → 0.85
+          const opacity = 1 - progress * 0.4; // 1 → 0.6
+          const blur = progress * 1.5; // 0 → 1.5px
+
+          return (
+            <div
+              key={story.id}
+              className="snap-center flex-shrink-0"
+              style={{
+                width: `${CARD_WIDTH}px`,
+                transform: `scale(${scale})`,
+                opacity,
+                filter: `blur(${blur}px)`,
+                transition: 'transform 0.3s ease-out, opacity 0.3s ease-out, filter 0.3s ease-out',
+              }}
+            >
+              <StoryCard story={story} onOpen={onOpenStory} index={index} />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Dot indicators */}
+      <div className="flex justify-center gap-2 pb-4">
+        {stories.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToIndex(index)}
+            className={`rounded-full transition-all duration-300 ${
+              index === activeIndex
+                ? 'w-6 h-2 bg-primary'
+                : 'w-2 h-2 bg-muted-foreground/30'
+            }`}
+          />
         ))}
-        {/* End spacer */}
-        <div className="flex-shrink-0 w-2" />
       </div>
 
       {/* Bottom decorative area */}

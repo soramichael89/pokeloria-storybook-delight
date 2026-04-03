@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Settings } from 'lucide-react';
+import SplashScreen from '@/components/SplashScreen';
 import MobileShell from '@/components/MobileShell';
 import StoryLibrary from '@/components/StoryLibrary';
 import StoryReader from '@/components/StoryReader';

@@ -1,5 +1,6 @@
 import { BookOpen, Users, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export type TabId = 'stories' | 'characters' | 'world';
 
@@ -8,11 +9,14 @@ interface BottomNavProps {
   onTabChange: (tab: TabId) => void;
 }
 
-const tabs = [
-  { id: 'stories' as TabId, label: 'Histoires', icon: BookOpen },
-  { id: 'characters' as TabId, label: 'Personnages', icon: Users },
-  { id: 'world' as TabId, label: 'Monde', icon: Globe },
-];
+const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
+  const { t } = useLanguage();
+
+  const tabs = [
+    { id: 'stories' as TabId, label: t.stories, icon: BookOpen },
+    { id: 'characters' as TabId, label: t.characters, icon: Users },
+    { id: 'world' as TabId, label: t.world, icon: Globe },
+  ];
 
 const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   return (

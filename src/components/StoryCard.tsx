@@ -34,10 +34,6 @@ const StoryCard = ({ story, onOpen, index }: StoryCardProps) => {
           />
           {/* Gradient overlay at bottom */}
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
-          {/* Emoji badge */}
-          <span className="absolute top-3 right-3 text-2xl animate-float" style={{ animationDelay: `${index * 0.5}s` }}>
-            {story.emoji}
-          </span>
         </div>
 
         {/* Text area */}

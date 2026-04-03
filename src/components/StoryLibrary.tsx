@@ -95,36 +95,8 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <div className="px-6 pt-14 pb-4">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="text-sm font-body text-muted-foreground mb-1">
-            Bienvenue à Pokopia ✨
-          </p>
-          <h1 className="text-3xl font-display font-bold text-foreground leading-tight">
-            PokéLoria
-          </h1>
-          <p className="mt-2 text-sm font-body text-muted-foreground leading-relaxed">
-            Des histoires douces et magiques à lire en famille, dans un univers Pokémon merveilleux.
-          </p>
-        </motion.div>
-      </div>
-
-      {/* Section title */}
-      <div className="px-6 pt-4 pb-3">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-lg font-display font-semibold text-foreground"
-        >
-          📚 Bibliothèque
-        </motion.h2>
-      </div>
+      {/* Spacer */}
+      <div className="pt-14" />
 
       {/* Coverflow carousel */}
       <div

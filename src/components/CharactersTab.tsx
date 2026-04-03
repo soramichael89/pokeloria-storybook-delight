@@ -124,25 +124,8 @@ const CharactersTab = () => {
 
   return (
     <div className="flex flex-col min-h-screen relative">
-      {/* Header */}
-      <div className="px-6 pt-14 pb-4">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <p className="text-sm font-body text-muted-foreground mb-1">Habitants de Pokopia ✨</p>
-          <h1 className="text-3xl font-display font-bold text-foreground leading-tight">Personnages</h1>
-        </motion.div>
-      </div>
-
-      {/* Section title */}
-      <div className="px-6 pt-4 pb-3">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-lg font-display font-semibold text-foreground"
-        >
-          🧑‍🤝‍🧑 Galerie
-        </motion.h2>
-      </div>
+      {/* Spacer */}
+      <div className="pt-14" />
 
       {/* Horizontal coverflow carousel */}
       <div

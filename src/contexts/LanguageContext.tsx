@@ -9,6 +9,10 @@ interface Translations {
   settings: string;
   language: string;
   back: string;
+  adminStories: string;
+  exportPdf: string;
+  exporting: string;
+  exportSuccess: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -19,6 +23,10 @@ const translations: Record<Language, Translations> = {
     settings: 'Réglages',
     language: 'Langue',
     back: 'Retour',
+    adminStories: 'Histoires',
+    exportPdf: 'Exporter en PDF',
+    exporting: 'Export en cours…',
+    exportSuccess: 'PDF exporté avec succès !',
   },
   es: {
     stories: 'Historias',
@@ -27,6 +35,10 @@ const translations: Record<Language, Translations> = {
     settings: 'Ajustes',
     language: 'Idioma',
     back: 'Volver',
+    adminStories: 'Historias',
+    exportPdf: 'Exportar como PDF',
+    exporting: 'Exportando…',
+    exportSuccess: '¡PDF exportado con éxito!',
   },
   gl: {
     stories: 'Historias',
@@ -35,6 +47,10 @@ const translations: Record<Language, Translations> = {
     settings: 'Axustes',
     language: 'Lingua',
     back: 'Volver',
+    adminStories: 'Historias',
+    exportPdf: 'Exportar como PDF',
+    exporting: 'Exportando…',
+    exportSuccess: 'PDF exportado con éxito!',
   },
 };
 

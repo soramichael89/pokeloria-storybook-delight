@@ -18,7 +18,6 @@ const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
     { id: 'world' as TabId, label: t.world, icon: Globe },
   ];
 
-const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   return (
     <div className="absolute bottom-0 left-0 right-0 z-30">
       <div className="mx-4 mb-4 rounded-2xl bg-card/80 backdrop-blur-xl border border-border/50 shadow-card-hover">

@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Story, StoryPage } from '@/data/stories';
+import wallpaper from '@/assets/papierpaint.png';
 
 interface StoryReaderProps {
   story: Story;

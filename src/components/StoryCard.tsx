@@ -52,11 +52,11 @@ const StoryCard = ({ story, onOpen, index }: StoryCardProps) => {
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
           )}
         </div>
-        <div className="p-4 pb-5">
+        <div className="px-4 py-4 pb-5 text-center">
           <h3 className="font-display font-bold text-base leading-snug text-foreground line-clamp-2">
             {story.title}
           </h3>
-          <p className="mt-1.5 text-xs text-muted-foreground font-body leading-relaxed">
+          <p className="mt-2 text-xs text-muted-foreground font-body leading-relaxed">
             {story.theme}
           </p>
         </div>

@@ -1,6 +1,7 @@
 export interface StoryPage {
   text: string;
-  imagePosition?: 'center' | 'background';
+  type: 'text' | 'text-image' | 'immersive';
+  image?: string;
 }
 
 export interface Story {

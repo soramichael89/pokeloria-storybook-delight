@@ -18,6 +18,8 @@ import storyKadabra from '@/assets/story-kadabra.jpg';
 import storyShadow from '@/assets/story-shadow.jpg';
 import storyMushrooms from '@/assets/story-mushrooms.jpg';
 import storyKangaskhan from '@/assets/story-kangaskhan.jpg';
+import storyForestNight from '@/assets/story-forest-night.png';
+import storyForestFriends from '@/assets/story-forest-friends.png';
 
 export const stories: Story[] = [
   {
@@ -30,7 +32,7 @@ export const stories: Story[] = [
     pages: [
       { type: 'text', text: "Il était une fois, dans le village paisible de Pokopia, un jeune garçon nommé Elio. Ce matin-là, il se réveilla avec une drôle de sensation au creux du ventre — comme si quelque chose d'important l'attendait." },
       { type: 'text', text: "« Grand-mère, dit Elio, j'ai rêvé d'une lumière dorée au sommet de la Colline des Murmures. » Sa grand-mère sourit doucement. « C'est peut-être Maître Kadabra qui t'appelle, mon enfant. »" },
-      { type: 'text-image', text: "Elio prit son petit sac, y glissa une pomme et une couverture, et s'enfonça dans la forêt. Les arbres chuchotaient entre eux, et de petits Pokémon curieux l'observaient depuis les branches.", image: storyKadabra },
+      { type: 'text-image', text: "Elio prit son petit sac, y glissa une pomme et une couverture, et s'enfonça dans la forêt. Les arbres chuchotaient entre eux, et de petits Pokémon curieux l'observaient depuis les branches.", image: storyForestFriends },
       { type: 'text', text: "Au bout du chemin, dans une clairière baignée de lumière, Maître Kadabra l'attendait, assis sur un rocher couvert de cristaux. « Tu n'avais pas besoin de me chercher, dit-il. Tu avais juste besoin de marcher en silence pour t'entendre toi-même. »" },
       { type: 'text', text: "Elio ferma les yeux. Le vent soufflait doucement. Et pour la première fois, il comprit que la sagesse ne se trouve pas au bout d'un chemin — elle vit en nous, à chaque pas." },
     ],
@@ -45,7 +47,7 @@ export const stories: Story[] = [
     pages: [
       { type: 'text', text: "Depuis plusieurs nuits, une ombre immense rôdait autour de Pokopia. Les habitants avaient peur. « C'est un monstre ! » chuchotaient-ils derrière leurs portes fermées." },
       { type: 'text', text: "Mais la petite Lina, elle, n'était pas comme les autres. Elle avait peur, oui — mais elle était aussi terriblement curieuse. Cette nuit-là, elle prit sa lanterne et suivit les traces dans la brume." },
-      { type: 'text-image', text: "L'ombre était grande, très grande. Elle grondait doucement. Mais quand Lina s'approcha… elle découvrit un grand Pokémon blessé, tremblant de froid, qui projetait une ombre démesurée à cause de la lumière de la lune.", image: storyShadow },
+      { type: 'text-image', text: "L'ombre était grande, très grande. Elle grondait doucement. Mais quand Lina s'approcha… elle découvrit un grand Pokémon blessé, tremblant de froid, qui projetait une ombre démesurée à cause de la lumière de la lune.", image: storyForestNight },
       { type: 'text', text: "« Tu n'es pas un monstre, murmura Lina. Tu es juste perdu. » Elle posa sa couverture sur lui et resta à ses côtés jusqu'à l'aube." },
       { type: 'text', text: "Le lendemain matin, les villageois découvrirent Lina endormie contre un Arcanin fatigué. Et ils comprirent : ce qui fait peur dans le noir n'est pas toujours ce qu'on croit." },
     ],

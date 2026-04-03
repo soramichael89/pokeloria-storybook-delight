@@ -38,11 +38,11 @@ const CharacterDetail = ({ character, onClose }: { character: Character; onClose
         <X className="w-5 h-5 text-foreground" />
       </button>
     </div>
-    <div className="flex-1 px-6 pt-6 pb-24 overflow-y-auto">
+    <div className="flex-1 px-6 pt-6 pb-24 overflow-y-auto text-center">
       <h2 className="text-2xl font-display font-bold text-foreground">{character.name}</h2>
-      <p className="text-sm font-body text-muted-foreground mt-1 italic">{character.tagline}</p>
+      <p className="text-sm font-body text-muted-foreground mt-2 italic">{character.tagline}</p>
       <div className="mt-5 h-px bg-border" />
-      <p className="mt-5 text-base font-body text-foreground leading-[1.85]">{character.description}</p>
+      <p className="mt-5 text-base font-body text-foreground leading-[1.85] text-left">{character.description}</p>
     </div>
   </motion.div>
 );
@@ -167,7 +167,7 @@ const CharactersTab = () => {
                     <span className="text-[5rem] leading-none">{character.emoji}</span>
                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
                   </div>
-                  <div className="p-4 pb-5">
+                  <div className="p-4 pb-5 text-center">
                     <h3 className="font-display font-bold text-base leading-snug text-foreground line-clamp-2">
                       {character.name}
                     </h3>

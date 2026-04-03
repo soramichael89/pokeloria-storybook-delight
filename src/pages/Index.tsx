@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Settings } from 'lucide-react';
 import MobileShell from '@/components/MobileShell';
 import StoryLibrary from '@/components/StoryLibrary';
 import StoryReader from '@/components/StoryReader';
 import CharactersTab from '@/components/CharactersTab';
 import WorldTab from '@/components/WorldTab';
 import BottomNav, { TabId } from '@/components/BottomNav';
+import SettingsScreen from '@/components/SettingsScreen';
 import { Story } from '@/data/stories';
 
 const Index = () => {

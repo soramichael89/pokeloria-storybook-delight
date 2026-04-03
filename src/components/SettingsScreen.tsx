@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Check, ChevronRight, Download, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { Language, useLanguage } from '@/contexts/LanguageContext';
-import { stories } from '@/data/stories';
+import { useStories } from '@/contexts/StoriesContext';
 
 interface SettingsScreenProps {
   onClose: () => void;
@@ -15,6 +15,7 @@ const ADMIN_CODE = '1234';
 
 const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
   const { language, setLanguage, t, languageLabels } = useLanguage();
+  const { stories } = useStories();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdminPrompt, setShowAdminPrompt] = useState(false);
   const [adminCode, setAdminCode] = useState('');

@@ -1,11 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { locations, WorldLocation } from '@/data/world';
+import { WorldLocation } from '@/data/world';
+import { useLocations } from '@/contexts/LocationsContext';
 
 const CARD_WIDTH = 260;
 const CARD_GAP = 16;
-const TOTAL = locations.length;
 const SETS = 3;
 
 const colorMap: Record<string, string> = {
@@ -48,6 +48,8 @@ const LocationDetail = ({ location, onClose }: { location: WorldLocation; onClos
 );
 
 const WorldTab = () => {
+  const { locations } = useLocations();
+  const TOTAL = locations.length;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isRepositioning = useRef(false);

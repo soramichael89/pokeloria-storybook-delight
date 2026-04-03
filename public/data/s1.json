@@ -1,0 +1,28 @@
+{
+  "id": "kadabra",
+  "title": "À la recherche de Maître Kadabra",
+  "theme": "Sagesse · Se reconnecter à soi-même",
+  "emoji": "🔮",
+  "colorKey": "peach",
+  "coverImage": "/assets/images/s1/kadabra.png",
+  "pages": [
+    { "type": "text", "text": "Dans le paisible village Pokémon de Pokopia, une étrange inquiétude s'installa un matin.\n\nDepuis plusieurs jours, Maître Kadabra avait disparu." },
+    { "type": "text", "text": "Très vite, des requêtes de mission furent envoyées à toutes les guildes du village.\n\nLes équipes d'aventuriers se mobilisèrent immédiatement." },
+    { "type": "text", "text": "Elles fouillèrent chaque recoin de Pokopia :\n\nles ruelles, les maisons, le jardin du maître…\net même son antre mystérieuse.\n\nMais rien." },
+    { "type": "text", "text": "Pas la moindre trace.\nPas le moindre indice.\n\nCertains Pokémon commencèrent à s'inquiéter sérieusement." },
+    { "type": "text", "text": "Après tout, Maître Kadabra était un puissant magicien.\n\nIl pouvait se téléporter n'importe où…\n\nPeut-être était-il simplement parti très loin ?\nOu… quelque chose lui était-il arrivé ?" },
+    { "type": "text-image", "text": "Les équipes décidèrent de se réunir.\n\nC'est alors que Miaouss s'avança timidement.\n\n— Je… je crois que je l'ai vu il y a trois jours… dans son jardin…", "image": "/assets/images/s1/miaouss.png" },
+    { "type": "text", "text": "Tous les Pokémon se tournèrent vers lui.\n\n— Il t'a dit quelque chose ?\n\nMiaouss réfléchit.\n\n— Il avait l'air inquiet pour une plante… elle commençait à geler…" },
+    { "type": "text", "text": "— Je lui ai dit que dans la forêt, les arbres allaient très bien…\n\n— Et puis… il est parti.\n\nUne idée traversa l'esprit des équipes.\n\nEt s'il était allé dans la forêt ?" },
+    { "type": "text-image", "text": "Sans attendre, tous partirent vers la forêt au sud-est de Pokopia.\n\nIls explorèrent les sentiers, interrogèrent les Pokémon sauvages…", "image": "/assets/images/s1/foret.png" },
+    { "type": "text", "text": "Puis soudain…\n\nAu cœur de la forêt…\n\nIls le trouvèrent." },
+    { "type": "text-image", "text": "Maître Kadabra.\n\nAssis, immobile…\nen pleine méditation.", "image": "/assets/images/s1/kadabra.png" },
+    { "type": "text", "text": "— Maître Kadabra ! Où étiez-vous ?\nNous étions très inquiets !\n\nAprès quelques instants… il ouvrit les yeux." },
+    { "type": "text", "text": "— Je suis désolé… j'aurais dû prévenir…\n\n— Je suis venu observer la forêt…\n\n— Et j'ai découvert quelque chose d'étonnant…" },
+    { "type": "text", "text": "Certaines plantes gelaient.\nD'autres non.\n\nMais surtout…\n\nCertaines plantes gelées… revenaient à la vie." },
+    { "type": "text", "text": "— On ne peut pas les forcer à revenir…\n\n— Elles guérissent de l'intérieur…\n\n— Elles se reconnectent à elles-mêmes…\n\n— Et rallument leur propre cœur." },
+    { "type": "text", "text": "— Alors j'ai voulu essayer moi aussi…\n\n— Et cela m'a réchauffé… profondément.\n\nLes Pokémon sourirent." },
+    { "type": "text", "text": "— Mais la prochaine fois… prévenez-nous ! dit l'un d'eux en riant.\n\n— Promis, répondit Kadabra." },
+    { "type": "text", "text": "Ils rentrèrent tous ensemble au village de Pokopia.\n\nEt en ce début de printemps encore frais…\n\nIls partagèrent un bon thé chaud, tous réunis." }
+  ]
+}

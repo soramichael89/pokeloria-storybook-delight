@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { stories, Story } from '@/data/stories';
+import { Story } from '@/data/stories';
+import { useStories } from '@/contexts/StoriesContext';
 import StoryCard from './StoryCard';
 
 interface StoryLibraryProps {
@@ -9,10 +10,11 @@ interface StoryLibraryProps {
 
 const CARD_WIDTH = 260;
 const CARD_GAP = 16;
-const TOTAL = stories.length;
 const SETS = 3; // render 3 copies for infinite illusion
 
 const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
+  const { stories } = useStories();
+  const TOTAL = stories.length;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isRepositioning = useRef(false);

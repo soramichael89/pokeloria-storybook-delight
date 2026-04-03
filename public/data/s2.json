@@ -1,0 +1,33 @@
+{
+  "id": "s2",
+  "title": "L'ombre du monstre",
+  "theme": "La peur qui trompe · Réparer ses erreurs",
+  "emoji": "🔥",
+  "colorKey": "lavender",
+  "coverImage": "/assets/images/s2/ombre.png",
+  "pages": [
+    { "type": "text", "text": "Un soir paisible tombait sur le village de Pokopia.\n\nLes étoiles commençaient à briller, et les Pokémon rentraient chez eux tranquillement…" },
+    { "type": "text-image", "text": "Quand soudain—\n\nUne maison prit feu.\n\nLes flammes montaient haut dans le ciel.\nLes Pokémon crièrent de panique.", "image": "/assets/images/s2/salameche.png" },
+    { "type": "text", "text": "Très vite, les Pokémon de type Eau accoururent.\n\n— Vite ! De l'eau ! cria un Carapuce.\n\nPsykokwak lança de l'eau un peu partout, parfois à côté…\nMarill courait sans s'arrêter pour aider." },
+    { "type": "text", "text": "Après de longs efforts… le feu finit par s'éteindre.\n\nMais une question resta dans tous les esprits :\n\nQue s'était-il passé ?" },
+    { "type": "text", "text": "Le lendemain matin, le shérif Tartare convoqua toutes les équipes d'aventuriers.\n\n— Il n'y a aucune trace… aucun indice clair…\n\nMais ce feu n'est pas naturel." },
+    { "type": "text", "text": "Très vite, des murmures commencèrent à circuler.\n\n— Il paraît qu'il y avait un monstre…\n— Un immense monstre noir…\n\nUne rumeur… étrange… inquiétante." },
+    { "type": "text", "text": "Les équipes retrouvèrent un petit Pokémon nerveux.\n\nSalamèche.\n\n— C'est… moi qui l'ai vu… dit-il en tremblant.\n\n— Un monstre immense… noir… contre un mur…" },
+    { "type": "text", "text": "— Il bougeait… j'en suis sûr…\n\n— J'ai eu peur… alors j'ai lancé des flammes…\n\n— Et je suis parti en courant…" },
+    { "type": "text", "text": "Les équipes échangèrent un regard.\n\nUn monstre noir…\nDes flammes…\nUn incendie peu après…" },
+    { "type": "text-image", "text": "Très vite, un nom fut évoqué.\n\nEctoplasma.\n\n— Il peut prendre des formes étranges…\n\nMais Ectoplasma répondit en riant :\n\n— Moi ? Je fais peur… mais je ne brûle pas des maisons !", "image": "/assets/images/s2/ectoplasma.png" },
+    { "type": "text", "text": "Et plusieurs Pokémon confirmèrent qu'il n'était pas là cette nuit-là.\n\nAlors… que s'était-il vraiment passé ?" },
+    { "type": "text", "text": "Les équipes repensèrent aux paroles de Salamèche.\n\nUn monstre… contre un mur…\nQui semblait bouger…" },
+    { "type": "text", "text": "— Salamèche… peux-tu nous dessiner ce que tu as vu ?\n\nIl hocha la tête.\n\nEt dessina une grande forme…" },
+    { "type": "text", "text": "Une tête…\nUne queue…\nUne flamme…\n\nLes équipes restèrent silencieuses." },
+    { "type": "text-image", "text": "Puis doucement…\n\n— Mais… ça ressemble à toi…\n\nEt soudain… tout devint clair.\n\nCe n'était pas un monstre.\n\nC'était son ombre.", "image": "/assets/images/s2/ombre.png" },
+    { "type": "text", "text": "Projetée par sa propre flamme.\n\nAgrandie… déformée… impressionnante." },
+    { "type": "text", "text": "Salamèche recula d'un pas.\n\n— Mon… ombre… ?\n\nPuis il comprit.\n\n— Alors… c'est moi…" },
+    { "type": "text", "text": "— C'est moi qui ai causé l'incendie…\n\n— Je… je vais quitter le village…" },
+    { "type": "text", "text": "Mais les autres Pokémon s'approchèrent.\n\n— Non.\n\n— Tu as eu peur.\n— Tu as fait une erreur.\n\n— Mais tu n'es pas méchant." },
+    { "type": "text", "text": "— Et surtout… on t'aime toujours.\n\nSalamèche sentit son cœur se réchauffer." },
+    { "type": "text", "text": "Ensemble, ils reconstruisirent la maison.\n\nEnsemble, ils réparèrent les dégâts.\n\nEnsemble, ils aidèrent Salamèche." },
+    { "type": "text", "text": "Ce soir-là, le village retrouva son calme.\n\nEt Salamèche apprit quelque chose d'important." },
+    { "type": "text", "text": "Parfois, la peur nous trompe…\n\nMais on peut toujours réparer ses erreurs." }
+  ]
+}

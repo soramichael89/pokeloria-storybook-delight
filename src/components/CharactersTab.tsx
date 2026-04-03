@@ -1,11 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import { characters, Character } from '@/data/characters';
+import { Character } from '@/data/characters';
+import { useCharacters } from '@/contexts/CharactersContext';
 
 const CARD_WIDTH = 260;
 const CARD_GAP = 16;
-const TOTAL = characters.length;
 const SETS = 3;
 
 const colorMap: Record<string, string> = {
@@ -48,6 +48,8 @@ const CharacterDetail = ({ character, onClose }: { character: Character; onClose
 );
 
 const CharactersTab = () => {
+  const { characters } = useCharacters();
+  const TOTAL = characters.length;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isRepositioning = useRef(false);

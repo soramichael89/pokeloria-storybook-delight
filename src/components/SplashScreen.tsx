@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import logo from '@/assets/logo.png';
+import wallpaper from '@/assets/papierpaint.png';
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -8,19 +9,24 @@ interface SplashScreenProps {
 const SplashScreen = ({ onFinish }: SplashScreenProps) => {
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background"
+      className="fixed inset-0 z-50 flex items-center justify-center"
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6, ease: 'easeInOut' }}
-      onAnimationComplete={(def: any) => {
-        // Only trigger on exit
-      }}
     >
+      {/* Wallpaper background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-repeat"
+        style={{ backgroundImage: `url(${wallpaper})` }}
+      />
+      {/* Soft overlay */}
+      <div className="absolute inset-0 bg-background/75" />
+      {/* Logo */}
       <motion.img
         src={logo}
         alt="PokéLoria"
-        className="w-32 h-32 rounded-full drop-shadow-lg"
+        className="relative z-10 w-32 h-32 rounded-full drop-shadow-lg"
         initial={{ scale: 0.7, opacity: 0 }}
         animate={{
           scale: [0.7, 1.08, 0.96, 1],

@@ -14,7 +14,18 @@ const colorMap = {
   sky: 'bg-sky',
 } as const;
 
+const gradientMap = {
+  peach: 'from-[hsl(20,60%,88%)] via-[hsl(25,50%,92%)] to-[hsl(30,45%,85%)]',
+  lavender: 'from-[hsl(270,35%,88%)] via-[hsl(265,30%,92%)] to-[hsl(275,30%,85%)]',
+  sage: 'from-[hsl(140,25%,85%)] via-[hsl(135,20%,90%)] to-[hsl(145,22%,82%)]',
+  sky: 'from-[hsl(200,45%,87%)] via-[hsl(205,40%,91%)] to-[hsl(195,38%,84%)]',
+} as const;
+
+const isTransparent = (src: string) => src.endsWith('.png');
+
 const StoryCard = ({ story, onOpen, index }: StoryCardProps) => {
+  const transparent = isTransparent(story.coverImage);
+
   return (
     <motion.button
       initial={{ opacity: 0, y: 20 }}
@@ -25,16 +36,21 @@ const StoryCard = ({ story, onOpen, index }: StoryCardProps) => {
     >
       <div className={`${colorMap[story.colorKey]} rounded-2xl overflow-hidden shadow-card transition-shadow duration-300 group-hover:shadow-card-hover`}>
         {/* Cover image */}
-        <div className="relative aspect-[3/4] overflow-hidden">
+        <div className={`relative aspect-[3/4] overflow-hidden ${transparent ? `bg-gradient-to-br ${gradientMap[story.colorKey]}` : ''}`}>
           <img
             src={story.coverImage}
             alt={story.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className={`transition-transform duration-500 group-hover:scale-105 ${
+              transparent
+                ? 'absolute inset-0 w-full h-full object-contain p-4 scale-110 drop-shadow-lg'
+                : 'w-full h-full object-cover'
+            }`}
             loading={index === 0 ? undefined : "lazy"}
           />
           {/* Gradient overlay at bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
-        </div>
+          {!transparent && (
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
+          )}
 
         {/* Text area */}
         <div className="p-4 pb-5">

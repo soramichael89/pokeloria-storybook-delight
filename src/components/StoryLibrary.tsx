@@ -151,7 +151,7 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
                 transform: `scale(${scale})`,
                 opacity,
                 filter: `blur(${blur}px)`,
-                transition: 'transform 0.3s ease-out, opacity 0.3s ease-out, filter 0.3s ease-out',
+                willChange: 'transform, opacity, filter',
               }}
             >
               <StoryCard story={story} onOpen={onOpenStory} index={index} />

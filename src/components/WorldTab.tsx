@@ -176,7 +176,7 @@ const WorldTab = () => {
                     </p>
                   </div>
                 </div>
-              </button>
+              </motion.button>
             </div>
           );
         })}

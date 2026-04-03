@@ -176,7 +176,7 @@ const CharactersTab = () => {
                     </p>
                   </div>
                 </div>
-              </button>
+              </motion.button>
             </div>
           );
         })}

@@ -139,7 +139,14 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
       transition={{ duration: 0.35 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-muted/50"
     >
-      <div className="relative w-full max-w-[430px] h-screen sm:h-[860px] sm:rounded-[2.5rem] overflow-hidden bg-background flex flex-col">
+      <div className="relative w-full max-w-[430px] h-screen sm:h-[860px] sm:rounded-[2.5rem] overflow-hidden flex flex-col">
+        {/* Wallpaper background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-repeat"
+          style={{ backgroundImage: `url(${wallpaper})` }}
+        />
+        {/* Soft overlay for readability */}
+        <div className="absolute inset-0 bg-background/75 backdrop-blur-[0.5px]" />
 
         {/* Page content — full height, no scroll */}
         <div

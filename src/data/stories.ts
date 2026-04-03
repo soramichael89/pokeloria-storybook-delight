@@ -72,7 +72,7 @@ export const stories: Story[] = [
   {
     id: 'mushrooms',
     title: 'Les champignons de la nuit étoilée',
-    theme: 'Trouver la lumière dans l'obscurité',
+    theme: "Trouver la lumière dans l'obscurité",
     emoji: '🍄',
     colorKey: 'sage',
     coverImage: storyMushrooms,

@@ -32,7 +32,7 @@ export const stories: Story[] = [
     pages: [
       { type: 'text', text: "Il était une fois, dans le village paisible de Pokopia, un jeune garçon nommé Elio. Ce matin-là, il se réveilla avec une drôle de sensation au creux du ventre — comme si quelque chose d'important l'attendait." },
       { type: 'text', text: "« Grand-mère, dit Elio, j'ai rêvé d'une lumière dorée au sommet de la Colline des Murmures. » Sa grand-mère sourit doucement. « C'est peut-être Maître Kadabra qui t'appelle, mon enfant. »" },
-      { type: 'text-image', text: "Elio prit son petit sac, y glissa une pomme et une couverture, et s'enfonça dans la forêt. Les arbres chuchotaient entre eux, et de petits Pokémon curieux l'observaient depuis les branches.", image: storyKadabra },
+      { type: 'text-image', text: "Elio prit son petit sac, y glissa une pomme et une couverture, et s'enfonça dans la forêt. Les arbres chuchotaient entre eux, et de petits Pokémon curieux l'observaient depuis les branches.", image: storyForestFriends },
       { type: 'text', text: "Au bout du chemin, dans une clairière baignée de lumière, Maître Kadabra l'attendait, assis sur un rocher couvert de cristaux. « Tu n'avais pas besoin de me chercher, dit-il. Tu avais juste besoin de marcher en silence pour t'entendre toi-même. »" },
       { type: 'text', text: "Elio ferma les yeux. Le vent soufflait doucement. Et pour la première fois, il comprit que la sagesse ne se trouve pas au bout d'un chemin — elle vit en nous, à chaque pas." },
     ],

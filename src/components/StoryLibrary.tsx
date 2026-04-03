@@ -7,54 +7,155 @@ interface StoryLibraryProps {
   onOpenStory: (story: Story) => void;
 }
 
-const CARD_WIDTH = 260;
-const CARD_GAP = 16;
+const CARD_WIDTH = 240;
+const CARD_GAP = 12;
+const CARD_STEP = CARD_WIDTH + CARD_GAP;
+const DECEL = 0.94; // friction per frame
+const MIN_VELOCITY = 0.3;
+const SNAP_STIFFNESS = 0.12;
+const SNAP_DAMPING = 0.78;
 
 const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState<number[]>(stories.map((_, i) => i === 0 ? 0 : 1));
+  const [offset, setOffset] = useState(0);
+  const offsetRef = useRef(0);
+  const velocityRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const isDragging = useRef(false);
+  const dragStart = useRef({ x: 0, offset: 0, time: 0 });
+  const lastDrag = useRef({ x: 0, time: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const computeProgress = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+  const n = stories.length;
 
-    const containerCenter = el.scrollLeft + el.clientWidth / 2;
-    const newProgress = stories.map((_, i) => {
-      const cardCenter = (CARD_WIDTH + CARD_GAP) * i + CARD_WIDTH / 2;
-      // padding offset
-      const offset = (el.clientWidth - CARD_WIDTH) / 2;
-      const adjustedCenter = cardCenter + offset;
-      const distance = Math.abs(containerCenter - adjustedCenter);
-      // Normalize: 0 = center, 1 = far away
-      return Math.min(distance / (CARD_WIDTH + CARD_GAP), 1);
-    });
+  // Wrap index to [0, n)
+  const wrapIndex = (i: number) => ((i % n) + n) % n;
 
-    setScrollProgress(newProgress);
+  // Get the "real" center index from offset
+  const getCenterIndex = useCallback(() => {
+    return wrapIndex(Math.round(offsetRef.current / CARD_STEP));
+  }, [n]);
 
-    // Find closest to center
-    let minDist = Infinity;
-    let closest = 0;
-    newProgress.forEach((p, i) => {
-      if (p < minDist) { minDist = p; closest = i; }
-    });
-    setActiveIndex(closest);
+  const setPos = useCallback((v: number) => {
+    offsetRef.current = v;
+    setOffset(v);
   }, []);
 
+  // Physics loop: inertia then snap
+  const animate = useCallback(() => {
+    if (isDragging.current) return;
+
+    const vel = velocityRef.current;
+    const absVel = Math.abs(vel);
+
+    if (absVel > MIN_VELOCITY) {
+      // Inertia phase
+      velocityRef.current *= DECEL;
+      setPos(offsetRef.current + velocityRef.current);
+      rafRef.current = requestAnimationFrame(animate);
+    } else {
+      // Snap phase
+      const target = Math.round(offsetRef.current / CARD_STEP) * CARD_STEP;
+      const diff = target - offsetRef.current;
+
+      if (Math.abs(diff) < 0.5) {
+        setPos(target);
+        velocityRef.current = 0;
+        return;
+      }
+
+      velocityRef.current = (velocityRef.current + diff * SNAP_STIFFNESS) * SNAP_DAMPING;
+      setPos(offsetRef.current + velocityRef.current);
+      rafRef.current = requestAnimationFrame(animate);
+    }
+  }, [setPos]);
+
+  // Pointer handlers
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    isDragging.current = true;
+    cancelAnimationFrame(rafRef.current);
+    velocityRef.current = 0;
+    dragStart.current = { x: e.clientX, offset: offsetRef.current, time: Date.now() };
+    lastDrag.current = { x: e.clientX, time: Date.now() };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, []);
+
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    const dx = e.clientX - dragStart.current.x;
+    const now = Date.now();
+    const dt = now - lastDrag.current.time || 1;
+    velocityRef.current = (e.clientX - lastDrag.current.x) / dt * 16; // normalize to ~frame
+    lastDrag.current = { x: e.clientX, time: now };
+    setPos(dragStart.current.offset - dx);
+  }, [setPos]);
+
+  const onPointerUp = useCallback(() => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    rafRef.current = requestAnimationFrame(animate);
+  }, [animate]);
+
+  // Touch handlers for mobile
+  const touchRef = useRef({ x: 0, time: 0 });
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    isDragging.current = true;
+    cancelAnimationFrame(rafRef.current);
+    velocityRef.current = 0;
+    const x = e.touches[0].clientX;
+    dragStart.current = { x, offset: offsetRef.current, time: Date.now() };
+    lastDrag.current = { x, time: Date.now() };
+    touchRef.current = { x, time: Date.now() };
+  }, []);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isDragging.current) return;
+    const x = e.touches[0].clientX;
+    const dx = x - dragStart.current.x;
+    const now = Date.now();
+    const dt = now - lastDrag.current.time || 1;
+    velocityRef.current = (x - lastDrag.current.x) / dt * 16;
+    lastDrag.current = { x, time: now };
+    setPos(dragStart.current.offset - dx);
+  }, [setPos]);
+
+  const onTouchEnd = useCallback(() => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    rafRef.current = requestAnimationFrame(animate);
+  }, [animate]);
+
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', computeProgress, { passive: true });
-    computeProgress();
-    return () => el.removeEventListener('scroll', computeProgress);
-  }, [computeProgress]);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  // Compute card transforms
+  const centerFloat = offset / CARD_STEP;
+  const activeIndex = wrapIndex(Math.round(centerFloat));
+
+  // Render enough cards to fill viewport + buffer
+  const visibleRange = 3; // cards on each side
+  const cards: { story: Story; realIndex: number; posIndex: number }[] = [];
+  const centerInt = Math.round(centerFloat);
+
+  for (let i = centerInt - visibleRange; i <= centerInt + visibleRange; i++) {
+    const realIndex = wrapIndex(i);
+    cards.push({ story: stories[realIndex], realIndex, posIndex: i });
+  }
 
   const scrollToIndex = (index: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const padding = (el.clientWidth - CARD_WIDTH) / 2;
-    const scrollTarget = (CARD_WIDTH + CARD_GAP) * index + CARD_WIDTH / 2 - el.clientWidth / 2 + padding;
-    el.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+    // Find closest path to target
+    const current = centerFloat;
+    let target = index;
+    // Adjust for wrapping — find closest equivalent
+    while (target - current > n / 2) target -= n;
+    while (current - target > n / 2) target += n;
+    
+    cancelAnimationFrame(rafRef.current);
+    const targetOffset = target * CARD_STEP;
+    const diff = targetOffset - offsetRef.current;
+    velocityRef.current = diff * 0.08;
+    isDragging.current = false;
+    rafRef.current = requestAnimationFrame(animate);
   };
 
   return (
@@ -90,42 +191,55 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
         </motion.h2>
       </div>
 
-      {/* Coverflow carousel */}
+      {/* Physics carousel */}
       <div
-        ref={scrollRef}
-        className="flex overflow-x-auto hide-scrollbar pb-8 snap-x snap-mandatory"
-        style={{
-          gap: `${CARD_GAP}px`,
-          paddingLeft: `calc((100% - ${CARD_WIDTH}px) / 2)`,
-          paddingRight: `calc((100% - ${CARD_WIDTH}px) / 2)`,
-        }}
+        ref={containerRef}
+        className="relative overflow-hidden select-none touch-pan-y"
+        style={{ height: '380px', cursor: isDragging.current ? 'grabbing' : 'grab' }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
-        {stories.map((story, index) => {
-          const progress = scrollProgress[index] ?? 1;
-          const scale = 1 - progress * 0.15; // 1 → 0.85
-          const opacity = 1 - progress * 0.4; // 1 → 0.6
-          const blur = progress * 1.5; // 0 → 1.5px
+        <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: '800px' }}>
+          {cards.map(({ story, realIndex, posIndex }) => {
+            const distFromCenter = posIndex - centerFloat;
+            const absD = Math.abs(distFromCenter);
+            
+            const translateX = distFromCenter * CARD_STEP;
+            const scale = 1 - Math.min(absD, 2) * 0.12;
+            const rotateY = -distFromCenter * 6; // subtle 3D rotation
+            const opacity = 1 - Math.min(absD, 2) * 0.35;
+            const blur = Math.min(absD, 2) * 1.5;
+            const zIndex = 10 - Math.round(absD * 10);
 
-          return (
-            <div
-              key={story.id}
-              className="snap-center flex-shrink-0"
-              style={{
-                width: `${CARD_WIDTH}px`,
-                transform: `scale(${scale})`,
-                opacity,
-                filter: `blur(${blur}px)`,
-                transition: 'transform 0.3s ease-out, opacity 0.3s ease-out, filter 0.3s ease-out',
-              }}
-            >
-              <StoryCard story={story} onOpen={onOpenStory} index={index} />
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={`${posIndex}`}
+                className="absolute"
+                style={{
+                  width: `${CARD_WIDTH}px`,
+                  transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
+                  opacity,
+                  filter: blur > 0.1 ? `blur(${blur}px)` : 'none',
+                  zIndex,
+                  transformStyle: 'preserve-3d',
+                  willChange: 'transform, opacity, filter',
+                  pointerEvents: absD < 0.5 ? 'auto' : 'none',
+                }}
+              >
+                <StoryCard story={story} onOpen={onOpenStory} index={realIndex} />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Dot indicators */}
-      <div className="flex justify-center gap-2 pb-4">
+      <div className="flex justify-center gap-2 pb-4 pt-2">
         {stories.map((_, index) => (
           <button
             key={index}

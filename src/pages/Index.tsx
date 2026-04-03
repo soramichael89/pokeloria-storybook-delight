@@ -19,6 +19,13 @@ const Index = () => {
     <>
       <MobileShell>
         <div className="relative h-full min-h-screen sm:min-h-[860px] flex flex-col">
+          {/* Settings gear icon */}
+          <button
+            onClick={() => setShowSettings(true)}
+            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-card/60 backdrop-blur-sm border border-border/30 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Settings className="w-4 h-4" />
+          </button>
           <div className="flex-1 pb-20">
             {activeTab === 'stories' && <StoryLibrary onOpenStory={setActiveStory} />}
             {activeTab === 'characters' && <CharactersTab />}

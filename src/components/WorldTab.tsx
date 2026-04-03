@@ -197,7 +197,7 @@ const WorldTab = () => {
         ))}
       </div>
 
-      <div className="flex-1" />
+      
 
       <AnimatePresence>
         {selectedLocation && (

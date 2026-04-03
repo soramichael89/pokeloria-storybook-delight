@@ -197,7 +197,7 @@ const CharactersTab = () => {
         ))}
       </div>
 
-      <div className="flex-1" />
+      
 
       <AnimatePresence>
         {selectedCharacter && (

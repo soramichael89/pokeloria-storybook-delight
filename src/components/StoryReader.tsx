@@ -175,17 +175,7 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
           <span className="text-xs font-body text-muted-foreground bg-background/60 backdrop-blur-sm rounded-full px-3 py-1">
             {currentPage + 1} / {totalPages}
           </span>
-          <button
-            onClick={() => {
-              toast.loading('Export en cours…', { id: 'pdf-export' });
-              setTimeout(() => {
-                toast.success('PDF exporté avec succès !', { id: 'pdf-export' });
-              }, 1500);
-            }}
-            className="pointer-events-auto w-10 h-10 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center shadow-soft transition-transform active:scale-90"
-          >
-            <Download className="w-4 h-4 text-foreground" />
-          </button>
+          <div className="w-10" />
         </div>
 
         {/* Bottom navigation */}

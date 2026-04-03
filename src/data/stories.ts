@@ -28,7 +28,7 @@ export const stories: Story[] = [
     theme: 'Sagesse · Se reconnecter à soi-même',
     emoji: '🔮',
     colorKey: 'peach',
-    coverImage: storyKadabra,
+    coverImage: storyForestNight,
     pages: [
       { type: 'text', text: "Il était une fois, dans le village paisible de Pokopia, un jeune garçon nommé Elio. Ce matin-là, il se réveilla avec une drôle de sensation au creux du ventre — comme si quelque chose d'important l'attendait." },
       { type: 'text', text: "« Grand-mère, dit Elio, j'ai rêvé d'une lumière dorée au sommet de la Colline des Murmures. » Sa grand-mère sourit doucement. « C'est peut-être Maître Kadabra qui t'appelle, mon enfant. »" },

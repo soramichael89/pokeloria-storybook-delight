@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <>
       <MobileShell>
-        <div className="relative h-full min-h-screen sm:min-h-[860px] flex flex-col">
+        <div className="relative h-full flex flex-col">
           {/* Settings gear icon */}
           <button
             onClick={() => setShowSettings(true)}

@@ -94,9 +94,9 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-full justify-center">
       {/* Spacer */}
-      <div className="pt-14" />
+      <div className="pt-8" />
 
       {/* Coverflow carousel */}
       <div
@@ -146,9 +146,6 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
           />
         ))}
       </div>
-
-      {/* Spacer */}
-      <div className="flex-1" />
     </div>
   );
 };

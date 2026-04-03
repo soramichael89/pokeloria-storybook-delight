@@ -123,9 +123,9 @@ const WorldTab = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen relative">
+    <div className="flex flex-col h-full justify-center relative">
       {/* Spacer */}
-      <div className="pt-14" />
+      <div className="pt-8" />
 
       {/* Horizontal coverflow carousel */}
       <div
@@ -197,7 +197,7 @@ const WorldTab = () => {
         ))}
       </div>
 
-      <div className="flex-1" />
+      
 
       <AnimatePresence>
         {selectedLocation && (

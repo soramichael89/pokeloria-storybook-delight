@@ -13,6 +13,7 @@ import { Story } from '@/data/stories';
 const Index = () => {
   const [activeStory, setActiveStory] = useState<Story | null>(null);
   const [activeTab, setActiveTab] = useState<TabId>('stories');
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <>

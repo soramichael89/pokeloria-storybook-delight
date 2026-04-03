@@ -175,17 +175,8 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
         ))}
       </div>
 
-      {/* Bottom decorative area */}
-      <div className="flex-1 flex items-end justify-center pb-10 px-6">
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="text-xs text-muted-foreground text-center font-body"
-        >
-          Fais glisser pour découvrir les histoires →
-        </motion.p>
-      </div>
+      {/* Spacer */}
+      <div className="flex-1" />
     </div>
   );
 };

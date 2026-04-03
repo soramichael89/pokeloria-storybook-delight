@@ -146,9 +146,6 @@ const StoryLibrary = ({ onOpenStory }: StoryLibraryProps) => {
           />
         ))}
       </div>
-
-      {/* Spacer */}
-      <div className="flex-1" />
     </div>
   );
 };

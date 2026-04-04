@@ -1,9 +1,20 @@
+export interface CharacterImages {
+  standard: string;
+  figurine: string;
+  dessin: string;
+}
+
+export interface CharacterSkill {
+  name: string;
+  description: string;
+}
+
 export interface Character {
   id: string;
   name: string;
-  tagline: string;
+  role: string;
+  colorKey: 'peach' | 'lavender' | 'sage' | 'sky' | 'winter' | 'snow';
+  images: CharacterImages;
   description: string;
-  emoji: string;
-  colorKey: 'peach' | 'lavender' | 'sage' | 'sky';
-  image?: string;
+  skills: CharacterSkill[];
 }

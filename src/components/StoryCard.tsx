@@ -12,6 +12,8 @@ const colorMap = {
   lavender: 'bg-lavender',
   sage: 'bg-sage',
   sky: 'bg-sky',
+  winter: 'bg-winter',
+  snow: 'bg-snow',
 } as const;
 
 const gradientMap = {
@@ -19,6 +21,8 @@ const gradientMap = {
   lavender: 'from-[hsl(270,35%,88%)] via-[hsl(265,30%,92%)] to-[hsl(275,30%,85%)]',
   sage: 'from-[hsl(140,25%,85%)] via-[hsl(135,20%,90%)] to-[hsl(145,22%,82%)]',
   sky: 'from-[hsl(200,45%,87%)] via-[hsl(205,40%,91%)] to-[hsl(195,38%,84%)]',
+  winter: 'from-[hsl(205,45%,87%)] via-[hsl(205,40%,92%)] to-[hsl(205,38%,84%)]',
+  snow: 'from-[hsl(0,0%,97%)] via-[hsl(0,0%,99%)] to-[hsl(0,0%,95%)]',
 } as const;
 
 const isTransparent = (src: string) => src.endsWith('.png');

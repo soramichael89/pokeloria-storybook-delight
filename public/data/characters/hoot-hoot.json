@@ -1,0 +1,34 @@
+{
+  "id": "hoot-hoot",
+  "name": "Hoot-Hoot",
+  "colorKey": "lavender",
+  "role": {
+    "fr": "Le gardien de la nuit",
+    "es": "El guardián de la noche",
+    "gl": "O gardián da noite"
+  },
+  "images": {
+    "standard": "/assets/images/characters/hoot-hoot/standard.png",
+    "figurine": "/assets/images/characters/hoot-hoot/figurine.png",
+    "dessin": "/assets/images/characters/hoot-hoot/dessin.png"
+  },
+  "description": {
+    "fr": "Quand Pokopia s'endort, Hoot-Hoot prend son poste. Du haut des grands arbres, il observe tout ce qui se passe dans la nuit. Messager fiable et discret, il transmet les informations entre les équipes lors des missions nocturnes. Son chant calme les Pokémon effrayés et rappelle à tous que la nuit n'est pas à craindre.",
+    "es": "Cuando Pokopia se duerme, Hoot-Hoot toma su puesto. Desde lo alto de los grandes árboles, observa todo lo que ocurre en la noche. Mensajero fiable y discreto, transmite información entre los equipos durante las misiones nocturnas. Su canto calma a los Pokémon asustados y recuerda a todos que la noche no es de temer.",
+    "gl": "Cando Pokopia se dorme, Hoot-Hoot toma o seu posto. Desde o alto das grandes árbores, observa todo o que pasa na noite. Mensaxeiro fiable e discreto, transmite información entre os equipos durante as misións nocturnas. O seu canto calma os Pokémon asustados e recorda a todos que a noite non é de temer."
+  },
+  "skills": [
+    {
+      "name": { "fr": "Vision Nocturne", "es": "Visión Nocturna", "gl": "Visión Nocturna" },
+      "description": { "fr": "Hoot-Hoot voit parfaitement dans l'obscurité totale. Rien ne lui échappe, même par la nuit la plus noire.", "es": "Hoot-Hoot ve perfectamente en la oscuridad total. Nada se le escapa, incluso en la noche más oscura.", "gl": "Hoot-Hoot ve perfectamente na escuridade total. Nada se lle escapa, mesmo na noite máis escura." }
+    },
+    {
+      "name": { "fr": "Chant du Crépuscule", "es": "Canto del Crepúsculo", "gl": "Canto do Crepúsculo" },
+      "description": { "fr": "Un chant doux et mélancolique qui apaise les peurs et aide les Pokémon épuisés à retrouver leur calme.", "es": "Un canto suave y melancólico que calma los miedos y ayuda a los Pokémon agotados a recuperar la calma.", "gl": "Un canto suave e melancólico que calma os medos e axuda os Pokémon esgotados a recuperar a calma." }
+    },
+    {
+      "name": { "fr": "Messager des Étoiles", "es": "Mensajero de las Estrellas", "gl": "Mensaxeiro das Estrelas" },
+      "description": { "fr": "Il peut porter un message d'un bout à l'autre de Pokopia sans se faire repérer, même sous la lune pleine.", "es": "Puede llevar un mensaje de un extremo a otro de Pokopia sin ser detectado, incluso bajo la luna llena.", "gl": "Pode levar unha mensaxe dun extremo ao outro de Pokopia sen ser detectado, mesmo baixo a lúa chea." }
+    }
+  ]
+}

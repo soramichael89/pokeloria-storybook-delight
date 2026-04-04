@@ -1,15 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { WorldLocation } from '@/data/world';
 
-const LOCATION_FILES = [
-  '/data/locations/pokopia-village.json',
-  '/data/locations/mushroom-forest.json',
-  '/data/locations/moon-lake.json',
-  '/data/locations/thunder-ridge.json',
-  '/data/locations/whispering-cave.json',
-  '/data/locations/star-hill.json',
-];
-
 interface LocationsContextType {
   locations: WorldLocation[];
   loading: boolean;
@@ -22,13 +13,39 @@ export const LocationsProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all(LOCATION_FILES.map(f => fetch(f).then(r => r.json())))
-      .then(data => {
-        setLocations(data as WorldLocation[]);
+    fetch('/data/locations-index.json')
+      .then(r => {
+        console.log('[Locations] index status:', r.status, r.url);
+        return r.json();
+      })
+      .then((ids: string[]) => {
+        console.log('[Locations] ids from index:', ids);
+        return Promise.allSettled(
+          ids.map(id =>
+            fetch(`/data/locations/${id}.json`)
+              .then(r => {
+                console.log(`[Locations] ${id}.json status:`, r.status);
+                if (!r.ok) throw new Error(`${id}.json → HTTP ${r.status}`);
+                return r.json();
+              })
+          )
+        );
+      })
+      .then(results => {
+        const loaded: WorldLocation[] = [];
+        results.forEach((result, i) => {
+          if (result.status === 'fulfilled') {
+            loaded.push(result.value as WorldLocation);
+          } else {
+            console.warn(`[Locations] skipped location ${i}:`, result.reason);
+          }
+        });
+        console.log('[Locations] loaded:', loaded.length, 'locations');
+        setLocations(loaded);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Failed to load locations:', err);
+        console.error('[Locations] index fetch failed:', err);
         setLoading(false);
       });
   }, []);

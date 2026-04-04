@@ -1,0 +1,34 @@
+{
+  "id": "kadabra",
+  "name": "Maître Kadabra",
+  "colorKey": "lavender",
+  "role": {
+    "fr": "Le sage de Pokopia",
+    "es": "El sabio de Pokopia",
+    "gl": "O sabio de Pokopia"
+  },
+  "images": {
+    "standard": "/assets/images/characters/kadabra/standard.png",
+    "figurine": "/assets/images/characters/kadabra/figurine.png",
+    "dessin": "/assets/images/characters/kadabra/dessin.png"
+  },
+  "description": {
+    "fr": "Maître Kadabra veille sur Pokopia depuis des siècles. Mystérieux, calme et d'une sagesse profonde, il parle peu mais chaque mot qu'il prononce pèse lourd. Il médite régulièrement au cœur de la forêt pour se reconnecter à lui-même et à la nature. Ceux qui le cherchent le trouvent rarement… mais ceux qui savent attendre reçoivent toujours une réponse.",
+    "es": "El Maestro Kadabra vela por Pokopia desde hace siglos. Misterioso, tranquilo y de una profunda sabiduría, habla poco pero cada palabra que pronuncia pesa mucho. Medita regularmente en el corazón del bosque para reconectarse consigo mismo y con la naturaleza. Quienes lo buscan raramente lo encuentran… pero quienes saben esperar siempre reciben una respuesta.",
+    "gl": "O Mestre Kadabra vela por Pokopia desde hai séculos. Misterioso, calmo e de profunda sabedoría, fala pouco pero cada palabra que pronuncia pesa moito. Medita regularmente no corazón do bosque para reconectarse con el mesmo e coa natureza. Os que o buscan raramente o atopan… pero os que saben agardar sempre reciben unha resposta."
+  },
+  "skills": [
+    {
+      "name": { "fr": "Téléportation", "es": "Teletransportación", "gl": "Teletransportación" },
+      "description": { "fr": "Kadabra peut se déplacer instantanément d'un endroit à un autre, disparaissant et réapparaissant en silence.", "es": "Kadabra puede moverse instantáneamente de un lugar a otro, desapareciendo y reapareciendo en silencio.", "gl": "Kadabra pode moverse instantaneamente dun lugar a outro, desaparecendo e reaparecendo en silencio." }
+    },
+    {
+      "name": { "fr": "Lecture des Pensées", "es": "Lectura de Mentes", "gl": "Lectura de Mentes" },
+      "description": { "fr": "Il perçoit les émotions et les intentions des Pokémon autour de lui, même ceux qui ne parlent pas.", "es": "Percibe las emociones e intenciones de los Pokémon a su alrededor, incluso los que no hablan.", "gl": "Percibe as emociones e intencions dos Pokémon ao seu redor, mesmo os que non falan." }
+    },
+    {
+      "name": { "fr": "Méditation Profonde", "es": "Meditación Profunda", "gl": "Meditación Profunda" },
+      "description": { "fr": "En se reconnectant à lui-même, Kadabra peut restaurer son énergie et celle de ses alliés.", "es": "Al reconectarse consigo mismo, Kadabra puede restaurar su energía y la de sus aliados.", "gl": "Ao reconectarse con el mesmo, Kadabra pode restaurar a súa enerxía e a dos seus aliados." }
+    }
+  ]
+}

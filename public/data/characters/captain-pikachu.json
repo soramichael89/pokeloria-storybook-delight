@@ -1,9 +1,34 @@
 {
   "id": "captain-pikachu",
-  "name": "Captain Pikachu",
-  "tagline": "Le capitaine",
-  "description": "Captain Pikachu est le leader naturel de Pokopia. Courageux, loyal et toujours prêt à aider, il porte une petite casquette que lui a offerte un ancien dresseur. Il organise les expéditions, résout les conflits et veille à ce que chaque habitant du village se sente en sécurité. Son énergie est contagieuse.",
-  "emoji": "⚡",
-  "colorKey": "sky",
-  "image": ""
+  "name": "Capitaine Pikachu",
+  "colorKey": "peach",
+  "role": {
+    "fr": "Le capitaine des aventuriers",
+    "es": "El capitán de los aventureros",
+    "gl": "O capitán dos aventureiros"
+  },
+  "images": {
+    "standard": "/assets/images/characters/captain-pikachu/standard.png",
+    "figurine": "/assets/images/characters/captain-pikachu/figurine.png",
+    "dessin": "/assets/images/characters/captain-pikachu/dessin.png"
+  },
+  "description": {
+    "fr": "Capitaine Pikachu est le leader naturel de Pokopia. Courageux, loyal et toujours prêt à agir, il porte une casquette offerte par un ancien dresseur et n'enlève jamais. Il organise les missions, prend les décisions difficiles, et veille à ce que personne ne soit laissé derrière. Son énergie et sa confiance sont contagieuses.",
+    "es": "El Capitán Pikachu es el líder natural de Pokopia. Valiente, leal y siempre listo para actuar, lleva una gorra que le regaló un antiguo entrenador y nunca se la quita. Organiza las misiones, toma las decisiones difíciles y se asegura de que nadie se quede atrás. Su energía y confianza son contagiosas.",
+    "gl": "O Capitán Pikachu é o líder natural de Pokopia. Corajoso, leal e sempre listo para actuar, leva unha gorra que lle regalou un antigo adestrador e nunca a quita. Organiza as misións, toma as decisións difíciles e asegúrase de que ninguén se quede atrás. A súa enerxía e confianza son contaxiosas."
+  },
+  "skills": [
+    {
+      "name": { "fr": "Tonnerre Éclair", "es": "Trueno Relámpago", "gl": "Trono Raio" },
+      "description": { "fr": "Une décharge électrique puissante et précise. Son attaque signature, redoutée dans toute la région.", "es": "Una descarga eléctrica poderosa y precisa. Su ataque característico, temido en toda la región.", "gl": "Unha descarga eléctrica poderosa e precisa. O seu ataque característico, temido en toda a rexión." }
+    },
+    {
+      "name": { "fr": "Cri de Ralliement", "es": "Grito de Reunión", "gl": "Berro de Reunión" },
+      "description": { "fr": "Son cri booste le moral de toute l'équipe et donne à chacun la force de continuer.", "es": "Su grito eleva la moral de todo el equipo y da a cada uno la fuerza para continuar.", "gl": "O seu berro eleva a moral de todo o equipo e dá a cada un a forza para continuar." }
+    },
+    {
+      "name": { "fr": "Défense Absolue", "es": "Defensa Absoluta", "gl": "Defensa Absoluta" },
+      "description": { "fr": "Pikachu se place devant ses alliés et encaisse les coups à leur place. Jamais il ne recule.", "es": "Pikachu se coloca delante de sus aliados y absorbe los golpes en su lugar. Nunca retrocede.", "gl": "Pikachu colócase diante dos seus aliados e absorbe os golpes no seu lugar. Nunca retrocede." }
+    }
+  ]
 }

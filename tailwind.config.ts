@@ -67,6 +67,14 @@ export default {
           DEFAULT: "hsl(var(--sky))",
           deep: "hsl(var(--sky-deep))",
         },
+        winter: {
+          DEFAULT: "hsl(var(--winter))",
+          deep: "hsl(var(--winter-deep))",
+        },
+        snow: {
+          DEFAULT: "hsl(var(--snow))",
+          deep: "hsl(var(--snow-deep))",
+        },
         cream: {
           DEFAULT: "hsl(var(--cream))",
           deep: "hsl(var(--cream-deep))",

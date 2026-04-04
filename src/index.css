@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 @layer base {
   :root {
     /* Cream / warm white base */
@@ -49,6 +54,10 @@
     --sage-deep: 140 30% 65%;
     --sky: 200 60% 88%;
     --sky-deep: 200 50% 72%;
+    --winter: 205 45% 82%;
+    --winter-deep: 205 40% 68%;
+    --snow: 0 0% 96%;
+    --snow-deep: 0 0% 82%;
     --cream: 40 40% 95%;
     --cream-deep: 35 30% 88%;
     --warm-brown: 25 30% 22%;

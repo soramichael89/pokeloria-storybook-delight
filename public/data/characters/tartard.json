@@ -1,0 +1,34 @@
+{
+  "id": "tartard",
+  "name": "Tartard",
+  "colorKey": "sky",
+  "role": {
+    "fr": "Le shérif de Pokopia",
+    "es": "El sheriff de Pokopia",
+    "gl": "O sheriff de Pokopia"
+  },
+  "images": {
+    "standard": "/assets/images/characters/tartard/standard.png",
+    "figurine": "/assets/images/characters/tartard/figurine.png",
+    "dessin": "/assets/images/characters/tartard/dessin.png"
+  },
+  "description": {
+    "fr": "Tartard est le gardien de l'ordre à Pokopia. Méthodique et attentif aux détails, il n'abandonne jamais une enquête avant d'avoir trouvé la vérité. Même s'il donne parfois l'impression de rêvasser, son cerveau tourne en permanence. Quand il déclare «je suis sur une piste», mieux vaut le croire.",
+    "es": "Tartard es el guardián del orden en Pokopia. Metódico y atento a los detalles, nunca abandona una investigación antes de encontrar la verdad. Aunque a veces parece estar soñando despierto, su cerebro trabaja constantemente. Cuando declara «estoy sobre una pista», mejor creerle.",
+    "gl": "Tartard é o gardián da orde en Pokopia. Metódico e atento aos detalles, nunca abandona unha investigación antes de atopar a verdade. Aínda que ás veces parece estar soñando esperto, o seu cerebro traballa constantemente. Cando declara «estou sobre unha pista», mellor crelo."
+  },
+  "skills": [
+    {
+      "name": { "fr": "Interrogatoire", "es": "Interrogatorio", "gl": "Interrogatorio" },
+      "description": { "fr": "Tartard sait poser les bonnes questions au bon moment. Peu de Pokémon résistent longtemps à sa méthode.", "es": "Tartard sabe hacer las preguntas correctas en el momento adecuado. Pocos Pokémon resisten mucho tiempo su método.", "gl": "Tartard sabe facer as preguntas correctas no momento adecuado. Poucos Pokémon resisten moito tempo o seu método." }
+    },
+    {
+      "name": { "fr": "Sens du Détail", "es": "Sentido del Detalle", "gl": "Sentido do Detalle" },
+      "description": { "fr": "Il remarque ce que les autres ignorent : une empreinte, un reflet, un objet déplacé de quelques centimètres.", "es": "Nota lo que otros ignoran: una huella, un reflejo, un objeto desplazado unos centímetros.", "gl": "Nota o que outros ignoran: unha pegada, un reflexo, un obxecto desprazado uns centímetros." }
+    },
+    {
+      "name": { "fr": "Bouclier Aquatique", "es": "Escudo Acuático", "gl": "Escudo Acuático" },
+      "description": { "fr": "Une barrière d'eau qui protège ses alliés et ralentit les attaques ennemies.", "es": "Una barrera de agua que protege a sus aliados y ralentiza los ataques enemigos.", "gl": "Unha barreira de auga que protexe aos seus aliados e retarda os ataques inimigos." }
+    }
+  ]
+}

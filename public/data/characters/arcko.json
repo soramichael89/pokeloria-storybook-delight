@@ -1,0 +1,34 @@
+{
+  "id": "arcko",
+  "name": "Arcko",
+  "colorKey": "sage",
+  "role": {
+    "fr": "L'explorateur de la forêt",
+    "es": "El explorador del bosque",
+    "gl": "O explorador do bosque"
+  },
+  "images": {
+    "standard": "/assets/images/characters/arcko/standard.png",
+    "figurine": "/assets/images/characters/arcko/figurine.png",
+    "dessin": "/assets/images/characters/arcko/dessin.png"
+  },
+  "description": {
+    "fr": "Arcko connaît chaque arbre, chaque sentier et chaque cachette de la forêt de Pokopia. Rapide, silencieux et toujours en mouvement, il est souvent le premier à découvrir un danger… ou un trésor. Sous ses airs indépendants se cache un cœur loyal et un vrai sens de l'aventure.",
+    "es": "Arcko conoce cada árbol, cada sendero y cada escondite del bosque de Pokopia. Rápido, silencioso y siempre en movimiento, suele ser el primero en descubrir un peligro… o un tesoro. Bajo su apariencia independiente se esconde un corazón leal y un verdadero sentido de la aventura.",
+    "gl": "Arcko coñece cada árbore, cada camiño e cada escondrijo do bosque de Pokopia. Rápido, silencioso e sempre en movemento, adoita ser o primeiro en descubrir un perigo… ou un tesouro. Baixo a súa aparencia independente agóchase un corazón leal e un verdadeiro sentido da aventura."
+  },
+  "skills": [
+    {
+      "name": { "fr": "Escalade Silencieuse", "es": "Escalada Silenciosa", "gl": "Escalada Silenciosa" },
+      "description": { "fr": "Arcko peut grimper n'importe quelle surface sans faire le moindre bruit, même en pleine nuit.", "es": "Arcko puede escalar cualquier superficie sin hacer el menor ruido, incluso en plena noche.", "gl": "Arcko pode escalar calquera superficie sen facer o menor ruído, mesmo de noite." }
+    },
+    {
+      "name": { "fr": "Sens de la Forêt", "es": "Sentido del Bosque", "gl": "Sentido do Bosque" },
+      "description": { "fr": "Il perçoit les vibrations de la forêt et peut détecter une présence étrangère à des dizaines de mètres.", "es": "Percibe las vibraciones del bosque y puede detectar una presencia extraña a decenas de metros.", "gl": "Percibe as vibracións do bosque e pode detectar unha presenza estraña a decenas de metros." }
+    },
+    {
+      "name": { "fr": "Bond Foudroyant", "es": "Salto Fulminante", "gl": "Salto Fulmíneo" },
+      "description": { "fr": "Un bond rapide et précis qui lui permet de traverser de grandes distances en un instant.", "es": "Un salto rápido y preciso que le permite recorrer grandes distancias en un instante.", "gl": "Un salto rápido e preciso que lle permite percorrer grandes distancias nun instante." }
+    }
+  ]
+}

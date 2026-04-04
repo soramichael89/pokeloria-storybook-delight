@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Character } from '@/data/characters';
 import { useCharacters } from '@/contexts/CharactersContext';
 
@@ -13,6 +13,8 @@ const colorMap: Record<string, string> = {
   lavender: 'bg-lavender',
   sage: 'bg-sage',
   sky: 'bg-sky',
+  winter: 'bg-winter',
+  snow: 'bg-snow',
 };
 
 const colorGradientMap: Record<string, string> = {
@@ -20,32 +22,93 @@ const colorGradientMap: Record<string, string> = {
   lavender: 'from-lavender/40 to-lavender-deep/20',
   sage: 'from-sage/40 to-sage-deep/20',
   sky: 'from-sky/40 to-sky-deep/20',
+  winter: 'from-winter/40 to-winter-deep/20',
+  snow: 'from-snow/40 to-snow-deep/20',
 };
 
-const CharacterDetail = ({ character, onClose }: { character: Character; onClose: () => void }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-50 bg-background flex flex-col"
-  >
-    <div className={`relative h-64 flex items-center justify-center bg-gradient-to-b ${colorGradientMap[character.colorKey]}`}>
-      <span className="text-[7rem] leading-none">{character.emoji}</span>
-      <button
-        onClick={onClose}
-        className="absolute top-14 left-5 w-10 h-10 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center shadow-soft"
-      >
-        <X className="w-5 h-5 text-foreground" />
-      </button>
-    </div>
-    <div className="flex-1 px-6 pt-6 pb-24 overflow-y-auto text-center">
-      <h2 className="text-2xl font-display font-bold text-foreground">{character.name}</h2>
-      <p className="text-sm font-body text-muted-foreground mt-2 italic">{character.tagline}</p>
-      <div className="mt-5 h-px bg-border" />
-      <p className="mt-5 text-base font-body text-foreground leading-[1.85] text-left">{character.description}</p>
-    </div>
-  </motion.div>
-);
+const IMAGE_TYPES = [
+  { key: 'standard' as const, label: 'Illustration' },
+  { key: 'figurine' as const, label: 'Figurine' },
+  { key: 'dessin' as const, label: 'Dessin' },
+];
+
+const CharacterDetail = ({ character, onClose }: { character: Character; onClose: () => void }) => {
+  const [activeImage, setActiveImage] = useState<'standard' | 'figurine' | 'dessin'>('standard');
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 bg-background flex flex-col"
+    >
+      {/* Header */}
+      <div className="flex items-center gap-3 px-5 pt-14 pb-4 flex-shrink-0">
+        <button
+          onClick={onClose}
+          className="p-2 -ml-2 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <div>
+          <h2 className="font-display font-bold text-lg text-foreground leading-tight">{character.name}</h2>
+          <p className="text-xs font-body text-muted-foreground italic">{character.role}</p>
+        </div>
+      </div>
+
+      {/* Image carousel */}
+      <div className="flex-shrink-0 px-5">
+        <div className={`rounded-2xl overflow-hidden bg-gradient-to-b ${colorGradientMap[character.colorKey] ?? colorGradientMap.peach} aspect-square flex items-center justify-center`}>
+          <img
+            key={activeImage}
+            src={character.images[activeImage]}
+            alt={character.name}
+            className="w-full h-full object-contain p-6"
+          />
+        </div>
+        {/* Image type selector */}
+        <div className="flex gap-2 mt-3">
+          {IMAGE_TYPES.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setActiveImage(key)}
+              className={`flex-1 py-1.5 rounded-xl text-xs font-display font-semibold transition-colors ${
+                activeImage === key
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto px-5 pt-5 pb-10">
+        {/* Description */}
+        <p className="text-base font-body text-foreground leading-[1.85]">{character.description}</p>
+
+        {/* Skills */}
+        {character.skills.length > 0 && (
+          <div className="mt-6">
+            <h3 className="font-display font-bold text-sm text-muted-foreground uppercase tracking-wider mb-3">
+              Capacités
+            </h3>
+            <div className="flex flex-col gap-3">
+              {character.skills.map((skill, i) => (
+                <div key={i} className="rounded-2xl bg-card border border-border/50 px-4 py-3">
+                  <p className="font-display font-bold text-sm text-foreground">{skill.name}</p>
+                  <p className="mt-1 text-xs font-body text-muted-foreground leading-relaxed">{skill.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
 
 const CharactersTab = () => {
   const { characters } = useCharacters();
@@ -126,10 +189,8 @@ const CharactersTab = () => {
 
   return (
     <div className="flex flex-col h-full justify-center relative">
-      {/* Spacer */}
       <div className="pt-8" />
 
-      {/* Horizontal coverflow carousel */}
       <div
         ref={scrollRef}
         className="flex overflow-x-auto hide-scrollbar pb-8 snap-x snap-mandatory"
@@ -164,17 +225,21 @@ const CharactersTab = () => {
                 onClick={() => setSelectedCharacter(character)}
                 className="w-full group cursor-pointer text-left"
               >
-                <div className={`${colorMap[character.colorKey]} rounded-2xl overflow-hidden shadow-card`}>
-                  <div className="relative aspect-[3/4] overflow-hidden flex items-center justify-center">
-                    <span className="text-[5rem] leading-none">{character.emoji}</span>
-                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
+                <div className={`${colorMap[character.colorKey] ?? colorMap.peach} rounded-2xl overflow-hidden shadow-card`}>
+                  <div className={`relative aspect-[3/4] overflow-hidden flex items-center justify-center bg-gradient-to-b ${colorGradientMap[character.colorKey] ?? colorGradientMap.peach}`}>
+                    <img
+                      src={character.images.standard}
+                      alt={character.name}
+                      className="w-full h-full object-contain p-4"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-foreground/30 to-transparent" />
                   </div>
                   <div className="p-4 pb-5 text-center">
                     <h3 className="font-display font-bold text-base leading-snug text-foreground line-clamp-2">
                       {character.name}
                     </h3>
                     <p className="mt-1.5 text-xs text-muted-foreground font-body leading-relaxed">
-                      {character.tagline}
+                      {character.role}
                     </p>
                   </div>
                 </div>
@@ -184,7 +249,6 @@ const CharactersTab = () => {
         })}
       </div>
 
-      {/* Dot indicators */}
       <div className="flex justify-center gap-2 pb-4">
         {characters.map((_, index) => (
           <button
@@ -198,8 +262,6 @@ const CharactersTab = () => {
           />
         ))}
       </div>
-
-      
 
       <AnimatePresence>
         {selectedCharacter && (

@@ -9,20 +9,6 @@ interface StoryReaderProps {
   onClose: () => void;
 }
 
-const bgColorMap = {
-  peach: 'bg-peach/40',
-  lavender: 'bg-lavender/40',
-  sage: 'bg-sage/40',
-  sky: 'bg-sky/40',
-} as const;
-
-const bgGradientMap = {
-  peach: 'from-peach/20 via-background to-peach-deep/10',
-  lavender: 'from-lavender/20 via-background to-lavender-deep/10',
-  sage: 'from-sage/20 via-background to-sage-deep/10',
-  sky: 'from-sky/20 via-background to-sky-deep/10',
-} as const;
-
 const pageVariants = {
   enter: (direction: number) => ({
     x: direction > 0 ? '100%' : '-100%',
@@ -40,16 +26,16 @@ const pageVariants = {
 
 /* ─── Page renderers ─── */
 
-const TextPage = ({ page, colorKey }: { page: StoryPage; colorKey: string }) => (
-  <div className={`h-full flex flex-col justify-center items-center px-8 bg-gradient-to-b ${bgGradientMap[colorKey as keyof typeof bgGradientMap]}`}>
+const TextPage = ({ page }: { page: StoryPage }) => (
+  <div className="h-full flex flex-col justify-center items-center px-8">
     <p className="text-lg font-body text-foreground leading-[1.9] text-center max-w-[340px]">
       {page.text}
     </p>
   </div>
 );
 
-const TextImagePage = ({ page, colorKey }: { page: StoryPage; colorKey: string }) => (
-  <div className={`h-full flex flex-col items-center justify-center px-6 bg-gradient-to-b ${bgGradientMap[colorKey as keyof typeof bgGradientMap]}`}>
+const TextImagePage = ({ page }: { page: StoryPage }) => (
+  <div className="h-full flex flex-col items-center justify-center px-6">
     <div className="flex flex-col items-center gap-6 max-w-[340px]">
       <p className="text-base font-body text-foreground leading-[1.85] text-center">
         {page.text}
@@ -124,10 +110,10 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
       case 'immersive':
         return <ImmersivePage page={p} />;
       case 'text-image':
-        return <TextImagePage page={p} colorKey={story.colorKey} />;
+        return <TextImagePage page={p} />;
       case 'text':
       default:
-        return <TextPage page={p} colorKey={story.colorKey} />;
+        return <TextPage page={p} />;
     }
   };
 

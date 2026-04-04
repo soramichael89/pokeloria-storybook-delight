@@ -9,7 +9,7 @@ export interface Story {
   title: string;
   theme: string;
   emoji: string;
-  colorKey: 'peach' | 'lavender' | 'sage' | 'sky';
+  colorKey: 'peach' | 'lavender' | 'sage' | 'sky' | 'winter' | 'snow';
   coverImage: string;
   pages: StoryPage[];
 }

@@ -33,7 +33,7 @@ const Index = () => {
               >
                 <Settings className="w-4 h-4" />
               </button>
-              <div className="flex-1 pb-20">
+              <div className="flex-1 overflow-hidden pb-20">
                 {activeTab === 'stories' && <StoryLibrary onOpenStory={setActiveStory} />}
                 {activeTab === 'characters' && <CharactersTab />}
                 {activeTab === 'world' && <WorldTab />}

@@ -1,6 +1,6 @@
 {
   "id": "kadabra",
-  "name": "Maître Kadabra",
+  "name": { "fr": "Maître Kadabra", "es": "Maestro Kadabra", "gl": "Mestre Kadabra" },
   "colorKey": "lavender",
   "role": {
     "fr": "Le sage de Pokopia",

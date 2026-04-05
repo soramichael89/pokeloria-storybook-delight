@@ -6,7 +6,9 @@
       "Bash(npx vite:*)",
       "Bash(bun install:*)",
       "Bash(identify /c/Users/MCanedo/pokeloria-storybook-delight/src/assets/logo.png)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

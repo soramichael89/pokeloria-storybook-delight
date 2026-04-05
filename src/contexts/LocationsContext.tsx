@@ -1,14 +1,32 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { WorldLocation } from '@/data/world';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface LocationsContextType {
   locations: WorldLocation[];
   loading: boolean;
 }
 
+type LocalizedString = string | Record<string, string>;
+
+function resolve(val: LocalizedString, lang: string): string {
+  if (typeof val === 'string') return val;
+  return val[lang] ?? val['fr'] ?? '';
+}
+
+function normalizeLocation(raw: any, lang: string): WorldLocation {
+  return {
+    ...raw,
+    name: resolve(raw.name, lang),
+    description: resolve(raw.description, lang),
+  };
+}
+
 const LocationsContext = createContext<LocationsContextType>({ locations: [], loading: true });
 
 export const LocationsProvider = ({ children }: { children: ReactNode }) => {
+  const { language } = useLanguage();
+  const rawRef = useRef<any[]>([]);
   const [locations, setLocations] = useState<WorldLocation[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,23 +50,32 @@ export const LocationsProvider = ({ children }: { children: ReactNode }) => {
         );
       })
       .then(results => {
-        const loaded: WorldLocation[] = [];
+        const raw: any[] = [];
         results.forEach((result, i) => {
           if (result.status === 'fulfilled') {
-            loaded.push(result.value as WorldLocation);
+            raw.push(result.value);
           } else {
             console.warn(`[Locations] skipped location ${i}:`, result.reason);
           }
         });
-        console.log('[Locations] loaded:', loaded.length, 'locations');
-        setLocations(loaded);
+        console.log('[Locations] loaded:', raw.length, 'locations');
+        rawRef.current = raw;
+        setLocations(raw.map(r => normalizeLocation(r, language)));
         setLoading(false);
       })
       .catch(err => {
         console.error('[Locations] index fetch failed:', err);
         setLoading(false);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Re-resolve on language change without re-fetching
+  useEffect(() => {
+    if (rawRef.current.length > 0) {
+      setLocations(rawRef.current.map(r => normalizeLocation(r, language)));
+    }
+  }, [language]);
 
   return (
     <LocationsContext.Provider value={{ locations, loading }}>

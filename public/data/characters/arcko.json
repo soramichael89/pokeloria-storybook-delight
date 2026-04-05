@@ -1,6 +1,6 @@
 {
   "id": "arcko",
-  "name": "Arcko",
+  "name": { "fr": "Arcko", "es": "Arcko", "gl": "Arcko" },
   "colorKey": "sage",
   "role": {
     "fr": "L'explorateur de la forêt",

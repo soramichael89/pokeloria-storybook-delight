@@ -13,6 +13,10 @@ interface Translations {
   exportPdf: string;
   exporting: string;
   exportSuccess: string;
+  illustration: string;
+  figurine: string;
+  dessin: string;
+  capacites: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -27,6 +31,10 @@ const translations: Record<Language, Translations> = {
     exportPdf: 'Exporter en PDF',
     exporting: 'Export en cours…',
     exportSuccess: 'PDF exporté avec succès !',
+    illustration: 'Illustration',
+    figurine: 'Figurine',
+    dessin: 'Dessin',
+    capacites: 'Capacités',
   },
   es: {
     stories: 'Historias',
@@ -39,6 +47,10 @@ const translations: Record<Language, Translations> = {
     exportPdf: 'Exportar como PDF',
     exporting: 'Exportando…',
     exportSuccess: '¡PDF exportado con éxito!',
+    illustration: 'Ilustración',
+    figurine: 'Figurina',
+    dessin: 'Dibujo',
+    capacites: 'Habilidades',
   },
   gl: {
     stories: 'Historias',
@@ -51,6 +63,10 @@ const translations: Record<Language, Translations> = {
     exportPdf: 'Exportar como PDF',
     exporting: 'Exportando…',
     exportSuccess: 'PDF exportado con éxito!',
+    illustration: 'Ilustración',
+    figurine: 'Figuriña',
+    dessin: 'Debuxo',
+    capacites: 'Habilidades',
   },
 };
 

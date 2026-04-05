@@ -1,9 +1,16 @@
 {
   "id": "pokopia-village",
-  "name": "Village de Pokopia",
-  "tagline": "Le cœur de tout",
-  "description": "Pokopia est un village chaleureux niché entre les collines douces et les champs de fleurs sauvages. Ses maisons aux toits ronds sont peintes de couleurs pastel, et une rivière cristalline le traverse en chantant. C'est ici que tout commence, ici que les histoires naissent et que les amitiés se forgent sous les cerisiers en fleurs.",
-  "emoji": "🏡",
-  "colorKey": "peach",
-  "image": ""
+  "name": { "fr": "Village de Pokopia", "es": "Pueblo de Pokopia", "gl": "Aldea de Pokopia" },
+  "images": [
+    "/assets/images/locations/pokopia/pokopia-1.png",
+    "/assets/images/locations/pokopia/pokopia-2.png",
+    "/assets/images/locations/pokopia/pokopia-3.png",
+    "/assets/images/locations/pokopia/pokopia-4.png",
+    "/assets/images/locations/pokopia/pokopia-5.png"
+  ],
+  "description": {
+    "fr": "Pokopia est un village coloré et chaleureux, né de la volonté commune des Pokémon de la contrée. Depuis de nombreuses années, c'est ici que le plus grand nombre de Pokémon s'est réuni pour co-construire un lieu de vie unique. Chaque maison, chaque rue, chaque recoin porte la marque de ceux qui l'ont bâti ensemble.",
+    "es": "Pokopia es un pueblo colorido y acogedor, nacido de la voluntad común de los Pokémon de la región. Desde hace muchos años, es aquí donde el mayor número de Pokémon se ha reunido para co-construir un lugar de vida único. Cada casa, cada calle, cada rincón lleva la marca de quienes lo construyeron juntos.",
+    "gl": "Pokopia é unha aldea colorida e acolledora, nada da vontade común dos Pokémon da rexión. Dende hai moitos anos, é aquí onde o maior número de Pokémon se reuniu para co-construír un lugar de vida único. Cada casa, cada rúa, cada recuncho leva a marca de quen a construíu xuntos."
+  }
 }

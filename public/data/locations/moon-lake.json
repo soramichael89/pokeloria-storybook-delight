@@ -1,9 +1,10 @@
 {
   "id": "moon-lake",
-  "name": "Lac de la Lune",
-  "tagline": "Le miroir des étoiles",
-  "description": "Un lac parfaitement immobile, entouré de saules pleureurs et de rochers couverts de mousse argentée. La nuit, la lune se reflète si parfaitement dans ses eaux qu'on ne sait plus où finit le ciel et où commence le lac. Les Pokémon aquatiques y nagent en silence, et on dit que l'eau guérit les cœurs fatigués.",
-  "emoji": "🌙",
-  "colorKey": "sky",
-  "image": ""
+  "name": { "fr": "Lac de la Lune", "es": "Lago de la Luna", "gl": "Lago da Lúa" },
+  "images": [],
+  "description": {
+    "fr": "Un lac parfaitement immobile, entouré de saules pleureurs et de rochers couverts de mousse argentée. La nuit, la lune se reflète si parfaitement dans ses eaux qu'on ne sait plus où finit le ciel et où commence le lac. Les Pokémon aquatiques y nagent en silence, et on dit que l'eau guérit les cœurs fatigués.",
+    "es": "Un lago perfectamente inmóvil, rodeado de sauces llorones y rocas cubiertas de musgo plateado. De noche, la luna se refleja tan perfectamente en sus aguas que ya no se sabe dónde termina el cielo y dónde empieza el lago. Los Pokémon acuáticos nadan en silencio, y se dice que el agua cura los corazones cansados.",
+    "gl": "Un lago perfectamente inmóbil, rodeado de salgueiros chorosos e rochas cubertas de musgo prateado. Pola noite, a lúa reflíctese tan perfectamente nas súas augas que xa non se sabe onde remata o ceo e onde comeza o lago. Os Pokémon acuáticos nadan en silencio, e dise que a auga cura os corazóns cansos."
+  }
 }

@@ -1,9 +1,10 @@
 {
   "id": "mushroom-forest",
-  "name": "Forêt des Champignons",
-  "tagline": "Là où la lumière danse",
-  "description": "Une forêt dense et mystérieuse, où les arbres sont si grands qu'ils cachent le ciel. La nuit, des champignons lumineux s'allument comme des lanternes, créant un chemin de lumière entre les racines. On dit que cette forêt est vivante, qu'elle murmure des secrets à ceux qui savent écouter le silence entre les feuilles.",
-  "emoji": "🍄",
-  "colorKey": "sage",
-  "image": ""
+  "name": { "fr": "Forêt des Champignons", "es": "Bosque de los Hongos", "gl": "Bosque dos Cogomelos" },
+  "images": [],
+  "description": {
+    "fr": "Une forêt dense et mystérieuse, où les arbres sont si grands qu'ils cachent le ciel. La nuit, des champignons lumineux s'allument comme des lanternes, créant un chemin de lumière entre les racines. On dit que cette forêt est vivante, qu'elle murmure des secrets à ceux qui savent écouter le silence entre les feuilles.",
+    "es": "Un bosque denso y misterioso, donde los árboles son tan grandes que ocultan el cielo. Por la noche, setas luminosas se encienden como linternas, creando un camino de luz entre las raíces. Se dice que este bosque está vivo, que susurra secretos a quienes saben escuchar el silencio entre las hojas.",
+    "gl": "Un bosque denso e misterioso, onde as árbores son tan grandes que esconden o ceo. Pola noite, cogomelos luminosos acéndense coma lanternas, creando un camiño de luz entre as raíces. Dise que este bosque está vivo, que murmura segredos a quen sabe escoitar o silencio entre as follas."
+  }
 }

@@ -1,6 +1,6 @@
 {
   "id": "captain-pikachu",
-  "name": "Capitaine Pikachu",
+  "name": { "fr": "Capitaine Pikachu", "es": "Capitán Pikachu", "gl": "Capitán Pikachu" },
   "colorKey": "peach",
   "role": {
     "fr": "Le capitaine des aventuriers",

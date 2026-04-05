@@ -1,6 +1,6 @@
 {
   "id": "tartard",
-  "name": "Tartard",
+  "name": { "fr": "Tartard", "es": "Tartard", "gl": "Tartard" },
   "colorKey": "sky",
   "role": {
     "fr": "Le shérif de Pokopia",

@@ -1,6 +1,6 @@
 {
   "id": "hoot-hoot",
-  "name": "Hoot-Hoot",
+  "name": { "fr": "Hoot-Hoot", "es": "Hoot-Hoot", "gl": "Hoot-Hoot" },
   "colorKey": "lavender",
   "role": {
     "fr": "Le gardien de la nuit",

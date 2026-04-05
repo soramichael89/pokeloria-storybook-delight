@@ -1,9 +1,10 @@
 {
   "id": "thunder-ridge",
-  "name": "Crête du Tonnerre",
-  "tagline": "Où gronde la puissance",
-  "description": "Une chaîne de montagnes escarpées où les orages éclatent sans prévenir. Les éclairs y dessinent des motifs dans le ciel, et le tonnerre résonne comme un tambour géant. Malgré sa réputation effrayante, la Crête abrite des cristaux d'énergie que les Pokémon électriques viennent recharger les nuits de tempête.",
-  "emoji": "⚡",
-  "colorKey": "lavender",
-  "image": ""
+  "name": { "fr": "Crête du Tonnerre", "es": "Cresta del Trueno", "gl": "Cumio do Trono" },
+  "images": [],
+  "description": {
+    "fr": "Une chaîne de montagnes escarpées où les orages éclatent sans prévenir. Les éclairs y dessinent des motifs dans le ciel, et le tonnerre résonne comme un tambour géant. Malgré sa réputation effrayante, la Crête abrite des cristaux d'énergie que les Pokémon électriques viennent recharger les nuits de tempête.",
+    "es": "Una cadena de montañas escarpadas donde las tormentas estallan sin avisar. Los rayos dibujan patrones en el cielo, y el trueno resuena como un tambor gigante. A pesar de su temible reputación, la Cresta alberga cristales de energía que los Pokémon eléctricos vienen a recargar las noches de tormenta.",
+    "gl": "Unha cadea de montañas escarpadas onde as treboadas estalan sen avisar. Os raios debuxan patróns no ceo, e o trono resoña coma un tambor xigante. A pesar da súa temible reputación, a Cume acolle cristais de enerxía que os Pokémon eléctricos veñen recargar as noites de tormenta."
+  }
 }

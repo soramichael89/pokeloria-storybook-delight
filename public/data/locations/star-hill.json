@@ -1,9 +1,10 @@
 {
   "id": "star-hill",
-  "name": "Colline des Étoiles",
-  "tagline": "Le toit du monde",
-  "description": "Le point le plus haut de la région de Pokopia. Depuis son sommet, on peut voir tout le territoire — le village, la forêt, le lac, les montagnes. La nuit, les étoiles semblent si proches qu'on pourrait les toucher. C'est ici que les anciens venaient méditer, et que les jeunes Pokémon font leurs premiers rêves d'aventure.",
-  "emoji": "⭐",
-  "colorKey": "sky",
-  "image": ""
+  "name": { "fr": "Colline des Étoiles", "es": "Colina de las Estrellas", "gl": "Outeiro das Estrelas" },
+  "images": [],
+  "description": {
+    "fr": "Le point le plus haut de la région de Pokopia. Depuis son sommet, on peut voir tout le territoire — le village, la forêt, le lac, les montagnes. La nuit, les étoiles semblent si proches qu'on pourrait les toucher. C'est ici que les anciens venaient méditer, et que les jeunes Pokémon font leurs premiers rêves d'aventure.",
+    "es": "El punto más alto de la región de Pokopia. Desde su cima, se puede ver todo el territorio: el pueblo, el bosque, el lago, las montañas. De noche, las estrellas parecen tan cercanas que se podrían tocar. Es aquí donde los ancianos venían a meditar, y donde los jóvenes Pokémon tienen sus primeros sueños de aventura.",
+    "gl": "O punto máis alto da rexión de Pokopia. Dende o seu cume, pódese ver todo o territorio: a aldea, o bosque, o lago, as montañas. Pola noite, as estrelas parecen tan cercanas que se poderían tocar. É aquí onde os anciáns viñan meditar, e onde os mozos Pokémon teñen os seus primeiros soños de aventura."
+  }
 }

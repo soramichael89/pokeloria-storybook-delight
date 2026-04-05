@@ -1,9 +1,10 @@
 {
   "id": "whispering-cave",
-  "name": "Grotte des Murmures",
-  "tagline": "L'écho des anciens",
-  "description": "Une grotte profonde et ancienne, dont les parois sont couvertes de dessins mystérieux laissés par des civilisations oubliées. Chaque pas résonne comme un murmure, et les courants d'air semblent porter des voix venues du passé. Au fond de la grotte brille une pierre lumineuse que personne n'a jamais osé toucher.",
-  "emoji": "🕯️",
-  "colorKey": "peach",
-  "image": ""
+  "name": { "fr": "Grotte des Murmures", "es": "Cueva de los Murmullos", "gl": "Cova dos Murmúrios" },
+  "images": [],
+  "description": {
+    "fr": "Une grotte profonde et ancienne, dont les parois sont couvertes de dessins mystérieux laissés par des civilisations oubliées. Chaque pas résonne comme un murmure, et les courants d'air semblent porter des voix venues du passé. Au fond de la grotte brille une pierre lumineuse que personne n'a jamais osé toucher.",
+    "es": "Una cueva profunda y antigua, cuyas paredes están cubiertas de dibujos misteriosos dejados por civilizaciones olvidadas. Cada paso resuena como un murmullo, y las corrientes de aire parecen llevar voces del pasado. En el fondo de la cueva brilla una piedra luminosa que nadie se ha atrevido jamás a tocar.",
+    "gl": "Unha cova profunda e antiga, cuxas paredes están cubertas de debuxos misteriosos deixados por civilizacións esquecidas. Cada paso resoña coma un murmurio, e as correntes de aire parecen levar voces do pasado. No fondo da cova brilla unha pedra luminosa que ninguén se atreveu nunca a tocar."
+  }
 }

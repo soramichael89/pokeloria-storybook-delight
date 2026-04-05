@@ -17,6 +17,7 @@ function resolve(val: LocalizedString, lang: string): string {
 function normalizeCharacter(raw: any, lang: string): Character {
   return {
     ...raw,
+    name: resolve(raw.name, lang),
     role: resolve(raw.role, lang),
     description: resolve(raw.description, lang),
     skills: (raw.skills ?? []).map((s: any) => ({

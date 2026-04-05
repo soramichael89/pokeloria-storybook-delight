@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Character } from '@/data/characters';
 import { useCharacters } from '@/contexts/CharactersContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import wallpaper from '@/assets/papierpaint.png';
 
 const CARD_WIDTH = 260;
 const CARD_GAP = 16;
@@ -26,24 +28,29 @@ const colorGradientMap: Record<string, string> = {
   snow: 'from-snow/40 to-snow-deep/20',
 };
 
-const IMAGE_TYPES = [
-  { key: 'standard' as const, label: 'Illustration' },
-  { key: 'figurine' as const, label: 'Figurine' },
-  { key: 'dessin' as const, label: 'Dessin' },
-];
-
 const CharacterDetail = ({ character, onClose }: { character: Character; onClose: () => void }) => {
   const [activeImage, setActiveImage] = useState<'standard' | 'figurine' | 'dessin'>('standard');
+  const { t } = useLanguage();
+
+  const IMAGE_TYPES = [
+    { key: 'standard' as const, label: t.illustration },
+    { key: 'figurine' as const, label: t.figurine },
+    { key: 'dessin' as const, label: t.dessin },
+  ];
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-background flex flex-col"
+      className="fixed inset-0 z-50 flex flex-col"
     >
+      {/* Wallpaper + readability overlay */}
+      <div className="absolute inset-0 bg-cover bg-center bg-repeat" style={{ backgroundImage: `url(${wallpaper})` }} />
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-[0.5px]" />
+
       {/* Header */}
-      <div className="flex items-center gap-3 px-5 pt-14 pb-4 flex-shrink-0">
+      <div className="relative z-10 flex items-center gap-3 px-5 pt-14 pb-4 flex-shrink-0">
         <button
           onClick={onClose}
           className="p-2 -ml-2 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
@@ -57,7 +64,7 @@ const CharacterDetail = ({ character, onClose }: { character: Character; onClose
       </div>
 
       {/* Image carousel */}
-      <div className="flex-shrink-0 px-5">
+      <div className="relative z-10 flex-shrink-0 px-5">
         <div className={`rounded-2xl overflow-hidden bg-gradient-to-b ${colorGradientMap[character.colorKey] ?? colorGradientMap.peach} aspect-square flex items-center justify-center`}>
           <img
             key={activeImage}
@@ -85,7 +92,7 @@ const CharacterDetail = ({ character, onClose }: { character: Character; onClose
       </div>
 
       {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto px-5 pt-5 pb-10">
+      <div className="relative z-10 flex-1 overflow-y-auto px-5 pt-5 pb-10">
         {/* Description */}
         <p className="text-base font-body text-foreground leading-[1.85]">{character.description}</p>
 
@@ -93,7 +100,7 @@ const CharacterDetail = ({ character, onClose }: { character: Character; onClose
         {character.skills.length > 0 && (
           <div className="mt-6">
             <h3 className="font-display font-bold text-sm text-muted-foreground uppercase tracking-wider mb-3">
-              Capacités
+              {t.capacites}
             </h3>
             <div className="flex flex-col gap-3">
               {character.skills.map((skill, i) => (
@@ -116,7 +123,8 @@ const CharactersTab = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isRepositioning = useRef(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selectedCharacter = selectedId ? characters.find(c => c.id === selectedId) ?? null : null;
 
   const allItems = Array.from({ length: SETS }, () => characters).flat();
   const midOffset = TOTAL;
@@ -222,7 +230,7 @@ const CharactersTab = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (index % TOTAL) * 0.1, duration: 0.5, ease: 'easeOut' }}
-                onClick={() => setSelectedCharacter(character)}
+                onClick={() => setSelectedId(character.id)}
                 className="w-full group cursor-pointer text-left"
               >
                 <div className={`${colorMap[character.colorKey] ?? colorMap.peach} rounded-2xl overflow-hidden shadow-card`}>
@@ -265,7 +273,7 @@ const CharactersTab = () => {
 
       <AnimatePresence>
         {selectedCharacter && (
-          <CharacterDetail character={selectedCharacter} onClose={() => setSelectedCharacter(null)} />
+          <CharacterDetail character={selectedCharacter} onClose={() => setSelectedId(null)} />
         )}
       </AnimatePresence>
     </div>

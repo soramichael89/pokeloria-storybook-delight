@@ -1,51 +1,97 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { WorldLocation } from '@/data/world';
 import { useLocations } from '@/contexts/LocationsContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import wallpaper from '@/assets/papierpaint.png';
 
 const CARD_WIDTH = 260;
 const CARD_GAP = 16;
 const SETS = 3;
 
-const colorMap: Record<string, string> = {
-  peach: 'bg-peach',
-  lavender: 'bg-lavender',
-  sage: 'bg-sage',
-  sky: 'bg-sky',
+/* One color per location id — used for card placeholder backgrounds */
+const CARD_COLOR: Record<string, string> = {
+  'pokopia-village':  'bg-peach',
+  'mushroom-forest':  'bg-sage',
+  'moon-lake':        'bg-sky',
+  'thunder-ridge':    'bg-lavender',
+  'whispering-cave':  'bg-winter',
+  'star-hill':        'bg-snow',
 };
+const FALLBACK_COLORS = ['bg-peach', 'bg-sage', 'bg-sky', 'bg-lavender', 'bg-winter', 'bg-snow'];
 
-const colorGradientMap: Record<string, string> = {
-  peach: 'from-peach/40 to-peach-deep/20',
-  lavender: 'from-lavender/40 to-lavender-deep/20',
-  sage: 'from-sage/40 to-sage-deep/20',
-  sky: 'from-sky/40 to-sky-deep/20',
-};
+/* ─── Location detail ─── */
 
-const LocationDetail = ({ location, onClose }: { location: WorldLocation; onClose: () => void }) => (
+const LocationDetail = ({ location, onClose }: { location: WorldLocation; onClose: () => void }) => {
+  const { language } = useLanguage();
+  const description = typeof (location.description as any) === 'object'
+    ? ((location.description as any)[language] ?? (location.description as any)['fr'] ?? '')
+    : location.description;
+  return (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="fixed inset-0 z-50 bg-background flex flex-col"
+    className="fixed inset-0 z-50 flex flex-col"
   >
-    <div className={`relative h-64 flex items-center justify-center bg-gradient-to-b ${colorGradientMap[location.colorKey]}`}>
-      <span className="text-[7rem] leading-none">{location.emoji}</span>
+    {/* Wallpaper + readability overlay */}
+    <div className="absolute inset-0 bg-cover bg-center bg-repeat" style={{ backgroundImage: `url(${wallpaper})` }} />
+    <div className="absolute inset-0 bg-background/80 backdrop-blur-[0.5px]" />
+
+    {/* Back button */}
+    <div className="relative z-10 flex items-center gap-3 px-5 pt-14 pb-4 flex-shrink-0">
       <button
         onClick={onClose}
-        className="absolute top-14 left-5 w-10 h-10 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center shadow-soft"
+        className="p-2 -ml-2 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
       >
-        <X className="w-5 h-5 text-foreground" />
+        <ArrowLeft className="w-5 h-5" />
       </button>
+      <h2 className="font-display font-bold text-lg text-foreground leading-tight">
+        {location.name}
+      </h2>
     </div>
-    <div className="flex-1 px-6 pt-6 pb-24 overflow-y-auto text-center">
-      <h2 className="text-2xl font-display font-bold text-foreground">{location.name}</h2>
-      <p className="text-sm font-body text-muted-foreground mt-2 italic">{location.tagline}</p>
-      <div className="mt-5 h-px bg-border" />
-      <p className="mt-5 text-base font-body text-foreground leading-[1.85] text-left">{location.description}</p>
+
+    {/* Image carousel — native horizontal scroll with snap */}
+    <div className="relative z-10 flex-shrink-0 px-5">
+      {(location.images ?? []).length > 0 ? (
+        <div
+          className="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory"
+          style={{ scrollSnapType: 'x mandatory', gap: 12 }}
+        >
+          {(location.images ?? []).map((src, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 snap-center flex items-center justify-center rounded-2xl bg-black/5"
+              style={{ width: '100%', height: '60svh' }}
+            >
+              <img
+                src={src}
+                alt=""
+                className="max-w-full max-h-full object-contain rounded-2xl"
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        /* Placeholder when no images yet */
+        <div className={`rounded-2xl flex items-center justify-center ${CARD_COLOR[location.id] ?? 'bg-muted'}`} style={{ height: '60svh' }}>
+          <span className="text-6xl opacity-30 select-none">🗺️</span>
+        </div>
+      )}
+    </div>
+
+    {/* Description */}
+    <div className="relative z-10 flex-1 overflow-y-auto px-5 pt-5 pb-10">
+      <p className="text-base font-body text-foreground leading-[1.85]">
+        {description}
+      </p>
     </div>
   </motion.div>
-);
+  );
+};
+
+/* ─── Main tab ─── */
 
 const WorldTab = () => {
   const { locations } = useLocations();
@@ -53,7 +99,8 @@ const WorldTab = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isRepositioning = useRef(false);
-  const [selectedLocation, setSelectedLocation] = useState<WorldLocation | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selectedLocation = selectedId ? locations.find(l => l.id === selectedId) ?? null : null;
 
   const allItems = Array.from({ length: SETS }, () => locations).flat();
   const midOffset = TOTAL;
@@ -126,10 +173,8 @@ const WorldTab = () => {
 
   return (
     <div className="flex flex-col h-full justify-center relative">
-      {/* Spacer */}
       <div className="pt-8" />
 
-      {/* Horizontal coverflow carousel */}
       <div
         ref={scrollRef}
         className="flex overflow-x-auto hide-scrollbar pb-8 snap-x snap-mandatory"
@@ -140,10 +185,12 @@ const WorldTab = () => {
         }}
       >
         {allItems.map((location, index) => {
-          const progress = scrollProgress[index] ?? 1;
-          const scale = 1 - progress * 0.15;
-          const opacity = 1 - progress * 0.4;
-          const blur = progress * 1.5;
+          const progress    = scrollProgress[index] ?? 1;
+          const scale       = 1 - progress * 0.15;
+          const opacity     = 1 - progress * 0.4;
+          const blur        = progress * 1.5;
+          const bgColor     = CARD_COLOR[location.id] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length];
+          const firstImage  = (location.images ?? [])[0];
 
           return (
             <div
@@ -161,21 +208,27 @@ const WorldTab = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (index % TOTAL) * 0.1, duration: 0.5, ease: 'easeOut' }}
-                onClick={() => setSelectedLocation(location)}
-                className="w-full group cursor-pointer text-left"
+                onClick={() => setSelectedId(location.id)}
+                className="w-full cursor-pointer text-left"
               >
-                <div className={`${colorMap[location.colorKey]} rounded-2xl overflow-hidden shadow-card`}>
+                <div className={`${bgColor} rounded-2xl overflow-hidden shadow-card`}>
+                  {/* Card image or placeholder */}
                   <div className="relative aspect-[3/4] overflow-hidden flex items-center justify-center">
-                    <span className="text-[5rem] leading-none">{location.emoji}</span>
-                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
+                    {firstImage ? (
+                      <img
+                        src={firstImage}
+                        alt={location.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-[5rem] leading-none opacity-30 select-none">🗺️</span>
+                    )}
+                    <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-foreground/30 to-transparent" />
                   </div>
                   <div className="p-4 pb-5 text-center">
                     <h3 className="font-display font-bold text-base leading-snug text-foreground line-clamp-2">
                       {location.name}
                     </h3>
-                    <p className="mt-1.5 text-xs text-muted-foreground font-body leading-relaxed">
-                      {location.tagline}
-                    </p>
                   </div>
                 </div>
               </motion.button>
@@ -184,7 +237,6 @@ const WorldTab = () => {
         })}
       </div>
 
-      {/* Dot indicators */}
       <div className="flex justify-center gap-2 pb-4">
         {locations.map((_, index) => (
           <button
@@ -199,11 +251,9 @@ const WorldTab = () => {
         ))}
       </div>
 
-      
-
       <AnimatePresence>
         {selectedLocation && (
-          <LocationDetail location={selectedLocation} onClose={() => setSelectedLocation(null)} />
+          <LocationDetail location={selectedLocation} onClose={() => setSelectedId(null)} />
         )}
       </AnimatePresence>
     </div>

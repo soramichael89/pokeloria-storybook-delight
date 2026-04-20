@@ -32,38 +32,36 @@ const StoryCard = ({ story, onOpen, index }: StoryCardProps) => {
 
   return (
     <motion.button
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5, ease: 'easeOut' }}
+      transition={{ delay: index * 0.08, duration: 0.5, ease: 'easeOut' }}
       onClick={() => onOpen(story)}
-      className="w-full group cursor-pointer text-left"
+      className="w-full cursor-pointer text-left focus:outline-none"
     >
-      <div className={`${colorMap[story.colorKey]} rounded-2xl overflow-hidden shadow-card transition-shadow duration-300 group-hover:shadow-card-hover`}>
-        {/* Cover image */}
-        <div className={`relative aspect-[3/4] overflow-hidden ${transparent ? `bg-gradient-to-br ${gradientMap[story.colorKey]}` : ''}`}>
-          <img
-            src={story.coverImage}
-            alt={story.title}
-            className={`transition-transform duration-500 group-hover:scale-105 ${
-              transparent
-                ? 'absolute inset-0 w-full h-full object-contain p-4 scale-110 drop-shadow-lg'
-                : 'w-full h-full object-cover'
-            }`}
-            loading={index === 0 ? undefined : "lazy"}
-          />
-          {/* Gradient overlay at bottom */}
-          {!transparent && (
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
-          )}
-        </div>
-        <div className="px-4 py-4 pb-5 text-center">
-          <h3 className="font-display font-bold text-base leading-snug text-foreground line-clamp-2">
-            {story.title}
-          </h3>
-          <p className="mt-2 text-xs text-muted-foreground font-body leading-relaxed">
-            {story.theme}
-          </p>
-        </div>
+      <div className={`${colorMap[story.colorKey]} rounded-2xl overflow-hidden shadow-card`}>
+          <div className={`relative aspect-[3/4] overflow-hidden ${transparent ? `bg-gradient-to-br ${gradientMap[story.colorKey]}` : ''}`}>
+            <img
+              src={story.coverImage}
+              alt={story.title}
+              className={`${
+                transparent
+                  ? 'absolute inset-0 w-full h-full object-contain p-4 scale-110 drop-shadow-lg'
+                  : 'w-full h-full object-cover'
+              }`}
+              loading={index === 0 ? undefined : 'lazy'}
+            />
+            {!transparent && (
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-foreground/40 to-transparent" />
+            )}
+          </div>
+          <div className="px-4 py-4 pb-5 text-center">
+            <h3 className="font-display font-bold text-base leading-snug text-foreground line-clamp-2">
+              {story.title}
+            </h3>
+            <p className="mt-2 text-xs text-muted-foreground font-body leading-relaxed">
+              {story.theme}
+            </p>
+          </div>
       </div>
     </motion.button>
   );

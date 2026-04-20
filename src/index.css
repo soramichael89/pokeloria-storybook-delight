@@ -130,7 +130,15 @@ html, body {
   }
 }
 
-/* Gentle floating animation for decorative elements */
+/* ── react-pageflip: force opaque white pages (prevents see-through during flip) ── */
+.stf__block,
+.stf__item,
+.stf__item > div {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+/* ── Gentle floating animation for decorative elements ── */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-8px); }

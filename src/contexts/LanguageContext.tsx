@@ -17,11 +17,20 @@ interface Translations {
   figurine: string;
   dessin: string;
   capacites: string;
+  // Book tab
+  swipeHint: string;
+  releaseToOpen: string;
+  theEnd: string;
+  readStory: string;
+  touchToChoose: string;
+  discover: string;
+  explore: string;
+  sounds: string;
 }
 
 const translations: Record<Language, Translations> = {
   fr: {
-    stories: 'Histoires',
+    stories: 'Bibliothèque Magique',
     characters: 'Personnages',
     world: 'Monde',
     settings: 'Réglages',
@@ -35,9 +44,17 @@ const translations: Record<Language, Translations> = {
     figurine: 'Figurine',
     dessin: 'Dessin',
     capacites: 'Capacités',
+    swipeHint: 'Glisser pour ouvrir',
+    releaseToOpen: 'Lâche pour ouvrir !',
+    theEnd: 'Fin',
+    readStory: 'Lire l\'histoire',
+    touchToChoose: 'Touche pour choisir',
+    discover: 'Découvrir',
+    explore: 'Explorer',
+    sounds: 'Sons & musique',
   },
   es: {
-    stories: 'Historias',
+    stories: 'Biblioteca Mágica',
     characters: 'Personajes',
     world: 'Mundo',
     settings: 'Ajustes',
@@ -51,9 +68,17 @@ const translations: Record<Language, Translations> = {
     figurine: 'Figurina',
     dessin: 'Dibujo',
     capacites: 'Habilidades',
+    swipeHint: 'Deslizar para abrir',
+    releaseToOpen: '¡Suelta para abrir!',
+    theEnd: 'Fin',
+    readStory: 'Leer la historia',
+    touchToChoose: 'Toca para elegir',
+    discover: 'Descubrir',
+    explore: 'Explorar',
+    sounds: 'Sonidos y música',
   },
   gl: {
-    stories: 'Historias',
+    stories: 'Biblioteca Máxica',
     characters: 'Personaxes',
     world: 'Mundo',
     settings: 'Axustes',
@@ -67,6 +92,14 @@ const translations: Record<Language, Translations> = {
     figurine: 'Figuriña',
     dessin: 'Debuxo',
     capacites: 'Habilidades',
+    swipeHint: 'Deslizar para abrir',
+    releaseToOpen: 'Solta para abrir!',
+    theEnd: 'Fin',
+    readStory: 'Ler a historia',
+    touchToChoose: 'Toca para escoller',
+    discover: 'Descobrir',
+    explore: 'Explorar',
+    sounds: 'Sons e música',
   },
 };
 

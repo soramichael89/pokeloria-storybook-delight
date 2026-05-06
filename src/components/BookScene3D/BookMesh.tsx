@@ -21,7 +21,7 @@ import { PagePlane, PAGE_W, PAGE_H } from './PagePlane';
 const BOOK_D  = 0.18;  // épaisseur totale
 const SPINE_W = 0.08;  // largeur de la tranche
 
-const PAGE_COUNT = 10;
+const PAGE_COUNT = 9;
 // Délai entre chaque page qui tourne (ms)
 const PER_PAGE_DELAY = 160;
 // La couverture commence à s'ouvrir à t=0 de l'animation d'ouverture

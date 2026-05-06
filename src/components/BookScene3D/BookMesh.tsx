@@ -21,7 +21,7 @@ import { PagePlane, PAGE_W, PAGE_H } from './PagePlane';
 const BOOK_D  = 0.18;  // épaisseur totale
 const SPINE_W = 0.08;  // largeur de la tranche
 
-const PAGE_COUNT = 8;
+const PAGE_COUNT = 9;
 // Délai entre chaque page qui tourne (ms)
 const PER_PAGE_DELAY = 160;
 // La couverture commence à s'ouvrir à t=0 de l'animation d'ouverture
@@ -47,18 +47,8 @@ export const BookMesh = ({
   onOpenComplete,
   bookPages = [],
 }: BookMeshProps) => {
-  const [coverTex, setCoverTex] = useState<THREE.Texture | null>(null);
   const [turnedPages, setTurnedPages] = useState<boolean[]>(Array(PAGE_COUNT).fill(false));
   const completedRef = useRef(false);
-
-  // --- Charger la texture de couverture ---
-  useEffect(() => {
-    const loader = new THREE.TextureLoader();
-    loader.load(coverImageUrl, (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace;
-      setCoverTex(tex);
-    });
-  }, [coverImageUrl]);
 
   // --- Matériaux (mémorisés) ---
   const spineMat = useMemo(() => new THREE.MeshStandardMaterial({
@@ -73,12 +63,22 @@ export const BookMesh = ({
     metalness: 0.04,
   }), [frontColor]);
 
+  // Couverture : matériau créé une fois, texture injectée impérativement quand elle charge
   const coverMat = useMemo(() => new THREE.MeshStandardMaterial({
     color: frontColor,
     roughness: 0.78,
     metalness: 0.04,
-    map: coverTex ?? null,
-  }), [frontColor, coverTex]);
+  }), [frontColor]);
+
+  // --- Charger la texture de couverture et l'injecter directement ---
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    loader.load(coverImageUrl, (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      coverMat.map = tex;
+      coverMat.needsUpdate = true;
+    });
+  }, [coverImageUrl, coverMat]);
 
   const pageBlockMat = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#f8f0dc',

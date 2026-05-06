@@ -25,7 +25,7 @@ interface CameraRigProps {
 
 const CameraRig = ({ phase }: CameraRigProps) => {
   const { camera } = useThree();
-  const targetRef = useRef({ x: 0, y: 0, z: 6 });
+  const targetRef = useRef({ x: 0.1, y: 0.15, z: 5.0 });
 
   // Positions caméra par phase — V4 : départ quasi-frontal, zoom progressif
   const POSITIONS = [
@@ -232,6 +232,7 @@ export const BookScene3D = ({ story, onComplete }: BookScene3DProps) => {
 
   // Fade in du canvas
   useEffect(() => {
+    console.log('[BookScene3D] WebGL scene mounted, story:', story.title);
     requestAnimationFrame(() => setCanvasOpacity(1));
   }, []);
 
@@ -249,7 +250,7 @@ export const BookScene3D = ({ story, onComplete }: BookScene3DProps) => {
       background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})`,
     }}>
       <Canvas
-        camera={{ position: [0.6, 0.8, 6], fov: 42 }}
+        camera={{ position: [0.1, 0.15, 5.0], fov: 42 }}
         shadows
         gl={{
           antialias: true,

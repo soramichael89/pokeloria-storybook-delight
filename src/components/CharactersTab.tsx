@@ -177,7 +177,7 @@ const InvocationAnimation = ({ character, onComplete }: { character: Character; 
             <TcgCard character={character} size={1.35} />
           </div>
           <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 6, animation: 'summonAppear 1.4s 0.3s cubic-bezier(0.25,0.46,0.45,0.94) forwards', opacity: 0 }}>
-            <CharacterSilhouette character={character} />
+            <CharacterSilhouette character={character} imageUrl={character.images.standard} />
           </div>
         </>
       )}
@@ -187,7 +187,7 @@ const InvocationAnimation = ({ character, onComplete }: { character: Character; 
         <>
           <div style={{ position: 'absolute', inset: 0, background: 'white', zIndex: 20, animation: 'whiteFlash 0.5s ease-out forwards' }} />
           <div style={{ position: 'absolute', inset: 0, zIndex: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(175deg, ${t.bg1}, ${t.bg2})`, animation: 'finalZoom 0.5s cubic-bezier(0.4,0,0.2,1) forwards' }}>
-            <CharacterSilhouette character={character} large />
+            <CharacterSilhouette character={character} large imageUrl={character.images.standard} />
           </div>
         </>
       )}
@@ -520,11 +520,6 @@ const CharactersTab = ({ header }: { header?: React.ReactNode }) => {
 
           {/* Bottom controls */}
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10, paddingBottom: 36 }}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 12 }}>
-              {characters.map((_, i) => (
-                <button key={i} onClick={() => setActiveIndex(i)} style={{ width: i === activeIndex ? 20 : 6, height: 6, borderRadius: 3, background: i === activeIndex ? GOLD : 'rgba(40,20,5,0.25)', transition: 'all 0.3s ease', border: 'none', cursor: 'pointer', padding: 0 }} />
-              ))}
-            </div>
             <div style={{ display: 'flex', gap: THUMB_GAP, paddingLeft: 24, paddingRight: 24, paddingTop: 22, paddingBottom: 4, overflowX: 'auto', scrollbarWidth: 'none', justifyContent: characters.length <= 5 ? 'center' : undefined }}>
               {characters.map((ch, i) => {
                 const isAct = i === activeIndex;

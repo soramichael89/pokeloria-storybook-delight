@@ -50,20 +50,34 @@ const CrystalBall = ({ location, size = 180, reflection = null, style = {} }: Cr
         }} />
 
         {/* Landscape inside */}
-        <div style={{
-          position: 'absolute', inset: '30% 18% 22%',
-          borderRadius: '50%',
-          background: panorama,
-          boxShadow: 'inset 0 -6px 12px rgba(0,0,0,0.3), 0 0 18px rgba(255,255,255,0.4)',
-          opacity: 0.85, overflow: 'hidden',
-        }}>
-          <svg viewBox="0 0 100 60" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} preserveAspectRatio="none">
-            <path d="M 0 60 L 18 32 L 30 42 L 48 18 L 62 38 L 78 26 L 100 50 L 100 60 Z" fill="rgba(40,20,5,0.45)" />
-            <path d="M 0 60 L 22 44 L 38 50 L 56 38 L 72 48 L 90 42 L 100 56 L 100 60 Z" fill="rgba(40,20,5,0.6)" />
-          </svg>
-          <div style={{ position: 'absolute', top: '18%', left: '22%', width: 6, height: 6, borderRadius: '50%', background: 'white', boxShadow: '0 0 8px white' }} />
-          <div style={{ position: 'absolute', top: '30%', right: '24%', width: 4, height: 4, borderRadius: '50%', background: 'white', boxShadow: '0 0 6px white', opacity: 0.7 }} />
-        </div>
+        {location.images?.[0] ? (
+          <img
+            src={location.images[0]}
+            alt=""
+            style={{
+              position: 'absolute', inset: '18% 12% 16%',
+              width: '76%', height: '66%',
+              objectFit: 'cover', borderRadius: '50%',
+              opacity: 0.88,
+              boxShadow: 'inset 0 -6px 12px rgba(0,0,0,0.3), 0 0 18px rgba(255,255,255,0.4)',
+            }}
+          />
+        ) : (
+          <div style={{
+            position: 'absolute', inset: '30% 18% 22%',
+            borderRadius: '50%',
+            background: panorama,
+            boxShadow: 'inset 0 -6px 12px rgba(0,0,0,0.3), 0 0 18px rgba(255,255,255,0.4)',
+            opacity: 0.85, overflow: 'hidden',
+          }}>
+            <svg viewBox="0 0 100 60" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} preserveAspectRatio="none">
+              <path d="M 0 60 L 18 32 L 30 42 L 48 18 L 62 38 L 78 26 L 100 50 L 100 60 Z" fill="rgba(40,20,5,0.45)" />
+              <path d="M 0 60 L 22 44 L 38 50 L 56 38 L 72 48 L 90 42 L 100 56 L 100 60 Z" fill="rgba(40,20,5,0.6)" />
+            </svg>
+            <div style={{ position: 'absolute', top: '18%', left: '22%', width: 6, height: 6, borderRadius: '50%', background: 'white', boxShadow: '0 0 8px white' }} />
+            <div style={{ position: 'absolute', top: '30%', right: '24%', width: 4, height: 4, borderRadius: '50%', background: 'white', boxShadow: '0 0 6px white', opacity: 0.7 }} />
+          </div>
+        )}
 
         {/* Cursor shimmer */}
         {reflection && (

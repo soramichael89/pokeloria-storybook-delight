@@ -36,12 +36,15 @@ const StarsBg = () => (
 const OrbThumb = ({ location, isActive }: { location: WorldLocation; isActive: boolean }) => {
   const colorKey = LOCATION_COLOR_KEY[location.id] ?? 'sky';
   const t = THEME[colorKey] ?? THEME.sky;
-  const panorama = LOCATION_PANORAMA[location.id] ?? LOCATION_PANORAMA['moon-lake'];
+  const coverImage = location.images?.[0];
   return (
     <div style={{ width: 46, height: 62, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
       <div style={{ width: 38, height: 38, borderRadius: '50%', background: `radial-gradient(circle at 32% 28%, rgba(255,255,255,0.9), ${t.bg1} 30%, ${t.spine} 100%)`, boxShadow: isActive ? `0 4px 12px ${t.glow}, 0 0 0 1.5px ${GOLD}, inset -2px -3px 6px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.5)` : `0 2px 6px rgba(40,20,5,0.3), 0 0 0 1px ${GOLD}aa, inset -2px -3px 5px rgba(0,0,0,0.25)`, transition: 'box-shadow 0.35s', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: '45% 14% 22%', borderRadius: '50%', background: panorama, opacity: 0.7 }} />
-        <div style={{ position: 'absolute', top: '18%', left: '22%', width: 4, height: 4, borderRadius: '50%', background: 'white' }} />
+        {/* World image fills the orb */}
+        {coverImage && <img src={coverImage} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%', opacity: 0.85 }} />}
+        {/* Glossy overlay */}
+        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'radial-gradient(circle at 32% 28%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.1) 40%, transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '18%', left: '22%', width: 4, height: 4, borderRadius: '50%', background: 'rgba(255,255,255,0.9)' }} />
       </div>
     </div>
   );
@@ -482,11 +485,6 @@ const WorldTab = ({ header }: { header?: React.ReactNode }) => {
 
           {/* Bottom controls */}
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10, paddingBottom: 36 }}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 12 }}>
-              {locations.map((_, i) => (
-                <button key={i} onClick={() => setActiveIndex(i)} style={{ width: i === activeIndex ? 20 : 6, height: 6, borderRadius: 3, background: i === activeIndex ? GOLD : 'rgba(40,20,5,0.25)', transition: 'all 0.3s ease', border: 'none', cursor: 'pointer', padding: 0 }} />
-              ))}
-            </div>
             <div style={{ display: 'flex', gap: 10, paddingLeft: 24, paddingRight: 24, paddingTop: 22, paddingBottom: 4, overflowX: 'auto', scrollbarWidth: 'none', justifyContent: locations.length <= 6 ? 'center' : undefined }}>
               {locations.map((loc, i) => {
                 const isAct = i === activeIndex;

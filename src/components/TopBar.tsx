@@ -73,11 +73,11 @@ const TopBar = ({ activeTab, setActiveTab, onSettings }: TopBarProps) => {
       position: 'absolute', top: 0, left: 0, right: 0,
       zIndex: 30,
       paddingTop: 52,
-      paddingLeft: 14, paddingRight: 14,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      {/* Logo — absolute left */}
-      <img src={logo} alt="" style={{ position: 'absolute', left: 14, width: 30, height: 30, borderRadius: '50%', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} />
+      {/* Grouped: logo + dropdown + gear — all centered together */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <img src={logo} alt="" style={{ width: 30, height: 30, borderRadius: '50%', boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flexShrink: 0 }} />
 
       {/* Centered dropdown */}
       <div style={{ position: 'relative' }}>
@@ -155,12 +155,11 @@ const TopBar = ({ activeTab, setActiveTab, onSettings }: TopBarProps) => {
         )}
       </div>{/* end centered dropdown */}
 
-      {/* Gear — absolute right */}
+      {/* Gear — adjacent right */}
       <button
         onClick={onSettings}
         style={{
-          position: 'absolute', right: 14,
-          width: 34, height: 34, borderRadius: '50%',
+          width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
           background: 'rgba(255,255,255,0.45)',
           backdropFilter: 'blur(8px)',
           border: 'none', cursor: 'pointer',
@@ -172,6 +171,7 @@ const TopBar = ({ activeTab, setActiveTab, onSettings }: TopBarProps) => {
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
         </svg>
       </button>
+      </div>{/* end group */}
     </div>
   );
 };

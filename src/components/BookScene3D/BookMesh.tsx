@@ -1,0 +1,241 @@
+/**
+ * BookMesh — le livre 3D complet
+ *
+ * Structure :
+ *  ┌─────────────────────────┐
+ *  │  CoverFront             │  PlaneGeometry avec texture couverture
+ *  │  PageStack (8 pages)    │  Pages cream qui se retournent
+ *  │  SpineBox               │  BoxGeometry — tranche du livre
+ *  │  CoverBack              │  PlaneGeometry — dos du livre
+ *  │  PagesBlock             │  BoxGeometry fin — empilement pages (côté droit)
+ *  └─────────────────────────┘
+ *
+ * Dimensions : 1.4 × 2.2 × 0.18 (unités Three.js)
+ */
+import { useRef, useMemo, useEffect, useState } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { useSpring, animated } from '@react-spring/three';
+import * as THREE from 'three';
+import { PagePlane, PAGE_W, PAGE_H } from './PagePlane';
+
+const BOOK_D  = 0.18;  // épaisseur totale
+const SPINE_W = 0.08;  // largeur de la tranche
+
+const PAGE_COUNT = 8;
+// Délai entre chaque page qui tourne (ms)
+const PER_PAGE_DELAY = 160;
+// La couverture commence à s'ouvrir à t=0 de l'animation d'ouverture
+const COVER_OPEN_DELAY = 0;
+
+interface BookMeshProps {
+  coverImageUrl: string;
+  spineColor: string;    // hex
+  frontColor: string;    // hex
+  /** true = déclenche l'animation d'ouverture */
+  opening: boolean;
+  /** callback quand l'animation est terminée */
+  onOpenComplete: () => void;
+}
+
+export const BookMesh = ({
+  coverImageUrl,
+  spineColor,
+  frontColor,
+  opening,
+  onOpenComplete,
+}: BookMeshProps) => {
+  const [coverTex, setCoverTex] = useState<THREE.Texture | null>(null);
+  const [turnedPages, setTurnedPages] = useState<boolean[]>(Array(PAGE_COUNT).fill(false));
+  const completedRef = useRef(false);
+
+  // --- Charger la texture de couverture ---
+  useEffect(() => {
+    const loader = new THREE.TextureLoader();
+    loader.load(coverImageUrl, (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      setCoverTex(tex);
+    });
+  }, [coverImageUrl]);
+
+  // --- Matériaux (mémorisés) ---
+  const spineMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: spineColor,
+    roughness: 0.75,
+    metalness: 0.05,
+  }), [spineColor]);
+
+  const frontMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: frontColor,
+    roughness: 0.78,
+    metalness: 0.04,
+  }), [frontColor]);
+
+  const coverMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: frontColor,
+    roughness: 0.78,
+    metalness: 0.04,
+    map: coverTex ?? null,
+  }), [frontColor, coverTex]);
+
+  const pageBlockMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#f8f0dc',
+    roughness: 0.9,
+    metalness: 0.0,
+  }), []);
+
+  // --- Déclencher les retournements en cascade ---
+  useEffect(() => {
+    if (!opening) return;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    // Retourner chaque page avec un délai staggeré
+    for (let i = 0; i < PAGE_COUNT; i++) {
+      const delay = COVER_OPEN_DELAY + i * PER_PAGE_DELAY;
+      timers.push(
+        setTimeout(() => {
+          setTurnedPages(prev => {
+            const next = [...prev];
+            next[i] = true;
+            return next;
+          });
+        }, delay)
+      );
+    }
+
+    // Callback fin d'animation
+    const totalDuration = COVER_OPEN_DELAY + (PAGE_COUNT - 1) * PER_PAGE_DELAY + 900;
+    timers.push(
+      setTimeout(() => {
+        if (!completedRef.current) {
+          completedRef.current = true;
+          onOpenComplete();
+        }
+      }, totalDuration)
+    );
+
+    return () => timers.forEach(clearTimeout);
+  }, [opening, onOpenComplete]);
+
+  // --- Animation ouverture couverture (pivot bord gauche) ---
+  const { coverRotY } = useSpring({
+    coverRotY: opening ? -Math.PI + 0.05 : 0,
+    delay: COVER_OPEN_DELAY,
+    config: { mass: 1.4, tension: 110, friction: 26 },
+  });
+
+  // --- Bande dorée sur la tranche ---
+  const goldMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#c9a84c',
+    roughness: 0.3,
+    metalness: 0.8,
+  }), []);
+
+  return (
+    <group>
+      {/* ── Tranche (spine) ── */}
+      <mesh
+        position={[-(PAGE_W / 2 + SPINE_W / 2), 0, 0]}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[SPINE_W, PAGE_H, BOOK_D]} />
+        <primitive object={spineMat} attach="material" />
+      </mesh>
+
+      {/* Bande dorée haut/bas de la tranche */}
+      {[-PAGE_H / 2 + 0.05, PAGE_H / 2 - 0.05].map((y, i) => (
+        <mesh key={i} position={[-(PAGE_W / 2 + SPINE_W / 2), y, 0]}>
+          <boxGeometry args={[SPINE_W + 0.002, 0.025, BOOK_D + 0.002]} />
+          <primitive object={goldMat} attach="material" />
+        </mesh>
+      ))}
+
+      {/* ── Bloc de pages (côté droit, visible avant ouverture) ── */}
+      <mesh position={[0, 0, 0]} castShadow receiveShadow>
+        <boxGeometry args={[PAGE_W, PAGE_H, BOOK_D - 0.01]} />
+        <primitive object={pageBlockMat} attach="material" />
+      </mesh>
+
+      {/* ── Pages individuelles qui se retournent ── */}
+      {Array.from({ length: PAGE_COUNT }, (_, i) => (
+        <PagePlane
+          key={i}
+          index={i}
+          total={PAGE_COUNT}
+          turned={turnedPages[i]}
+          zOffset={BOOK_D / 2 - 0.005}
+          coverColor={frontColor}
+        />
+      ))}
+
+      {/* ── Couverture avant (avec texture) ── */}
+      <animated.group
+        position={[-PAGE_W / 2, 0, BOOK_D / 2]}
+        rotation-y={coverRotY}
+      >
+        {/* La géométrie est décalée pour pivoter autour du bord gauche */}
+        <mesh castShadow receiveShadow>
+          <planeGeometry args={[PAGE_W, PAGE_H]} />
+          <primitive object={coverMat} attach="material" />
+        </mesh>
+
+        {/* Cadre doré sur la couverture */}
+        <CoverFrame />
+      </animated.group>
+
+      {/* ── Dos du livre ── */}
+      <mesh
+        position={[0, 0, -(BOOK_D / 2)]}
+        rotation={[0, Math.PI, 0]}
+        castShadow
+      >
+        <planeGeometry args={[PAGE_W, PAGE_H]} />
+        <primitive object={frontMat} attach="material" />
+      </mesh>
+    </group>
+  );
+};
+
+// Cadre doré décoratif sur la couverture (lignes fines)
+const CoverFrame = () => {
+  const mat = useMemo(() => new THREE.LineBasicMaterial({
+    color: '#c9a84c',
+    transparent: true,
+    opacity: 0.7,
+  }), []);
+
+  const outerGeo = useMemo(() => {
+    const inset = 0.06;
+    const w = PAGE_W / 2 - inset;
+    const h = PAGE_H / 2 - inset;
+    const pts = [
+      new THREE.Vector3(-w, -h, 0.001),
+      new THREE.Vector3( w, -h, 0.001),
+      new THREE.Vector3( w,  h, 0.001),
+      new THREE.Vector3(-w,  h, 0.001),
+      new THREE.Vector3(-w, -h, 0.001),
+    ];
+    return new THREE.BufferGeometry().setFromPoints(pts);
+  }, []);
+
+  const innerGeo = useMemo(() => {
+    const inset = 0.1;
+    const w = PAGE_W / 2 - inset;
+    const h = PAGE_H / 2 - inset;
+    const pts = [
+      new THREE.Vector3(-w, -h, 0.001),
+      new THREE.Vector3( w, -h, 0.001),
+      new THREE.Vector3( w,  h, 0.001),
+      new THREE.Vector3(-w,  h, 0.001),
+      new THREE.Vector3(-w, -h, 0.001),
+    ];
+    return new THREE.BufferGeometry().setFromPoints(pts);
+  }, []);
+
+  return (
+    <group position={[PAGE_W / 2, 0, 0.001]}>
+      <primitive object={new THREE.Line(outerGeo, mat)} />
+      <primitive object={new THREE.Line(innerGeo, mat)} />
+    </group>
+  );
+};

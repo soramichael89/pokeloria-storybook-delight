@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { Story } from '@/data/stories';
 import { useStories } from '@/contexts/StoriesContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -7,6 +7,23 @@ import StoryReader from './StoryReader';
 import OpeningAnimationV2 from './OpeningAnimationV2';
 import wallpaper from '@/assets/papierpaint.png';
 import { GOLD, THEME } from '@/lib/theme';
+
+// ── BookScene3D lazy-loadé (Three.js ne charge qu'au déclenchement) ──────────
+const BookScene3D = lazy(() => import('./BookScene3D'));
+
+// ── Détection WebGL (une seule fois) ─────────────────────────────────────────
+const hasWebGL = (() => {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(
+      canvas.getContext('webgl2') ||
+      canvas.getContext('webgl') ||
+      canvas.getContext('experimental-webgl')
+    );
+  } catch {
+    return false;
+  }
+})();
 
 // ── Pastel particle configs (randomised once at module load) ──────────────────
 const PASTEL = ['#ffd1a8','#e0c8ff','#c8e8d0','#bfe0f2','#ffe4ec','#fff3c8','#ffc9d6','#d4f0e8'];
@@ -440,7 +457,13 @@ const StoryLibrary = ({ header }: StoryLibraryProps) => {
         <FocusScreen story={story} onBack={() => setScreen('library')} onOpen={() => setScreen('opening')} />
       )}
       {screen === 'opening' && story && (
-        <OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />
+        hasWebGL ? (
+          <Suspense fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
+            <BookScene3D story={story} onComplete={() => setScreen('reading')} />
+          </Suspense>
+        ) : (
+          <OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />
+        )
       )}
       {screen === 'reading' && story && (
         <StoryReader story={story} onClose={() => { setScreen('library'); setStory(null); }} />

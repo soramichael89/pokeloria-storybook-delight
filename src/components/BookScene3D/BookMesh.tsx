@@ -80,11 +80,28 @@ export const BookMesh = ({
     });
   }, [coverImageUrl, coverMat]);
 
-  const pageBlockMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#f8f0dc',
-    roughness: 0.9,
-    metalness: 0.0,
+  const pageBlockCream = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#f8f0dc', roughness: 0.9, metalness: 0.0,
   }), []);
+
+  // Face avant du bloc (+Z, index 4) = last-page.jpg révélée quand toutes les pages ont flippé
+  const lastPageUrl = bookPages[bookPages.length - 1];
+  const pageBlockMats = useMemo(() => {
+    const cream = pageBlockCream;
+    const frontMat = new THREE.MeshStandardMaterial({
+      color: '#f8f0dc', roughness: 0.85, metalness: 0.0,
+    });
+    if (lastPageUrl) {
+      new THREE.TextureLoader().load(lastPageUrl, (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        frontMat.map = tex;
+        frontMat.needsUpdate = true;
+      });
+    }
+    // BoxGeometry face order: +X, -X, +Y, -Y, +Z (front), -Z (back)
+    return [cream, cream, cream, cream, frontMat, cream];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastPageUrl]);
 
   // --- Déclencher les retournements en cascade ---
   useEffect(() => {
@@ -154,10 +171,12 @@ export const BookMesh = ({
         </mesh>
       ))}
 
-      {/* ── Bloc de pages (côté droit, visible avant ouverture) ── */}
+      {/* ── Bloc de pages — face avant = last-page.jpg révélée après tous les flips ── */}
       <mesh position={[0, 0, 0]} castShadow receiveShadow>
         <boxGeometry args={[PAGE_W, PAGE_H, BOOK_D - 0.01]} />
-        <primitive object={pageBlockMat} attach="material" />
+        {pageBlockMats.map((mat, i) => (
+          <primitive key={i} object={mat} attach={`material-${i}`} />
+        ))}
       </mesh>
 
       {/* ── Pages individuelles qui se retournent ── */}

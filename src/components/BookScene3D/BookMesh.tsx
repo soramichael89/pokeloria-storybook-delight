@@ -102,8 +102,8 @@ export const BookMesh = ({
       );
     }
 
-    // Callback fin d'animation
-    const totalDuration = COVER_OPEN_DELAY + (PAGE_COUNT - 1) * PER_PAGE_DELAY + 900;
+    // V4 : suspension magique 700ms après la dernière page
+    const totalDuration = COVER_OPEN_DELAY + (PAGE_COUNT - 1) * PER_PAGE_DELAY + 700;
     timers.push(
       setTimeout(() => {
         if (!completedRef.current) {
@@ -116,11 +116,12 @@ export const BookMesh = ({
     return () => timers.forEach(clearTimeout);
   }, [opening, onOpenComplete]);
 
-  // --- Animation ouverture couverture (pivot bord gauche) ---
+  // --- Animation ouverture couverture — s'arrête à mi-ouverture (~105°) ---
+  // V4 : spring avec fort momentum initial → décélération naturelle
   const { coverRotY } = useSpring({
-    coverRotY: opening ? -Math.PI + 0.05 : 0,
+    coverRotY: opening ? -Math.PI * 0.58 : 0,
     delay: COVER_OPEN_DELAY,
-    config: { mass: 1.4, tension: 110, friction: 26 },
+    config: { mass: 2.4, tension: 72, friction: 22 },
   });
 
   // --- Bande dorée sur la tranche ---

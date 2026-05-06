@@ -52,12 +52,13 @@ export const PagePlane = ({ index, total, turned, zOffset, coverColor }: PagePla
     return g;
   }, []);
 
+  // V4 : pages s'arrêtent vers 120° (mi-ouverture), spring fort momentum
   const { rotation } = useSpring({
-    rotation: turned ? -Math.PI + 0.04 : 0,
+    rotation: turned ? -(Math.PI * 0.67) : 0,
     config: {
-      mass: 1.2,
-      tension: 130,
-      friction: 22,
+      mass: 2.0,
+      tension: 95,
+      friction: 21,
     },
   });
 

@@ -181,12 +181,12 @@ const Scene = ({ story, onTransitionToReader }: SceneProps) => {
   const progressRef = useRef(0);
   const th = THEME[story.colorKey] ?? THEME.peach;
 
-  // V4 — rythme cinématique : settle rapide → ouverture → suspension magique
+  // Rythme : couverture visible → settle → ouverture → suspension magique
   useEffect(() => {
     const ts = [
-      setTimeout(() => setPhase(1), 300),   // livre se centre / se redresse
-      setTimeout(() => setPhase(2), 750),   // ouverture démarre (fast spring)
-      setTimeout(() => setPhase(3), 2100),  // suspension magique + glow
+      setTimeout(() => setPhase(1), 400),   // livre se centre
+      setTimeout(() => setPhase(2), 1400),  // ouverture après moment de couverture visible
+      setTimeout(() => setPhase(3), 2800),  // suspension magique
     ];
     return () => ts.forEach(clearTimeout);
   }, []);
@@ -231,14 +231,11 @@ export const BookScene3D = ({ story, onComplete }: BookScene3DProps) => {
   const [overlayOpacity, setOverlayOpacity] = useState(0);
   const th = THEME[story.colorKey] ?? THEME.peach;
 
-  // Précharger la couverture avant d'afficher le canvas → texture dispo dès frame 1
+  // Canvas visible immédiatement — texture injectée impérativement dans BookMesh
   useEffect(() => {
     console.log('[BookScene3D] WebGL scene mounted, story:', story.title);
-    const img = new window.Image();
-    img.onload = () => requestAnimationFrame(() => setCanvasOpacity(1));
-    img.onerror = () => requestAnimationFrame(() => setCanvasOpacity(1));
-    img.src = story.coverImage;
-  }, [story.coverImage]);
+    requestAnimationFrame(() => setCanvasOpacity(1));
+  }, []);
 
   const handleTransitionToReader = useCallback(() => {
     // Fade out vers le reader (fond crème)

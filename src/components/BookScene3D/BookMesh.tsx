@@ -194,17 +194,15 @@ export const BookMesh = ({
       ))}
 
       {/* ── Couverture avant (avec texture) ── */}
+      {/* Groupe pivot au bord gauche, mesh offset +PAGE_W/2 pour couvrir tout le livre */}
       <animated.group
         position={[-PAGE_W / 2, 0, BOOK_D / 2]}
         rotation-y={coverRotY}
       >
-        {/* La géométrie est décalée pour pivoter autour du bord gauche */}
-        <mesh castShadow receiveShadow>
+        <mesh position={[PAGE_W / 2, 0, 0]} castShadow receiveShadow>
           <planeGeometry args={[PAGE_W, PAGE_H]} />
           <primitive object={coverMat} attach="material" />
         </mesh>
-
-        {/* Cadre doré sur la couverture */}
         <CoverFrame />
       </animated.group>
 

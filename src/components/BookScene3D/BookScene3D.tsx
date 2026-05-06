@@ -231,11 +231,14 @@ export const BookScene3D = ({ story, onComplete }: BookScene3DProps) => {
   const [overlayOpacity, setOverlayOpacity] = useState(0);
   const th = THEME[story.colorKey] ?? THEME.peach;
 
-  // Fade in du canvas
+  // Précharger la couverture avant d'afficher le canvas → texture dispo dès frame 1
   useEffect(() => {
     console.log('[BookScene3D] WebGL scene mounted, story:', story.title);
-    requestAnimationFrame(() => setCanvasOpacity(1));
-  }, []);
+    const img = new window.Image();
+    img.onload = () => requestAnimationFrame(() => setCanvasOpacity(1));
+    img.onerror = () => requestAnimationFrame(() => setCanvasOpacity(1));
+    img.src = story.coverImage;
+  }, [story.coverImage]);
 
   const handleTransitionToReader = useCallback(() => {
     // Fade out vers le reader (fond crème)

@@ -9,7 +9,7 @@
  * Lazy-loaded → ne charge Three.js que lors de l'animation.
  * Fallback automatique si WebGL indisponible.
  */
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useSpring, animated } from '@react-spring/three';
 import * as THREE from 'three';
@@ -126,7 +126,7 @@ const MagicParticles = ({ active }: { active: boolean }) => {
     config: { duration: 600 },
   });
 
-  const geo = createParticleGeometry();
+  const geo = useMemo(() => createParticleGeometry(), []);
   const mat = useRef(new THREE.PointsMaterial({
     size: 0.018,
     vertexColors: true,

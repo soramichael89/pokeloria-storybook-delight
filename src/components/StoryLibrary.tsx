@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, lazy, Suspense } from 'react';
+import { useState, useRef, useEffect, lazy, Suspense, Component, ReactNode } from 'react';
 import { Story } from '@/data/stories';
 import { useStories } from '@/contexts/StoriesContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -10,6 +10,15 @@ import { GOLD, THEME } from '@/lib/theme';
 
 // ── BookScene3D lazy-loadé (Three.js ne charge qu'au déclenchement) ──────────
 const BookScene3D = lazy(() => import('./BookScene3D'));
+
+// ── ErrorBoundary pour capturer les crashs WebGL/Three.js ────────────────────
+interface EBProps { fallback: ReactNode; children: ReactNode; }
+interface EBState { crashed: boolean; }
+class SceneErrorBoundary extends Component<EBProps, EBState> {
+  state: EBState = { crashed: false };
+  static getDerivedStateFromError() { return { crashed: true }; }
+  render() { return this.state.crashed ? this.props.fallback : this.props.children; }
+}
 
 // ── Détection WebGL (une seule fois) ─────────────────────────────────────────
 const hasWebGL = (() => {
@@ -458,9 +467,11 @@ const StoryLibrary = ({ header }: StoryLibraryProps) => {
       )}
       {screen === 'opening' && story && (
         hasWebGL ? (
-          <Suspense fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
-            <BookScene3D story={story} onComplete={() => setScreen('reading')} />
-          </Suspense>
+          <SceneErrorBoundary fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
+            <Suspense fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
+              <BookScene3D story={story} onComplete={() => setScreen('reading')} />
+            </Suspense>
+          </SceneErrorBoundary>
         ) : (
           <OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />
         )

@@ -302,3 +302,24 @@ html, body {
   0%, 100% { transform: rotate(-45deg) translateY(0);    }
   50%       { transform: rotate(-45deg) translateY(-4px); }
 }
+
+/* ── V2 Opening Animation ── */
+@keyframes v2BookRise {
+  from {
+    transform: translate(-50%,-50%) scale(0.55) rotateX(52deg) rotateZ(-18deg) translateY(60px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%,-50%) scale(0.88) rotateX(52deg) rotateZ(-18deg) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes v2TurnPage {
+  from {
+    transform: translateZ(calc(var(--page-id, 0) * -1px)) rotateY(0deg);
+  }
+  to {
+    transform: translateZ(calc((var(--page-total, 9) - var(--page-id, 0)) * -1px)) rotateY(-180deg);
+  }
+}

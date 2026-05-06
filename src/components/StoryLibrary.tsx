@@ -4,6 +4,7 @@ import { useStories } from '@/contexts/StoriesContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import StoryCard from './StoryCard';
 import StoryReader from './StoryReader';
+import OpeningAnimationV2 from './OpeningAnimationV2';
 import wallpaper from '@/assets/papierpaint.png';
 import { GOLD, THEME } from '@/lib/theme';
 
@@ -410,127 +411,6 @@ const FocusScreen = ({ story, onBack, onOpen }: { story: Story; onBack: () => vo
   );
 };
 
-// ── Screen: Opening Animation ─────────────────────────────────────────────────
-const OpeningAnimation = ({ story, onComplete }: { story: Story; onComplete: () => void }) => {
-  const [phase, setPhase] = useState(1);
-  const th = THEME[story.colorKey] ?? THEME.peach;
-
-  useEffect(() => {
-    const ts = [
-      setTimeout(() => setPhase(2), 500),
-      setTimeout(() => setPhase(3), 1100),
-      setTimeout(() => setPhase(4), 3300),
-      setTimeout(() => onComplete(), 3950),
-    ];
-    return () => ts.forEach(clearTimeout);
-  }, []); // eslint-disable-line
-
-  const landingPage = story.pages.find(p => p.image) ?? story.pages[0];
-  const isPng = story.coverImage?.endsWith('.png');
-  const imgBg = THEME[story.colorKey]?.bg1 ?? 'hsl(20,75%,94%)';
-
-  return (
-    <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})`, overflow: 'hidden' }}>
-      {BG_STARS.slice(0, 12).map(s => (
-        <div key={s.id} style={{ position: 'absolute', left: s.x + '%', top: s.y + '%', width: s.size, height: s.size, borderRadius: '50%', background: 'white', opacity: 0.6, animation: `twinkle ${s.dur}s ${s.delay}s ease-in-out infinite`, pointerEvents: 'none', zIndex: 0 }} />
-      ))}
-
-      {/* Glow */}
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: phase >= 2 ? 320 : 180, height: phase >= 2 ? 320 : 180, borderRadius: '50%', background: `radial-gradient(${th.glow}, ${th.glow2} 40%, transparent 72%)`, zIndex: 1, pointerEvents: 'none', opacity: phase >= 2 ? 1 : 0.4, transition: 'all 0.6s cubic-bezier(0.34,1.56,0.64,1)' }} />
-
-      {/* Phase 1: book swipes up */}
-      {phase === 1 && (
-        <div style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 5, animation: 'bookSwipeUp 0.55s cubic-bezier(0.4,0,0.6,1) forwards' }}>
-          <StoryCard story={story} onOpen={() => {}} index={0} isActive={true} />
-        </div>
-      )}
-      {/* Phase 2: book returns */}
-      {phase === 2 && (
-        <div style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 5, animation: 'bookReturn 0.65s cubic-bezier(0.34,1.56,0.64,1) forwards' }}>
-          <StoryCard story={story} onOpen={() => {}} index={0} isActive={true} />
-        </div>
-      )}
-
-      {/* Phase 3: open book + particles */}
-      {phase === 3 && (
-        <>
-          <div style={{ position: 'absolute', top: '52%', left: '50%', width: 520, height: 520, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,235,180,0.85), rgba(255,210,160,0.5) 30%, rgba(255,200,200,0.25) 55%, transparent 75%)', zIndex: 1, pointerEvents: 'none', animation: 'warmRayPulse 1.3s 0.1s ease-out forwards', mixBlendMode: 'screen' }} />
-          <div style={{ position: 'absolute', top: '52%', left: '50%', width: 600, height: 600, background: 'conic-gradient(from 0deg, transparent 0deg, rgba(255,235,180,0.35) 25deg, transparent 50deg, rgba(255,210,180,0.3) 90deg, transparent 120deg, rgba(255,225,200,0.32) 170deg, transparent 200deg, rgba(255,230,180,0.28) 250deg, transparent 290deg, rgba(255,225,200,0.3) 330deg, transparent 360deg)', borderRadius: '50%', zIndex: 1, pointerEvents: 'none', animation: 'raysSpin 3s linear infinite', opacity: 0.55, mixBlendMode: 'screen', WebkitMaskImage: 'radial-gradient(circle, black 30%, transparent 70%)', maskImage: 'radial-gradient(circle, black 30%, transparent 70%)' }} />
-          {/* Open book visual */}
-          <div style={{ position: 'absolute', top: '52%', left: '50%', transform: 'translate(-50%,-50%) rotateX(55deg)', transformStyle: 'preserve-3d', perspective: 1400, zIndex: 5, animation: 'fadeInUp 0.5s ease-out' }}>
-            <OpenBook colorKey={story.colorKey} />
-          </div>
-          {/* Pastel stars */}
-          {STARS_CFG.map(s => (
-            <div key={s.id} style={{ position: 'absolute', top: '52%', left: '50%', zIndex: 9, animation: `pastelStar 1.4s ${s.delay}ms cubic-bezier(0.25,0.46,0.45,0.94) forwards`, opacity: 0, ['--sx' as any]: `${s.x}px`, ['--sy' as any]: `${s.y}px`, ['--sr' as any]: `${s.rot}deg` }}>
-              <svg width={s.size} height={s.size} viewBox="0 0 24 24" style={{ display: 'block', filter: `drop-shadow(0 0 6px ${s.color}) drop-shadow(0 0 2px white)` }}>
-                <path d="M12 1 Q13 10 23 12 Q13 14 12 23 Q11 14 1 12 Q11 10 12 1 Z" fill={s.color} opacity="0.95" />
-                <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.9" />
-              </svg>
-            </div>
-          ))}
-          {/* Dust particles */}
-          {DUST_CFG.map(d => (
-            <div key={d.id} style={{ position: 'absolute', top: '52%', left: '50%', width: d.size, height: d.size, borderRadius: '50%', background: d.color, boxShadow: `0 0 ${d.size * 2}px ${d.color}`, zIndex: 8, animation: `pastelDust 1.5s ${d.delay}ms ease-out forwards`, opacity: 0, ['--dx' as any]: `${d.x}px`, ['--dy' as any]: `${d.y}px` }} />
-          ))}
-        </>
-      )}
-
-      {/* Phase 4: white flash → reader preview */}
-      {phase === 4 && (
-        <>
-          <div style={{ position: 'absolute', inset: 0, background: 'white', zIndex: 20, animation: 'whiteFlash 0.6s ease-out forwards' }} />
-          <div style={{ position: 'absolute', inset: 0, zIndex: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', animation: 'finalZoom 0.6s cubic-bezier(0.4,0,0.2,1) forwards' }}>
-            <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${wallpaper})`, backgroundSize: 300, opacity: 0.35 }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(253,248,240,0.70)' }} />
-            <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18, padding: '0 28px' }}>
-              {landingPage?.image && (
-                <div style={{ width: 240, borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(40,20,5,0.14)', outline: '1px solid rgba(201,168,76,0.30)', outlineOffset: 3 }}>
-                  <img src={landingPage.image} alt="" style={{ width: '100%', display: 'block', objectFit: isPng ? 'contain' : 'cover', maxHeight: 170, padding: isPng ? 12 : 0, background: isPng ? imgBg : 'none' }} />
-                </div>
-              )}
-              <p style={{ fontFamily: "'Nunito',sans-serif", fontSize: 15, lineHeight: 1.7, color: 'hsl(25,30%,22%)', textAlign: 'center', maxWidth: 280, opacity: 0.9 }}>
-                {(landingPage?.text ?? '').slice(0, 80)}{(landingPage?.text?.length ?? 0) > 80 ? '…' : ''}
-              </p>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
-
-// ── Open book visual (flat spread, for opening animation phase 3) ─────────────
-const OpenBook = ({ colorKey }: { colorKey: string }) => {
-  const th = THEME[colorKey] ?? THEME.peach;
-  const PW = 150, PH = 200;
-  return (
-    <div style={{ position: 'relative', width: PW * 2 + 20, height: PH + 30, transformStyle: 'preserve-3d' }}>
-      {/* Back cover */}
-      <div style={{ position: 'absolute', left: -12, top: -8, width: PW * 2 + 44, height: PH + 28, background: `linear-gradient(180deg, ${th.spine}, ${th.front})`, borderRadius: 8, boxShadow: '0 18px 40px rgba(40,20,5,0.45), 0 0 0 1px rgba(160,130,55,0.4)', transform: 'translateZ(-8px)' }}>
-        <div style={{ position: 'absolute', inset: 6, border: `1.5px solid ${GOLD}`, borderRadius: 5, opacity: 0.85 }} />
-      </div>
-      {/* Left page */}
-      <div style={{ position: 'absolute', left: 0, top: 0, width: PW, height: PH, background: 'linear-gradient(180deg, hsl(44,38%,96%), hsl(40,32%,92%) 60%, hsl(36,26%,86%))', borderRadius: '4px 1px 1px 4px', boxShadow: 'inset -8px 0 12px rgba(120,90,50,0.18), inset 0 0 30px rgba(255,220,160,0.35)' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to left, rgba(255,235,180,0.55), transparent 55%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: '18px 22px', display: 'flex', flexDirection: 'column', gap: 7, opacity: 0.18 }}>
-          {[0.85, 0.92, 0.7, 0.88, 0.78, 0.92, 0.66, 0.84].map((w, j) => <div key={j} style={{ height: 2, width: `${w * 100}%`, background: 'hsl(25,40%,40%)', borderRadius: 1 }} />)}
-        </div>
-      </div>
-      {/* Right page */}
-      <div style={{ position: 'absolute', left: PW + 20, top: 0, width: PW, height: PH, background: 'linear-gradient(180deg, hsl(44,38%,96%), hsl(40,32%,92%) 60%, hsl(36,26%,86%))', borderRadius: '1px 4px 4px 1px', boxShadow: 'inset 8px 0 12px rgba(120,90,50,0.18), inset 0 0 30px rgba(255,220,160,0.35)' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(255,235,180,0.55), transparent 55%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: '18px 22px', display: 'flex', flexDirection: 'column', gap: 7, opacity: 0.18 }}>
-          {[0.88, 0.78, 0.92, 0.7, 0.86, 0.74, 0.9, 0.8].map((w, j) => <div key={j} style={{ height: 2, width: `${w * 100}%`, background: 'hsl(25,40%,40%)', borderRadius: 1 }} />)}
-        </div>
-      </div>
-      {/* Spine crease */}
-      <div style={{ position: 'absolute', left: PW, top: -2, width: 20, height: PH + 4, background: 'linear-gradient(to right, rgba(60,30,10,0.45), rgba(40,20,5,0.65) 50%, rgba(60,30,10,0.45))', borderRadius: 2, boxShadow: '0 0 12px rgba(255,220,160,0.5)', zIndex: 10 }} />
-      <div style={{ position: 'absolute', left: PW + 10, top: '50%', transform: 'translate(-50%,-50%)', width: 180, height: PH * 1.2, background: 'radial-gradient(ellipse at center, rgba(255,235,180,0.85), rgba(255,210,140,0.4) 35%, transparent 70%)', zIndex: 11, pointerEvents: 'none', mixBlendMode: 'screen' }} />
-    </div>
-  );
-};
-
 // ── Main StoryLibrary (orchestrates all screens) ──────────────────────────────
 
 interface StoryLibraryProps {
@@ -560,7 +440,7 @@ const StoryLibrary = ({ header }: StoryLibraryProps) => {
         <FocusScreen story={story} onBack={() => setScreen('library')} onOpen={() => setScreen('opening')} />
       )}
       {screen === 'opening' && story && (
-        <OpeningAnimation story={story} onComplete={() => setScreen('reading')} />
+        <OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />
       )}
       {screen === 'reading' && story && (
         <StoryReader story={story} onClose={() => { setScreen('library'); setStory(null); }} />

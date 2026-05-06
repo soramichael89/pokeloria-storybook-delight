@@ -100,6 +100,7 @@ const FloatingBook = ({ story, phase, onOpenComplete }: FloatingBookProps) => {
         frontColor={th.front}
         opening={phase >= 2}
         onOpenComplete={onOpenComplete}
+        bookPages={story.bookPages}
       />
     </animated.group>
   );

@@ -35,6 +35,8 @@ interface BookMeshProps {
   opening: boolean;
   /** callback quand l'animation est terminée */
   onOpenComplete: () => void;
+  /** Pages recto/verso : [recto1, verso1, recto2, verso2, ...] */
+  bookPages?: string[];
 }
 
 export const BookMesh = ({
@@ -43,6 +45,7 @@ export const BookMesh = ({
   frontColor,
   opening,
   onOpenComplete,
+  bookPages = [],
 }: BookMeshProps) => {
   const [coverTex, setCoverTex] = useState<THREE.Texture | null>(null);
   const [turnedPages, setTurnedPages] = useState<boolean[]>(Array(PAGE_COUNT).fill(false));
@@ -166,6 +169,8 @@ export const BookMesh = ({
           turned={turnedPages[i]}
           zOffset={BOOK_D / 2 - 0.005}
           coverColor={frontColor}
+          rectoUrl={bookPages[i * 2]}
+          versoUrl={bookPages[i * 2 + 1]}
         />
       ))}
 

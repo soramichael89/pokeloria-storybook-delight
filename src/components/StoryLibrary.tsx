@@ -7,6 +7,7 @@ import StoryReader from './StoryReader';
 import OpeningAnimationV2 from './OpeningAnimationV2';
 import wallpaper from '@/assets/papierpaint.png';
 import { GOLD, THEME } from '@/lib/theme';
+import { preloadCoverTexture } from './BookScene3D/coverTextureGenerator';
 
 // ── FocusScene3D lazy-loadé (Three.js ne charge qu'au clic sur un livre) ─────
 const FocusScene3D = lazy(() => import('./BookScene3D/FocusScene3D'));
@@ -467,9 +468,7 @@ const StoryLibrary = ({ header }: StoryLibraryProps) => {
   if (!stories.length) return null;
 
   const select = (s: Story) => {
-    // Précharger l'image de couverture maintenant → dans le cache browser quand generateCoverTexture s'exécute
-    const img = new window.Image();
-    img.src = s.coverImage;
+    preloadCoverTexture(s); // démarre le dessin canvas + cache la texture AVANT que BookMesh monte
     setStory(s);
     setActiveIndex(stories.findIndex(x => x.id === s.id));
     setScreen('focus');

@@ -105,10 +105,27 @@ function drawCornerOrnament(ctx: CanvasRenderingContext2D, cx: number, cy: numbe
   ctx.restore();
 }
 
+// Cache : clé = coverImage URL, valeur = texture prête ou liste de callbacks en attente
+const _cache = new Map<string, THREE.Texture | Array<(t: THREE.Texture) => void>>();
+
+export function preloadCoverTexture(
+  story: { title: string; theme: string; coverImage: string; colorKey: string }
+): void {
+  generateCoverTexture(story, () => {}); // déclenche la génération, résultat mis en cache
+}
+
 export function generateCoverTexture(
   story: { title: string; theme: string; coverImage: string; colorKey: string },
   onReady: (tex: THREE.Texture) => void
 ): void {
+  // Texture déjà prête → livraison immédiate
+  const cached = _cache.get(story.coverImage);
+  if (cached instanceof THREE.Texture) { onReady(cached); return; }
+  // Génération en cours → s'abonner
+  if (Array.isArray(cached)) { cached.push(onReady); return; }
+  // Nouvelle génération → initialiser la file de callbacks
+  const callbacks: Array<(t: THREE.Texture) => void> = [onReady];
+  _cache.set(story.coverImage, callbacks);
   const colors   = FRONT_COLORS[story.colorKey]  ?? FRONT_COLORS.peach;
   const imgBgCol = IMG_BG_COLORS[story.colorKey] ?? IMG_BG_COLORS.peach;
   const isPng    = story.coverImage?.toLowerCase().endsWith('.png');
@@ -265,7 +282,9 @@ export function generateCoverTexture(
     const tex = new THREE.Texture(canvas);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.needsUpdate = true;
-    onReady(tex);
+    // Mettre en cache et notifier tous les abonnés
+    _cache.set(story.coverImage, tex);
+    callbacks.forEach(cb => cb(tex));
   }
 
   const img = new window.Image();

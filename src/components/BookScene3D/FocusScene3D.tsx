@@ -15,21 +15,18 @@ import { BookLights } from './BookLights';
 import { Story } from '@/data/stories';
 import { THEME } from '@/lib/theme';
 
-// ── Caméra : part de loin/isométrique → frontale quand triggered ─────────────
-const CameraRig = ({ triggered, dragProgress }: { triggered: boolean; dragProgress: number }) => {
+// ── Caméra : part de loin → frontale quand triggered ─────────────────────────
+const CameraRig = ({ triggered, dragY }: { triggered: boolean; dragY: number }) => {
   const { camera } = useThree();
-  // Focus : légèrement décalé pour montrer l'aspect 3D du livre
   const targetRef = useRef({ x: 0.28, y: 0.22, z: 7.5 });
 
   useEffect(() => {
-    if (triggered) {
-      targetRef.current = { x: 0.05, y: 0.08, z: 4.8 };
-    }
+    if (triggered) targetRef.current = { x: 0.05, y: 0.08, z: 4.8 };
   }, [triggered]);
 
   useFrame((_, delta) => {
-    // La caméra se rapproche aussi légèrement au fur et à mesure du drag
-    const zTarget = triggered ? targetRef.current.z : 7.5 - dragProgress * 0.8;
+    // Léger zoom quand on tire vers le haut
+    const zTarget = triggered ? targetRef.current.z : 7.5 + dragY * 0.004;
     const speed = triggered ? 2.8 : 1.2;
     camera.position.x += (targetRef.current.x - camera.position.x) * speed * delta;
     camera.position.y += (targetRef.current.y - camera.position.y) * speed * delta;
@@ -44,36 +41,44 @@ const CameraRig = ({ triggered, dragProgress }: { triggered: boolean; dragProgre
 interface FloatingBookProps {
   story: Story;
   phase: number;
-  dragProgress: number;
+  dragX: number;
+  dragY: number;
   onOpenComplete: () => void;
 }
 
-const FloatingBook = ({ story, phase, dragProgress, onOpenComplete }: FloatingBookProps) => {
+const FloatingBook = ({ story, phase, dragX, dragY, onOpenComplete }: FloatingBookProps) => {
   const th = THEME[story.colorKey] ?? THEME.peach;
   const floatRef = useRef(0);
+  const posXRef = useRef(0);
   const posYRef = useRef(0);
   const meshGroupRef = useRef<THREE.Group>(null!);
 
   useFrame((_, delta) => {
     if (!meshGroupRef.current) return;
     floatRef.current += delta;
-    // Flottement rapide comme la lib CSS (period ~3.2s → ω≈1.96), amplitude visible
-    const floatY  = Math.sin(floatRef.current * 1.9) * 0.09;
-    const targetY = phase >= 1 ? 0 : dragProgress * 1.4; // monte jusqu'à 1.4 unités
-    posYRef.current += (targetY - posYRef.current) * Math.min(1, delta * 8);
+    const floatY = Math.sin(floatRef.current * 1.9) * 0.09;
+
+    // Position suit le doigt librement (clampée) — s'annule quand triggered
+    const targetX = phase >= 1 ? 0 : dragX * 0.007;
+    const targetY = phase >= 1 ? 0 : -dragY * 0.007;
+    posXRef.current += (targetX - posXRef.current) * Math.min(1, delta * 12);
+    posYRef.current += (targetY - posYRef.current) * Math.min(1, delta * 12);
+
+    meshGroupRef.current.position.x = posXRef.current;
     meshGroupRef.current.position.y = floatY + posYRef.current;
   });
 
-  // Inclinaison légère au repos (cover bien visible) → penche vers caméra au drag
+  // Rotation suit le drag dans toutes les directions
+  const dragMag = Math.sqrt(dragX * dragX + dragY * dragY);
   const { rotX, rotY } = useSpring({
-    rotX: phase >= 1 ? 0.05 : 0.12 + dragProgress * 0.55,  // part face-on, penche au drag
-    rotY: phase >= 1 ? 0.0  : -0.10 + dragProgress * 0.10,
-    config: { mass: 0.8, tension: 180, friction: 18 },
+    rotX: phase >= 1 ? 0.05 : 0.12 - dragY * 0.006,   // drag haut → penche vers cam
+    rotY: phase >= 1 ? 0.0  : -0.10 + dragX * 0.006,  // drag droite → tourne droite
+    config: { mass: 0.5, tension: 320, friction: 22 },  // très réactif, colle au doigt
   });
 
   const { scale } = useSpring({
-    scale: phase >= 2 ? 1.06 : 0.92 + dragProgress * 0.16, // grandit au drag
-    config: { mass: 0.8, tension: 160, friction: 16 },
+    scale: phase >= 2 ? 1.06 : 0.92 + Math.min(dragMag, 120) * 0.001,
+    config: { mass: 0.6, tension: 200, friction: 18 },
   });
 
   return (
@@ -149,11 +154,12 @@ const MagicParticles = ({ active, themeColors }: { active: boolean; themeColors:
 interface FocusSceneProps {
   story: Story;
   triggered: boolean;
-  dragProgress: number;
+  dragX: number;
+  dragY: number;
   onTransitionToReader: () => void;
 }
 
-const FocusSceneInner = ({ story, triggered, dragProgress, onTransitionToReader }: FocusSceneProps) => {
+const FocusSceneInner = ({ story, triggered, dragX, dragY, onTransitionToReader }: FocusSceneProps) => {
   const [phase, setPhase] = useState(0);
   const [openProgress, setOpenProgress] = useState(0);
   const progressRef = useRef(0);
@@ -184,9 +190,9 @@ const FocusSceneInner = ({ story, triggered, dragProgress, onTransitionToReader 
 
   return (
     <>
-      <CameraRig triggered={triggered} dragProgress={dragProgress} />
+      <CameraRig triggered={triggered} dragY={dragY} />
       <BookLights openProgress={openProgress} glowColor={th.glow} spineColor={th.spark} />
-      <FloatingBook story={story} phase={phase} dragProgress={dragProgress} onOpenComplete={handleOpenComplete} />
+      <FloatingBook story={story} phase={phase} dragX={dragX} dragY={dragY} onOpenComplete={handleOpenComplete} />
       <MagicParticles active={phase >= 3} themeColors={themeColors} />
       <mesh position={[0, -2.5, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[20, 20]} />
@@ -200,11 +206,12 @@ const FocusSceneInner = ({ story, triggered, dragProgress, onTransitionToReader 
 interface FocusScene3DProps {
   story: Story;
   triggered: boolean;
-  dragProgress: number;
+  dragX: number;
+  dragY: number;
   onComplete: () => void;
 }
 
-export const FocusScene3D = ({ story, triggered, dragProgress, onComplete }: FocusScene3DProps) => {
+export const FocusScene3D = ({ story, triggered, dragX, dragY, onComplete }: FocusScene3DProps) => {
   const [overlayOpacity, setOverlayOpacity] = useState(0);
   const [introOpacity, setIntroOpacity] = useState(0);
   const th = THEME[story.colorKey] ?? THEME.peach;
@@ -241,7 +248,8 @@ export const FocusScene3D = ({ story, triggered, dragProgress, onComplete }: Foc
         <FocusSceneInner
           story={story}
           triggered={triggered}
-          dragProgress={dragProgress}
+          dragX={dragX}
+          dragY={dragY}
           onTransitionToReader={handleTransitionToReader}
         />
       </Canvas>

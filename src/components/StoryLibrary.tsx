@@ -331,37 +331,38 @@ const LibraryScreen = ({ stories, active, setActive, onSelect, header }: {
 // ── Screen: Focus — livre 3D seamless, swipe up déclenche l'ouverture ─────────
 const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () => void; onComplete: () => void }) => {
   const { t } = useLanguage();
-  const [dragY, setDragY] = useState(0);
+  const [drag, setDrag] = useState({ x: 0, y: 0 });
   const [triggered, setTriggered] = useState(false);
-  const startYRef = useRef<number | null>(null);
+  const startRef = useRef({ x: 0, y: 0 });
   const isDragging = useRef(false);
-  const dragYRef = useRef(0);
-  const THRESHOLD = 110;
-  const prog = Math.min(1, Math.max(0, -dragY) / THRESHOLD);
-  const isReady = prog >= 0.78;
+  const hasMoved = useRef(false);
+  const dragRef = useRef({ x: 0, y: 0 });
   const th = THEME[story.colorKey] ?? THEME.peach;
+
+  // Magnitude du drag pour le glow
+  const dragMag = Math.min(1, Math.sqrt(drag.x * drag.x + drag.y * drag.y) / 120);
+  const glowSize = 180 + dragMag * 140;
 
   useEffect(() => {
     if (triggered) return;
     const handleMove = (e: MouseEvent | TouchEvent) => {
-      if (!isDragging.current || startYRef.current === null) return;
+      if (!isDragging.current) return;
       e.preventDefault();
+      const x = (e as TouchEvent).touches?.[0]?.clientX ?? (e as MouseEvent).clientX;
       const y = (e as TouchEvent).touches?.[0]?.clientY ?? (e as MouseEvent).clientY;
-      const delta = y - startYRef.current;
-      const clamped = Math.min(20, delta);
-      dragYRef.current = clamped;
-      setDragY(clamped);
+      const dx = x - startRef.current.x;
+      const dy = y - startRef.current.y;
+      // Clamp pour garder le livre dans un range raisonnable
+      const cx = Math.max(-160, Math.min(160, dx));
+      const cy = Math.max(-160, Math.min(160, dy));
+      dragRef.current = { x: cx, y: cy };
+      setDrag({ x: cx, y: cy });
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) hasMoved.current = true;
     };
     const handleUp = () => {
       if (!isDragging.current) return;
       isDragging.current = false;
-      const p = Math.min(1, Math.max(0, -dragYRef.current) / THRESHOLD);
-      if (p >= 0.68) {
-        setTriggered(true);
-      } else {
-        setDragY(0);
-        dragYRef.current = 0;
-      }
+      setTriggered(true); // release = toujours ouvrir
     };
     document.addEventListener('touchmove', handleMove, { passive: false });
     document.addEventListener('touchend', handleUp);
@@ -378,11 +379,12 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
   const startDrag = (e: React.MouseEvent | React.TouchEvent) => {
     if (triggered) return;
     e.preventDefault();
-    startYRef.current = (e as React.TouchEvent).touches?.[0]?.clientY ?? (e as React.MouseEvent).clientY;
+    const x = (e as React.TouchEvent).touches?.[0]?.clientX ?? (e as React.MouseEvent).clientX;
+    const y = (e as React.TouchEvent).touches?.[0]?.clientY ?? (e as React.MouseEvent).clientY;
+    startRef.current = { x, y };
+    hasMoved.current = false;
     isDragging.current = true;
   };
-
-  const glowSize = 180 + prog * 140;
 
   return (
     <div
@@ -408,7 +410,8 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
         <FocusScene3D
           story={story}
           triggered={triggered}
-          dragProgress={prog}
+          dragX={drag.x}
+          dragY={drag.y}
           onComplete={onComplete}
         />
       </Suspense>
@@ -430,28 +433,14 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
           </svg>
         </button>
 
-        {/* Swipe hint — centré avec flexbox */}
-        <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', zIndex: 2, opacity: isReady ? 0 : 0.75, transition: 'opacity 0.3s', pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+        {/* Hint — "touche et bouge le livre, relâche pour ouvrir" */}
+        <div style={{ position: 'absolute', bottom: 80, left: '50%', transform: 'translateX(-50%)', zIndex: 2, opacity: triggered ? 0 : 0.75, transition: 'opacity 0.3s', pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
           <div style={{ animation: 'swipeHint 1.6s ease-in-out infinite', display: 'flex', justifyContent: 'center' }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(25,30%,30%)" strokeWidth="2" strokeLinecap="round">
               <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
             </svg>
           </div>
           <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 600, color: 'hsl(25,30%,35%)', whiteSpace: 'nowrap' }}>{t.swipeHint}</div>
-        </div>
-        {isReady && (
-          <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', zIndex: 2, animation: 'fadeInUp 0.3s ease-out', whiteSpace: 'nowrap' }}>
-            <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 16, fontWeight: 700, color: th.spine, textShadow: '0 0 20px white', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-              <Sparkle size={14} color={th.spine} />
-              <span>{t.releaseToOpen}</span>
-              <Sparkle size={12} color={th.spine} />
-            </div>
-          </div>
-        )}
-
-        {/* Progress bar */}
-        <div style={{ position: 'absolute', bottom: 60, left: 60, right: 60, height: 4, background: 'rgba(40,20,5,0.10)', borderRadius: 2, zIndex: 2, overflow: 'hidden' }}>
-          <div style={{ height: '100%', width: (prog * 100) + '%', background: `linear-gradient(to right, ${th.spine}, ${GOLD})`, borderRadius: 2, transition: 'width 0.05s' }} />
         </div>
       </div>
     </div>

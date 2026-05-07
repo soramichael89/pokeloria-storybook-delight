@@ -57,9 +57,9 @@ export const BookMesh = ({
     color: frontColor, roughness: 0.78, metalness: 0.04,
   }), [frontColor]);
 
-  // Couverture générée via Canvas 2D (même look que StoryCard)
-  const coverMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: frontColor, roughness: 0.78, metalness: 0.04,
+  // Couverture générée via Canvas 2D — MeshBasicMaterial pour luminosité identique au StoryCard (pas d'ombrage PBR)
+  const coverMat = useMemo(() => new THREE.MeshBasicMaterial({
+    color: frontColor,
   }), [frontColor]);
 
   useEffect(() => {
@@ -183,9 +183,9 @@ export const BookMesh = ({
       ))}
 
       {/* ── Couverture avant (avec texture) ── */}
-      {/* Groupe pivot au bord gauche, mesh offset +PAGE_W/2 pour couvrir tout le livre */}
+      {/* z = au-dessus de toutes les PagePlanes (max stackZ = PAGE_COUNT*0.004 + BOOK_D/2-0.005 ≈ 0.121) */}
       <animated.group
-        position={[-PAGE_W / 2, 0, BOOK_D / 2]}
+        position={[-PAGE_W / 2, 0, PAGE_COUNT * 0.004 + BOOK_D / 2 - 0.005 + 0.003]}
         rotation-y={coverRotY}
       >
         <mesh position={[PAGE_W / 2, 0, 0]} castShadow receiveShadow>

@@ -17,6 +17,7 @@ interface EBState { crashed: boolean; }
 class SceneErrorBoundary extends Component<EBProps, EBState> {
   state: EBState = { crashed: false };
   static getDerivedStateFromError() { return { crashed: true }; }
+  componentDidCatch(error: Error) { console.error('[BookScene3D ERROR]', error.message, error.stack); }
   render() { return this.state.crashed ? this.props.fallback : this.props.children; }
 }
 
@@ -466,15 +467,11 @@ const StoryLibrary = ({ header }: StoryLibraryProps) => {
         <FocusScreen story={story} onBack={() => setScreen('library')} onOpen={() => setScreen('opening')} />
       )}
       {screen === 'opening' && story && (
-        hasWebGL ? (
-          <SceneErrorBoundary fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
-            <Suspense fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
-              <BookScene3D story={story} onComplete={() => setScreen('reading')} />
-            </Suspense>
-          </SceneErrorBoundary>
-        ) : (
-          <OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />
-        )
+        <SceneErrorBoundary fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
+          <Suspense fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
+            <BookScene3D story={story} onComplete={() => setScreen('reading')} />
+          </Suspense>
+        </SceneErrorBoundary>
       )}
       {screen === 'reading' && story && (
         <StoryReader story={story} onClose={() => { setScreen('library'); setStory(null); }} />

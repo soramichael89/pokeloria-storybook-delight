@@ -25,36 +25,50 @@ export const BookLights = ({ openProgress, spineColor }: BookLightsProps) => {
   const rimRef    = useRef<THREE.PointLight>(null!);
   const spineRef  = useRef<THREE.PointLight>(null!);
   const fillRef   = useRef<THREE.PointLight>(null!);
+  const frontRef  = useRef<THREE.PointLight>(null!);
 
   useFrame(() => {
     if (mainRef.current) {
-      // Principale : 1.4 → 3.2 pendant ouverture
-      mainRef.current.intensity = 1.4 + openProgress * 1.8;
+      // Principale : 3.5 → 5.5 pendant ouverture
+      mainRef.current.intensity = 3.5 + openProgress * 2.0;
+    }
+    if (frontRef.current) {
+      // Lumière frontale douce — pages lisibles comme du papier éclairé
+      frontRef.current.intensity = 2.8 + openProgress * 1.2;
     }
     if (spineRef.current) {
-      // Tranche thématique : 0 → 4.5, couleur du livre
-      spineRef.current.intensity = openProgress * 4.5;
+      // Tranche thématique : 0 → 5, couleur du livre
+      spineRef.current.intensity = openProgress * 5.0;
     }
     if (rimRef.current) {
-      rimRef.current.intensity = 0.45 + openProgress * 0.4;
+      rimRef.current.intensity = 0.8 + openProgress * 0.6;
     }
     if (fillRef.current) {
-      // Uplighting magique s'intensifie à la suspension (phase 3)
-      fillRef.current.intensity = 0.15 + openProgress * 0.55;
+      fillRef.current.intensity = 0.5 + openProgress * 0.8;
     }
   });
 
   return (
     <>
-      {/* Ambiance générale — s'éclaircit légèrement à l'ouverture */}
-      <ambientLight intensity={0.40 + openProgress * 0.15} color="#fff8f0" />
+      {/* Ambiance forte — pages claires comme du papier blanc */}
+      <ambientLight intensity={1.6 + openProgress * 0.4} color="#fff8f0" />
+
+      {/* Lumière frontale — face à la caméra, éclaire les pages uniformément */}
+      <pointLight
+        ref={frontRef}
+        position={[0, 0.5, 6]}
+        color="#fff5e8"
+        intensity={2.8}
+        distance={18}
+        decay={1.5}
+      />
 
       {/* Lumière principale — warm top-right dramatique */}
       <pointLight
         ref={mainRef}
         position={[2.5, 4.5, 3]}
         color="#ffe8c0"
-        intensity={1.4}
+        intensity={3.5}
         distance={20}
         decay={2}
         castShadow
@@ -68,7 +82,7 @@ export const BookLights = ({ openProgress, spineColor }: BookLightsProps) => {
         ref={rimRef}
         position={[-4, 2, -3]}
         color="#d0e8ff"
-        intensity={0.45}
+        intensity={0.8}
         distance={12}
         decay={2}
       />
@@ -88,7 +102,7 @@ export const BookLights = ({ openProgress, spineColor }: BookLightsProps) => {
         ref={fillRef}
         position={[0, -3.5, 2]}
         color={spineColor}
-        intensity={0.15}
+        intensity={0.5}
         distance={12}
         decay={2}
       />

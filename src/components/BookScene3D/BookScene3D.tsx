@@ -227,14 +227,11 @@ interface BookScene3DProps {
 }
 
 export const BookScene3D = ({ story, onComplete }: BookScene3DProps) => {
-  const [canvasOpacity, setCanvasOpacity] = useState(0);
   const [overlayOpacity, setOverlayOpacity] = useState(0);
   const th = THEME[story.colorKey] ?? THEME.peach;
 
-  // Canvas visible immédiatement — texture injectée impérativement dans BookMesh
   useEffect(() => {
     console.log('[BookScene3D] WebGL scene mounted, story:', story.title);
-    requestAnimationFrame(() => setCanvasOpacity(1));
   }, []);
 
   const handleTransitionToReader = useCallback(() => {
@@ -246,8 +243,6 @@ export const BookScene3D = ({ story, onComplete }: BookScene3DProps) => {
   return (
     <div style={{
       position: 'absolute', inset: 0, zIndex: 10,
-      opacity: canvasOpacity,
-      transition: 'opacity 0.25s ease-out',
       background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})`,
     }}>
       <Canvas

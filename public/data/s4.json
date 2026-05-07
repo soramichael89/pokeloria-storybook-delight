@@ -14,35 +14,268 @@
   "colorKey": "sky",
   "coverImage": "/assets/images/s4/retrouvailles.png",
   "pages": [
-    { "type": "text", "text": { "fr": "Un matin paisible à Pokopia…\n\nun cri brise le silence du village.", "es": "Una mañana tranquila en Pokopia…\n\nun grito rompe el silencio del pueblo.", "gl": "Unha mañá tranquila en Pokopia…\n\nun berro rompe o silencio da aldea." } },
-    { "type": "text", "text": { "fr": "— Mon bébé !\n\n— Mon bébé a disparu !", "es": "— ¡Mi bebé!\n\n— ¡Mi bebé ha desaparecido!", "gl": "— O meu bebé!\n\n— O meu bebé desapareceu!" } },
-    { "type": "text", "text": { "fr": "Une maman Kangourex regarde autour d'elle, paniquée.\n\nSa poche est vide.\n\nPour la première fois… son petit n'est plus là.", "es": "Una mamá Kangaskhan mira a su alrededor, presa del pánico.\n\nSu bolsa está vacía.\n\nPor primera vez… su pequeño ya no está.", "gl": "Unha mamá Kangourex mira ao seu redor, presa do pánico.\n\nA súa bolsa está baleira.\n\nPola primeira vez… o seu pequeno xa non está." } },
-    { "type": "text", "text": { "fr": "Très vite, une mission est envoyée à toutes les équipes d'aventuriers.\n\nRetrouver le bébé Kangourex.", "es": "Rápidamente, se envía una misión a todos los equipos de aventureros.\n\nEncontrar al bebé Kangaskhan.", "gl": "Rapidamente, envíase unha misión a todos os equipos de aventureiros.\n\nAtopar o bebé Kangourex." } },
-    { "type": "text", "text": { "fr": "Les équipes fouillent le village.\n\nAucune trace de combat.\nAucune empreinte suspecte.\n\nRien.", "es": "Los equipos registran el pueblo.\n\nNingún rastro de combate.\nNinguna huella sospechosa.\n\nNada.", "gl": "Os equipos rexistran a aldea.\n\nNingún rastro de combate.\nNingún pegada sospeitosa.\n\nNada." } },
-    { "type": "text", "text": { "fr": "Puis un Pokémon s'approche, hésitant.\n\n— J'ai vu quelqu'un…\n\n— Avec une casquette noire… et des éclairs autour de lui…", "es": "Luego un Pokémon se acerca, dudando.\n\n— Vi a alguien…\n\n— Con una gorra negra… y rayos a su alrededor…", "gl": "Logo un Pokémon achégase, dubidando.\n\n— Vin a alguén…\n\n— Cunha gorra negra… e raios ao seu redor…" } },
-    { "type": "text", "text": { "fr": "Un silence tombe.\n\n— C'est lui…\n— Le Pikachu à la casquette noire…", "es": "Un silencio cae.\n\n— Es él…\n— El Pikachu de la gorra negra…", "gl": "Un silencio cae.\n\n— É el…\n— O Pikachu da gorra negra…" } },
-    { "type": "text", "text": { "fr": "On l'appelle…\n\nNoctachu.", "es": "Lo llaman…\n\nNoctachu.", "gl": "Chámanlle…\n\nNoctachu." } },
-    { "type": "text", "text": { "fr": "En cherchant près de la forêt, les aventuriers trouvent un indice.\n\nUn morceau de tissu noir… comme une casquette.", "es": "Buscando cerca del bosque, los aventureros encuentran una pista.\n\nUn trozo de tela negra… como una gorra.", "gl": "Buscando preto do bosque, os aventureiros atopan unha pista.\n\nUn anaco de tea negra… coma unha gorra." } },
-    { "type": "text", "text": { "fr": "Et juste à côté…\n\nDe petites traces.\n\nCelles du bébé Kangourex.", "es": "Y justo al lado…\n\nPequeñas huellas.\n\nLas del bebé Kangaskhan.", "gl": "E xusto ao lado…\n\nPequenas pegadas.\n\nAs do bebé Kangourex." } },
-    { "type": "text", "text": { "fr": "Mais ces traces ne montrent pas une fuite.\n\nElles montrent qu'il a suivi quelqu'un.", "es": "Pero estas huellas no muestran una huida.\n\nMuestran que siguió a alguien.", "gl": "Pero estas pegadas non mostran unha fuxida.\n\nMostran que seguiu a alguén." } },
-    { "type": "text", "text": { "fr": "Les équipes s'enfoncent dans la forêt.\n\nLe silence devient lourd.", "es": "Los equipos se adentran en el bosque.\n\nEl silencio se vuelve pesado.", "gl": "Os equipos ádéntranse no bosque.\n\nO silencio vólvese pesado." } },
-    { "type": "text-image", "text": { "fr": "Au cœur de la forêt…\n\nUn petit cri.\n\nLe bébé Kangourex est là.\n\nSeul…\nun peu perdu…\net il pleure doucement.", "es": "En el corazón del bosque…\n\nUn pequeño llanto.\n\nEl bebé Kangaskhan está ahí.\n\nSolo…\nun poco perdido…\ny llora suavemente.", "gl": "No corazón do bosque…\n\nUn pequeno choro.\n\nO bebé Kangourex está alí.\n\nSo…\nun pouco perdido…\ne chora suavemente." }, "image": "/assets/images/s4/bebe_triste.png" },
-    { "type": "text-image", "text": { "fr": "Puis, dans l'ombre…\n\nNoctachu apparaît.\n\nSilencieux.\n\nIl observe.\n\nSans agressivité… mais avec une présence étrange.", "es": "Luego, en la sombra…\n\nNoctachu aparece.\n\nSilencioso.\n\nObserva.\n\nSin agresividad… pero con una presencia extraña.", "gl": "Logo, na sombra…\n\nNoctachu aparece.\n\nSilencioso.\n\nObserva.\n\nSen agresividade… pero cunha presenza estraña." }, "image": "/assets/images/s4/noctachu.png" },
-    { "type": "text", "text": { "fr": "— Je ne lui ai rien fait.\n\n— Je voulais juste voir… si quelqu'un viendrait le chercher.", "es": "— No le hice nada.\n\n— Solo quería ver… si alguien vendría a buscarlo.", "gl": "— Non lle fixen nada.\n\n— Só quería ver… se alguén viría buscalo." } },
-    { "type": "text", "text": { "fr": "Les aventuriers se regardent, surpris.", "es": "Los aventureros se miran, sorprendidos.", "gl": "Os aventureiros míranre, sorprendidos." } },
-    { "type": "text", "text": { "fr": "— Vous parlez toujours d'entraide…\n— de courage…\n\n— Je voulais savoir si c'était vrai.", "es": "— Siempre hablan de ayuda mutua…\n— de valentía…\n\n— Quería saber si era verdad.", "gl": "— Sempre falades de axuda mutua…\n— de valentía…\n\n— Quería saber se era verdade." } },
-    { "type": "text", "text": { "fr": "Un éclair fend le ciel.\n\nCapitaine Pikachu arrive.", "es": "Un rayo cruza el cielo.\n\nEl Capitán Pikachu llega.", "gl": "Un raio fende o ceo.\n\nO Capitán Pikachu chega." } },
-    { "type": "text", "text": { "fr": "— Ce n'est pas comme ça qu'on apprend à faire confiance, Noctachu.", "es": "— No es así como se aprende a confiar, Noctachu.", "gl": "— Non é así como se aprende a confiar, Noctachu." } },
-    { "type": "text", "text": { "fr": "Les deux Pikachu se font face.\n\nMême puissance.\n\nMais une énergie différente.", "es": "Los dos Pikachu se enfrentan.\n\nMismo poder.\n\nPero una energía diferente.", "gl": "Os dous Pikachu enfróntanse.\n\nMesmo poder.\n\nPero unha enerxía diferente." } },
-    { "type": "text", "text": { "fr": "Les aventuriers interviennent doucement.\n\n— Ce bébé a une maman qui l'attend.\n\n— Elle a eu très peur.", "es": "Los aventureros intervienen suavemente.\n\n— Este bebé tiene una mamá que lo espera.\n\n— Ella tuvo mucho miedo.", "gl": "Os aventureiros interveñen suavemente.\n\n— Este bebé ten unha mamá que o agarda.\n\n— Ela tivo moito medo." } },
-    { "type": "text", "text": { "fr": "Un silence s'installe.\n\nNoctachu regarde le bébé…\n\nPuis détourne le regard.", "es": "Un silencio se instala.\n\nNoctachu mira al bebé…\n\nLuego aparta la mirada.", "gl": "Un silencio instálase.\n\nNoctachu mira o bebé…\n\nLogo aparta a mirada." } },
-    { "type": "text", "text": { "fr": "— …Je vois.", "es": "— …Ya veo.", "gl": "— …Xa vexo." } },
-    { "type": "text", "text": { "fr": "Il soupire légèrement.\n\n— Prenez-le.", "es": "Suspira levemente.\n\n— Llévenselo.", "gl": "Suspira levemente.\n\n— Levádeo." } },
-    { "type": "text", "text": { "fr": "Le bébé Kangourex est récupéré.\n\nSain et sauf.", "es": "El bebé Kangaskhan es recuperado.\n\nSano y salvo.", "gl": "O bebé Kangourex é recuperado.\n\nSan e salvo." } },
-    { "type": "text-image", "text": { "fr": "De retour au village…\n\nLa maman Kangourex serre son petit contre elle.\n\nElle ne le lâche plus.\n\nLe bébé est enfin en sécurité.", "es": "De vuelta en el pueblo…\n\nLa mamá Kangaskhan abraza a su pequeño.\n\nYa no lo suelta.\n\nEl bebé está por fin a salvo.", "gl": "De volta na aldea…\n\nA mamá Kangourex aperta o seu pequeno contra ela.\n\nXa non o solta.\n\nO bebé está por fin en seguridade." }, "image": "/assets/images/s4/retrouvailles.png" },
-    { "type": "text", "text": { "fr": "Capitaine Pikachu regarde au loin, pensif.\n\n— Certains ne sont pas méchants…\n\n— Ils sont juste perdus.", "es": "El Capitán Pikachu mira a lo lejos, pensativo.\n\n— Algunos no son malos…\n\n— Solo están perdidos.", "gl": "O Capitán Pikachu mira ao lonxe, pensativo.\n\n— Algúns non son malos…\n\n— Só están perdidos." } },
-    { "type": "text", "text": { "fr": "Ce jour-là, les aventuriers n'ont pas gagné par la force.\n\nIls ont gagné par la compréhension.", "es": "Ese día, los aventureros no ganaron por la fuerza.\n\nGanaron por la comprensión.", "gl": "Ese día, os aventureiros non gañaron pola forza.\n\nGañaron pola comprensión." } },
-    { "type": "text", "text": { "fr": "Parce que parfois…\n\nil n'y a pas de méchanceté.\n\nJuste quelqu'un qui cherche sa place.", "es": "Porque a veces…\n\nno hay maldad.\n\nSolo alguien que busca su lugar.", "gl": "Porque ás veces…\n\nnon hai maldade.\n\nSó alguén que busca o seu lugar." } },
-    { "type": "text", "text": { "fr": "La vraie force…\n\nce n'est pas de combattre.\n\nC'est de savoir tendre la main.\n\nMême dans l'ombre.", "es": "La verdadera fuerza…\n\nno es combatir.\n\nEs saber tender la mano.\n\nIncluso en la sombra.", "gl": "A verdadeira forza…\n\nnon é combater.\n\nÉ saber tender a man.\n\nAta na sombra." } }
+    {
+      "type": "text",
+      "text": {
+        "fr": "Un matin paisible à Pokopia…\n\nun cri brise le silence du village.",
+        "es": "Una mañana tranquila en Pokopia…\n\nun grito rompe el silencio del pueblo.",
+        "gl": "Unha mañá tranquila en Pokopia…\n\nun berro rompe o silencio da aldea."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "— Mon bébé !\n\n— Mon bébé a disparu !",
+        "es": "— ¡Mi bebé!\n\n— ¡Mi bebé ha desaparecido!",
+        "gl": "— O meu bebé!\n\n— O meu bebé desapareceu!"
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Une maman Kangourex regarde autour d'elle, paniquée.\n\nSa poche est vide.\n\nPour la première fois… son petit n'est plus là.",
+        "es": "Una mamá Kangaskhan mira a su alrededor, presa del pánico.\n\nSu bolsa está vacía.\n\nPor primera vez… su pequeño ya no está.",
+        "gl": "Unha mamá Kangourex mira ao seu redor, presa do pánico.\n\nA súa bolsa está baleira.\n\nPola primeira vez… o seu pequeno xa non está."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Très vite, une mission est envoyée à toutes les équipes d'aventuriers.\n\nRetrouver le bébé Kangourex.",
+        "es": "Rápidamente, se envía una misión a todos los equipos de aventureros.\n\nEncontrar al bebé Kangaskhan.",
+        "gl": "Rapidamente, envíase unha misión a todos os equipos de aventureiros.\n\nAtopar o bebé Kangourex."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Les équipes fouillent le village.\n\nAucune trace de combat.\nAucune empreinte suspecte.\n\nRien.",
+        "es": "Los equipos registran el pueblo.\n\nNingún rastro de combate.\nNinguna huella sospechosa.\n\nNada.",
+        "gl": "Os equipos rexistran a aldea.\n\nNingún rastro de combate.\nNingún pegada sospeitosa.\n\nNada."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Puis un Pokémon s'approche, hésitant.\n\n— J'ai vu quelqu'un…\n\n— Avec une casquette noire… et des éclairs autour de lui…",
+        "es": "Luego un Pokémon se acerca, dudando.\n\n— Vi a alguien…\n\n— Con una gorra negra… y rayos a su alrededor…",
+        "gl": "Logo un Pokémon achégase, dubidando.\n\n— Vin a alguén…\n\n— Cunha gorra negra… e raios ao seu redor…"
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Un silence tombe.\n\n— C'est lui…\n— Le Pikachu à la casquette noire…",
+        "es": "Un silencio cae.\n\n— Es él…\n— El Pikachu de la gorra negra…",
+        "gl": "Un silencio cae.\n\n— É el…\n— O Pikachu da gorra negra…"
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "On l'appelle…\n\nNoctachu.",
+        "es": "Lo llaman…\n\nNoctachu.",
+        "gl": "Chámanlle…\n\nNoctachu."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "En cherchant près de la forêt, les aventuriers trouvent un indice.\n\nUn morceau de tissu noir… comme une casquette.",
+        "es": "Buscando cerca del bosque, los aventureros encuentran una pista.\n\nUn trozo de tela negra… como una gorra.",
+        "gl": "Buscando preto do bosque, os aventureiros atopan unha pista.\n\nUn anaco de tea negra… coma unha gorra."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Et juste à côté…\n\nDe petites traces.\n\nCelles du bébé Kangourex.",
+        "es": "Y justo al lado…\n\nPequeñas huellas.\n\nLas del bebé Kangaskhan.",
+        "gl": "E xusto ao lado…\n\nPequenas pegadas.\n\nAs do bebé Kangourex."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Mais ces traces ne montrent pas une fuite.\n\nElles montrent qu'il a suivi quelqu'un.",
+        "es": "Pero estas huellas no muestran una huida.\n\nMuestran que siguió a alguien.",
+        "gl": "Pero estas pegadas non mostran unha fuxida.\n\nMostran que seguiu a alguén."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Les équipes s'enfoncent dans la forêt.\n\nLe silence devient lourd.",
+        "es": "Los equipos se adentran en el bosque.\n\nEl silencio se vuelve pesado.",
+        "gl": "Os equipos ádéntranse no bosque.\n\nO silencio vólvese pesado."
+      }
+    },
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "Au cœur de la forêt…\n\nUn petit cri.\n\nLe bébé Kangourex est là.\n\nSeul…\nun peu perdu…\net il pleure doucement.",
+        "es": "En el corazón del bosque…\n\nUn pequeño llanto.\n\nEl bebé Kangaskhan está ahí.\n\nSolo…\nun poco perdido…\ny llora suavemente.",
+        "gl": "No corazón do bosque…\n\nUn pequeno choro.\n\nO bebé Kangourex está alí.\n\nSo…\nun pouco perdido…\ne chora suavemente."
+      },
+      "image": "/assets/images/s4/bebe_triste.png"
+    },
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "Puis, dans l'ombre…\n\nNoctachu apparaît.\n\nSilencieux.\n\nIl observe.\n\nSans agressivité… mais avec une présence étrange.",
+        "es": "Luego, en la sombra…\n\nNoctachu aparece.\n\nSilencioso.\n\nObserva.\n\nSin agresividad… pero con una presencia extraña.",
+        "gl": "Logo, na sombra…\n\nNoctachu aparece.\n\nSilencioso.\n\nObserva.\n\nSen agresividade… pero cunha presenza estraña."
+      },
+      "image": "/assets/images/s4/noctachu.png"
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "— Je ne lui ai rien fait.\n\n— Je voulais juste voir… si quelqu'un viendrait le chercher.",
+        "es": "— No le hice nada.\n\n— Solo quería ver… si alguien vendría a buscarlo.",
+        "gl": "— Non lle fixen nada.\n\n— Só quería ver… se alguén viría buscalo."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Les aventuriers se regardent, surpris.",
+        "es": "Los aventureros se miran, sorprendidos.",
+        "gl": "Os aventureiros míranre, sorprendidos."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "— Vous parlez toujours d'entraide…\n— de courage…\n\n— Je voulais savoir si c'était vrai.",
+        "es": "— Siempre hablan de ayuda mutua…\n— de valentía…\n\n— Quería saber si era verdad.",
+        "gl": "— Sempre falades de axuda mutua…\n— de valentía…\n\n— Quería saber se era verdade."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Un éclair fend le ciel.\n\nCapitaine Pikachu arrive.",
+        "es": "Un rayo cruza el cielo.\n\nEl Capitán Pikachu llega.",
+        "gl": "Un raio fende o ceo.\n\nO Capitán Pikachu chega."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "— Ce n'est pas comme ça qu'on apprend à faire confiance, Noctachu.",
+        "es": "— No es así como se aprende a confiar, Noctachu.",
+        "gl": "— Non é así como se aprende a confiar, Noctachu."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Les deux Pikachu se font face.\n\nMême puissance.\n\nMais une énergie différente.",
+        "es": "Los dos Pikachu se enfrentan.\n\nMismo poder.\n\nPero una energía diferente.",
+        "gl": "Os dous Pikachu enfróntanse.\n\nMesmo poder.\n\nPero unha enerxía diferente."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Les aventuriers interviennent doucement.\n\n— Ce bébé a une maman qui l'attend.\n\n— Elle a eu très peur.",
+        "es": "Los aventureros intervienen suavemente.\n\n— Este bebé tiene una mamá que lo espera.\n\n— Ella tuvo mucho miedo.",
+        "gl": "Os aventureiros interveñen suavemente.\n\n— Este bebé ten unha mamá que o agarda.\n\n— Ela tivo moito medo."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Un silence s'installe.\n\nNoctachu regarde le bébé…\n\nPuis détourne le regard.",
+        "es": "Un silencio se instala.\n\nNoctachu mira al bebé…\n\nLuego aparta la mirada.",
+        "gl": "Un silencio instálase.\n\nNoctachu mira o bebé…\n\nLogo aparta a mirada."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "— …Je vois.",
+        "es": "— …Ya veo.",
+        "gl": "— …Xa vexo."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Il soupire légèrement.\n\n— Prenez-le.",
+        "es": "Suspira levemente.\n\n— Llévenselo.",
+        "gl": "Suspira levemente.\n\n— Levádeo."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Le bébé Kangourex est récupéré.\n\nSain et sauf.",
+        "es": "El bebé Kangaskhan es recuperado.\n\nSano y salvo.",
+        "gl": "O bebé Kangourex é recuperado.\n\nSan e salvo."
+      }
+    },
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "De retour au village…\n\nLa maman Kangourex serre son petit contre elle.\n\nElle ne le lâche plus.\n\nLe bébé est enfin en sécurité.",
+        "es": "De vuelta en el pueblo…\n\nLa mamá Kangaskhan abraza a su pequeño.\n\nYa no lo suelta.\n\nEl bebé está por fin a salvo.",
+        "gl": "De volta na aldea…\n\nA mamá Kangourex aperta o seu pequeno contra ela.\n\nXa non o solta.\n\nO bebé está por fin en seguridade."
+      },
+      "image": "/assets/images/s4/retrouvailles.png"
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Capitaine Pikachu regarde au loin, pensif.\n\n— Certains ne sont pas méchants…\n\n— Ils sont juste perdus.",
+        "es": "El Capitán Pikachu mira a lo lejos, pensativo.\n\n— Algunos no son malos…\n\n— Solo están perdidos.",
+        "gl": "O Capitán Pikachu mira ao lonxe, pensativo.\n\n— Algúns non son malos…\n\n— Só están perdidos."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Ce jour-là, les aventuriers n'ont pas gagné par la force.\n\nIls ont gagné par la compréhension.",
+        "es": "Ese día, los aventureros no ganaron por la fuerza.\n\nGanaron por la comprensión.",
+        "gl": "Ese día, os aventureiros non gañaron pola forza.\n\nGañaron pola comprensión."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Parce que parfois…\n\nil n'y a pas de méchanceté.\n\nJuste quelqu'un qui cherche sa place.",
+        "es": "Porque a veces…\n\nno hay maldad.\n\nSolo alguien que busca su lugar.",
+        "gl": "Porque ás veces…\n\nnon hai maldade.\n\nSó alguén que busca o seu lugar."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "La vraie force…\n\nce n'est pas de combattre.\n\nC'est de savoir tendre la main.\n\nMême dans l'ombre.",
+        "es": "La verdadera fuerza…\n\nno es combatir.\n\nEs saber tender la mano.\n\nIncluso en la sombra.",
+        "gl": "A verdadeira forza…\n\nnon é combater.\n\nÉ saber tender a man.\n\nAta na sombra."
+      }
+    }
+  ],
+  "bookPages": [
+    "/animation_open_book_images/1.jpg",
+    "/animation_open_book_images/2.jpg",
+    "/animation_open_book_images/3.jpg",
+    "/animation_open_book_images/4.jpg",
+    "/animation_open_book_images/5.jpg",
+    "/animation_open_book_images/6.jpg",
+    "/animation_open_book_images/7.jpg",
+    "/animation_open_book_images/8.jpg",
+    "/animation_open_book_images/9.jpg",
+    "/animation_open_book_images/10.jpg",
+    "/animation_open_book_images/11.jpg",
+    "/animation_open_book_images/12.jpg",
+    "/animation_open_book_images/13.jpg",
+    "/animation_open_book_images/14.jpg",
+    "/animation_open_book_images/15.jpg",
+    "/animation_open_book_images/16.jpg",
+    "/animation_open_book_images/17.jpg",
+    "/animation_open_book_images/last-page.jpg"
   ]
 }

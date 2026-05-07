@@ -23,6 +23,13 @@ const BOOK_D  = 0.18;  // épaisseur totale
 const SPINE_W = 0.08;  // largeur de la tranche
 
 const PAGE_COUNT = 9;
+
+// z de la face avant de la couverture (cover plane)
+const COVER_Z = PAGE_COUNT * 0.004 + BOOK_D / 2 - 0.005 + 0.003; // 0.124
+// Pages block : face avant flush sous la cover (évite le gap visible de côté)
+// face avant = COVER_Z - 0.002, face arrière = -BOOK_D/2
+const BLOCK_D = COVER_Z - 0.002 + BOOK_D / 2;          // ~0.212
+const BLOCK_Z = (COVER_Z - 0.002 - BOOK_D / 2) / 2;   // ~0.016
 // Délai entre chaque page qui tourne (ms)
 const PER_PAGE_DELAY = 160;
 // La couverture commence à s'ouvrir à t=0 de l'animation d'ouverture
@@ -48,49 +55,61 @@ export const BookMesh = ({
   const [turnedPages, setTurnedPages] = useState<boolean[]>(Array(PAGE_COUNT).fill(false));
   const completedRef = useRef(false);
 
-  // --- Matériaux ---
-  const spineMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: spineColor, roughness: 0.75, metalness: 0.05,
+  // --- Matériaux — tous MeshBasicMaterial pour rester visibles sans éclairage directionnel ---
+  const spineMat = useMemo(() => new THREE.MeshBasicMaterial({
+    color: spineColor,
   }), [spineColor]);
 
-  const frontMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: frontColor, roughness: 0.78, metalness: 0.04,
+  const backCoverMat = useMemo(() => new THREE.MeshBasicMaterial({
+    color: frontColor,
+    side: THREE.DoubleSide,
   }), [frontColor]);
 
-  // Couverture générée via Canvas 2D — MeshBasicMaterial pour luminosité identique au StoryCard (pas d'ombrage PBR)
+  // Couverture générée via Canvas 2D
   const coverMat = useMemo(() => new THREE.MeshBasicMaterial({
     color: frontColor,
   }), [frontColor]);
 
+  const coverLoadedRef = useRef(false);
+  const shimmerRef = useRef(0);
+
   useEffect(() => {
+    coverLoadedRef.current = false;
     generateCoverTexture(story, (tex) => {
       coverMat.map = tex;
+      coverMat.color.set(0xffffff);
       coverMat.needsUpdate = true;
+      coverLoadedRef.current = true;
     });
   }, [story, coverMat]);
 
-  const pageBlockCream = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#f8f0dc', roughness: 0.9, metalness: 0.0,
+  // Shimmer pulse sur la cover pendant le chargement de la texture
+  useFrame((_, delta) => {
+    if (coverLoadedRef.current) return;
+    shimmerRef.current += delta * 3;
+    const t = (Math.sin(shimmerRef.current) * 0.5 + 0.5); // 0→1
+    coverMat.color.lerpColors(
+      new THREE.Color(frontColor),
+      new THREE.Color(frontColor).lerp(new THREE.Color('#ffffff'), 0.45),
+      t,
+    );
+  });
+
+  const pageBlockMat = useMemo(() => new THREE.MeshBasicMaterial({
+    color: '#f0e6cc',
   }), []);
 
-  // Face avant du bloc (+Z, index 4) = last-page.jpg révélée quand toutes les pages ont flippé
+  // Dernière page — plane posé sur la face avant du bloc, révélée quand toutes les pages ont flippé
+  const lastPageMat = useMemo(() => new THREE.MeshBasicMaterial({ color: '#f0e6cc' }), []);
   const lastPageUrl = bookPages[bookPages.length - 1];
-  const pageBlockMats = useMemo(() => {
-    const cream = pageBlockCream;
-    const frontMat = new THREE.MeshStandardMaterial({
-      color: '#f8f0dc', roughness: 0.85, metalness: 0.0,
+  useEffect(() => {
+    if (!lastPageUrl) return;
+    new THREE.TextureLoader().load(lastPageUrl, (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      lastPageMat.map = tex;
+      lastPageMat.needsUpdate = true;
     });
-    if (lastPageUrl) {
-      new THREE.TextureLoader().load(lastPageUrl, (tex) => {
-        tex.colorSpace = THREE.SRGBColorSpace;
-        frontMat.map = tex;
-        frontMat.needsUpdate = true;
-      });
-    }
-    // BoxGeometry face order: +X, -X, +Y, -Y, +Z (front), -Z (back)
-    return [cream, cream, cream, cream, frontMat, cream];
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastPageUrl]);
+  }, [lastPageUrl, lastPageMat]);
 
   // --- Déclencher les retournements en cascade ---
   useEffect(() => {
@@ -134,10 +153,8 @@ export const BookMesh = ({
   });
 
   // --- Bande dorée sur la tranche ---
-  const goldMat = useMemo(() => new THREE.MeshStandardMaterial({
+  const goldMat = useMemo(() => new THREE.MeshBasicMaterial({
     color: '#c9a84c',
-    roughness: 0.3,
-    metalness: 0.8,
   }), []);
 
   return (
@@ -160,12 +177,16 @@ export const BookMesh = ({
         </mesh>
       ))}
 
-      {/* ── Bloc de pages — face avant = last-page.jpg révélée après tous les flips ── */}
-      <mesh position={[0, 0, 0]} castShadow receiveShadow>
-        <boxGeometry args={[PAGE_W, PAGE_H, BOOK_D - 0.01]} />
-        {pageBlockMats.map((mat, i) => (
-          <primitive key={i} object={mat} attach={`material-${i}`} />
-        ))}
+      {/* ── Bloc de pages — visible sur tous les côtés (cream ivoire) ── */}
+      <mesh position={[0, 0, BLOCK_Z]}>
+        <boxGeometry args={[PAGE_W, PAGE_H, BLOCK_D]} />
+        <primitive object={pageBlockMat} attach="material" />
+      </mesh>
+
+      {/* ── Dernière page — posée sur la face avant du bloc, cachée sous les pages jusqu'au dernier flip ── */}
+      <mesh position={[0, 0, BLOCK_Z + BLOCK_D / 2 + 0.001]}>
+        <planeGeometry args={[PAGE_W, PAGE_H]} />
+        <primitive object={lastPageMat} attach="material" />
       </mesh>
 
       {/* ── Pages individuelles qui se retournent ── */}
@@ -195,14 +216,10 @@ export const BookMesh = ({
         <CoverFrame />
       </animated.group>
 
-      {/* ── Dos du livre ── */}
-      <mesh
-        position={[0, 0, -(BOOK_D / 2)]}
-        rotation={[0, Math.PI, 0]}
-        castShadow
-      >
+      {/* ── Dos du livre — DoubleSide pour être visible depuis tous les angles ── */}
+      <mesh position={[0, 0, -(BOOK_D / 2) - 0.001]}>
         <planeGeometry args={[PAGE_W, PAGE_H]} />
-        <primitive object={frontMat} attach="material" />
+        <primitive object={backCoverMat} attach="material" />
       </mesh>
     </group>
   );

@@ -333,6 +333,7 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
   const { t } = useLanguage();
   const [drag, setDrag] = useState({ x: 0, y: 0 });
   const [triggered, setTriggered] = useState(false);
+  const [isPressing, setIsPressing] = useState(false);
   const startRef = useRef({ x: 0, y: 0 });
   const isDragging = useRef(false);
   const hasMoved = useRef(false);
@@ -362,6 +363,7 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
     const handleUp = () => {
       if (!isDragging.current) return;
       isDragging.current = false;
+      setIsPressing(false);
       setTriggered(true); // release = toujours ouvrir
     };
     document.addEventListener('touchmove', handleMove, { passive: false });
@@ -384,6 +386,7 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
     startRef.current = { x, y };
     hasMoved.current = false;
     isDragging.current = true;
+    setIsPressing(true);
   };
 
   return (
@@ -442,7 +445,7 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
               <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
             </svg>
           </div>
-          <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 600, color: 'hsl(25,30%,35%)', whiteSpace: 'nowrap' }}>{t.swipeHint}</div>
+          <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 600, color: 'hsl(25,30%,35%)', whiteSpace: 'nowrap' }}>{isPressing ? t.releaseToOpen : t.swipeHint}</div>
         </div>
       </div>
     </div>
@@ -464,6 +467,9 @@ const StoryLibrary = ({ header }: StoryLibraryProps) => {
   if (!stories.length) return null;
 
   const select = (s: Story) => {
+    // Précharger l'image de couverture maintenant → dans le cache browser quand generateCoverTexture s'exécute
+    const img = new window.Image();
+    img.src = s.coverImage;
     setStory(s);
     setActiveIndex(stories.findIndex(x => x.id === s.id));
     setScreen('focus');

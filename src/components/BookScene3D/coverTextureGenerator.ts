@@ -215,8 +215,23 @@ export function generateCoverTexture(
     ctx.lineWidth = 4;
     ctx.strokeRect(imgX + 8, imgY + 8, imgW - 16, imgH - 16);
 
-    // ── 7. Title section ──
-    const textY0 = padT + imgH;
+    // ── 7. Title section — layout bottom-up comme le CSS (flex column) ──
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+
+    const titleSize = 36;
+    const subSize   = 28;
+    const lineH     = 44;
+
+    // 1. Calculer les lignes du titre d'abord
+    ctx.font = `700 ${titleSize}px Quicksand, sans-serif`;
+    const lines = wrapText(ctx, story.title, imgW - 16);
+
+    // 2. Titre ancré depuis le haut de la zone texte, subtitle ancré depuis le bas
+    const textY0    = padT + imgH;
+    const divY      = textY0 + 2;
+    const titleTopY = divY + 12;
+    const subY      = H - padB - 52;
 
     // Gold divider line
     const divW = 160;
@@ -227,32 +242,23 @@ export function generateCoverTexture(
     ctx.strokeStyle = divGrad;
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.moveTo(W / 2 - divW / 2, textY0 + 20);
-    ctx.lineTo(W / 2 + divW / 2, textY0 + 20);
+    ctx.moveTo(W / 2 - divW / 2, divY);
+    ctx.lineTo(W / 2 + divW / 2, divY);
     ctx.stroke();
 
     // Title
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
     ctx.shadowColor = 'rgba(0,0,0,0.50)';
-    ctx.shadowBlur = 16;
-    ctx.fillStyle = 'rgba(255,255,255,0.92)';
-    ctx.font = `700 ${38}px Quicksand, sans-serif`;
+    ctx.shadowBlur  = 16;
+    ctx.fillStyle   = 'rgba(255,255,255,0.92)';
+    ctx.font        = `700 ${titleSize}px Quicksand, sans-serif`;
+    lines.forEach((line, i) => ctx.fillText(line, W / 2, titleTopY + i * lineH));
 
-    const maxW = imgW - 16;
-    const lines = wrapText(ctx, story.title, maxW);
-    let ty = textY0 + 36;
-    for (const line of lines) {
-      ctx.fillText(line, W / 2, ty);
-      ty += 48;
-    }
-
-    // Theme / subtitle
-    ctx.shadowBlur = 6;
+    // Subtitle
+    ctx.shadowBlur  = 6;
     ctx.shadowColor = 'rgba(0,0,0,0.40)';
-    ctx.fillStyle = 'rgba(255,255,255,0.88)';
-    ctx.font = `600 ${32}px Quicksand, sans-serif`;
-    ctx.fillText(story.theme, W / 2, ty + 8);
+    ctx.fillStyle   = 'rgba(255,255,255,0.88)';
+    ctx.font        = `600 ${subSize}px Quicksand, sans-serif`;
+    ctx.fillText(story.theme, W / 2, subY);
 
     // ── 8. Build THREE.Texture ──
     const tex = new THREE.Texture(canvas);

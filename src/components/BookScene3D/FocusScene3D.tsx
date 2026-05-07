@@ -25,12 +25,13 @@ const CameraRig = ({ triggered, dragY }: { triggered: boolean; dragY: number }) 
   }, [triggered]);
 
   useFrame((_, delta) => {
+    const dt = Math.min(delta, 0.05);
     // Léger zoom quand on tire vers le haut
     const zTarget = triggered ? targetRef.current.z : 7.5 + dragY * 0.004;
     const speed = triggered ? 2.8 : 1.2;
-    camera.position.x += (targetRef.current.x - camera.position.x) * speed * delta;
-    camera.position.y += (targetRef.current.y - camera.position.y) * speed * delta;
-    camera.position.z += (zTarget - camera.position.z) * speed * delta;
+    camera.position.x += (targetRef.current.x - camera.position.x) * speed * dt;
+    camera.position.y += (targetRef.current.y - camera.position.y) * speed * dt;
+    camera.position.z += (zTarget - camera.position.z) * speed * dt;
     camera.lookAt(0, 0, 0);
   });
 
@@ -55,14 +56,15 @@ const FloatingBook = ({ story, phase, dragX, dragY, onOpenComplete }: FloatingBo
 
   useFrame((_, delta) => {
     if (!meshGroupRef.current) return;
-    floatRef.current += delta;
+    const dt = Math.min(delta, 0.05);
+    floatRef.current += dt;
     const floatY = Math.sin(floatRef.current * 1.9) * 0.09;
 
     // Position suit le doigt librement (clampée) — s'annule quand triggered
     const targetX = phase >= 1 ? 0 : dragX * 0.007;
     const targetY = phase >= 1 ? 0 : -dragY * 0.007;
-    posXRef.current += (targetX - posXRef.current) * Math.min(1, delta * 12);
-    posYRef.current += (targetY - posYRef.current) * Math.min(1, delta * 12);
+    posXRef.current += (targetX - posXRef.current) * Math.min(1, dt * 12);
+    posYRef.current += (targetY - posYRef.current) * Math.min(1, dt * 12);
 
     meshGroupRef.current.position.x = posXRef.current;
     meshGroupRef.current.position.y = floatY + posYRef.current;
@@ -177,7 +179,8 @@ const FocusSceneInner = ({ story, triggered, dragX, dragY, onTransitionToReader 
 
   useFrame((_, delta) => {
     if (phase >= 2 && progressRef.current < 1) {
-      progressRef.current = Math.min(progressRef.current + delta * 0.55, 1);
+      const dt = Math.min(delta, 0.05);
+      progressRef.current = Math.min(progressRef.current + dt * 0.55, 1);
       setOpenProgress(progressRef.current);
     }
   });

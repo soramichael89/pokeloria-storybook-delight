@@ -4,9 +4,9 @@
  */
 import * as THREE from 'three';
 
-const S = 4; // Scale ×4 pour une texture haute résolution
-const W = 140 * S; // 560
-const H = 224 * S; // 896
+const S = 3; // Scale ×3 — bon équilibre qualité/vitesse de génération
+const W = 140 * S; // 420
+const H = 224 * S; // 672
 const GOLD      = '#c9a84c';
 const GOLD_RGBA = 'rgba(201,168,76,';
 
@@ -144,26 +144,27 @@ export function generateCoverTexture(
     ctx.fillRect(0, 0, W, H);
 
     // ── 3. Gold outer border ──
-    const oi = 20;
+    const oi = 5 * S;
     ctx.strokeStyle = GOLD_RGBA + '0.70)';
-    ctx.lineWidth = 4;
+    ctx.lineWidth = S;
     ctx.strokeRect(oi, oi, W - oi * 2, H - oi * 2);
 
     // ── 4. Gold inner border ──
-    const ii = 36;
+    const ii = 9 * S;
     ctx.strokeStyle = GOLD_RGBA + '0.40)';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = S * 0.5;
     ctx.strokeRect(ii, ii, W - ii * 2, H - ii * 2);
 
     // ── 5. Corner ornaments ──
-    drawCornerOrnament(ctx,  8,  8,  1,  1);  // top-left
-    drawCornerOrnament(ctx, W-8, 8, -1,  1);  // top-right
-    drawCornerOrnament(ctx,  8, H-8,  1, -1); // bottom-left
-    drawCornerOrnament(ctx, W-8, H-8, -1, -1);// bottom-right
+    const co = 2 * S;
+    drawCornerOrnament(ctx,  co,  co,  1,  1);
+    drawCornerOrnament(ctx, W-co, co, -1,  1);
+    drawCornerOrnament(ctx,  co, H-co,  1, -1);
+    drawCornerOrnament(ctx, W-co, H-co, -1, -1);
 
     // ── 6. Image area ──
-    const padT = 56, padS = 32, padB = 28;
-    const titleH = 156;
+    const padT = 14 * S, padS = 8 * S, padB = 7 * S;
+    const titleH = 39 * S;
     const imgX = padS, imgY = padT;
     const imgW = W - padS * 2;
     const imgH = H - padT - padB - titleH;
@@ -212,35 +213,35 @@ export function generateCoverTexture(
 
     // Image gold outline
     ctx.strokeStyle = GOLD_RGBA + '0.48)';
-    ctx.lineWidth = 4;
-    ctx.strokeRect(imgX + 8, imgY + 8, imgW - 16, imgH - 16);
+    ctx.lineWidth = S;
+    ctx.strokeRect(imgX + 2 * S, imgY + 2 * S, imgW - 4 * S, imgH - 4 * S);
 
     // ── 7. Title section — layout bottom-up comme le CSS (flex column) ──
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
-    const titleSize = 36;
-    const subSize   = 28;
-    const lineH     = 44;
+    const titleSize = 10 * S;
+    const subSize   =  8 * S;
+    const lineH     = 11 * S;
 
     // 1. Calculer les lignes du titre d'abord
     ctx.font = `700 ${titleSize}px Quicksand, sans-serif`;
-    const lines = wrapText(ctx, story.title, imgW - 16);
+    const lines = wrapText(ctx, story.title, imgW - 4 * S);
 
     // 2. Titre ancré depuis le haut de la zone texte, subtitle ancré depuis le bas
     const textY0    = padT + imgH;
-    const divY      = textY0 + 2;
-    const titleTopY = divY + 12;
-    const subY      = H - padB - 52;
+    const divY      = textY0 - S;
+    const titleTopY = divY + 3 * S;
+    const subY      = H - padB - 13 * S;
 
     // Gold divider line
-    const divW = 160;
+    const divW = 40 * S;
     const divGrad = ctx.createLinearGradient(W / 2 - divW / 2, 0, W / 2 + divW / 2, 0);
     divGrad.addColorStop(0,   'rgba(201,168,76,0)');
     divGrad.addColorStop(0.5, 'rgba(201,168,76,0.70)');
     divGrad.addColorStop(1,   'rgba(201,168,76,0)');
     ctx.strokeStyle = divGrad;
-    ctx.lineWidth = 4;
+    ctx.lineWidth = S;
     ctx.beginPath();
     ctx.moveTo(W / 2 - divW / 2, divY);
     ctx.lineTo(W / 2 + divW / 2, divY);
@@ -248,7 +249,7 @@ export function generateCoverTexture(
 
     // Title
     ctx.shadowColor = 'rgba(0,0,0,0.50)';
-    ctx.shadowBlur  = 16;
+    ctx.shadowBlur  = 4 * S;
     ctx.fillStyle   = 'rgba(255,255,255,0.92)';
     ctx.font        = `700 ${titleSize}px Quicksand, sans-serif`;
     lines.forEach((line, i) => ctx.fillText(line, W / 2, titleTopY + i * lineH));

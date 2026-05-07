@@ -32,8 +32,8 @@ const BLOCK_D = COVER_Z - 0.002 + BOOK_D / 2;          // ~0.212
 const BLOCK_Z = (COVER_Z - 0.002 - BOOK_D / 2) / 2;   // ~0.016
 // Délai entre chaque page qui tourne (ms)
 const PER_PAGE_DELAY = 160;
-// La couverture commence à s'ouvrir à t=0 de l'animation d'ouverture
-const COVER_OPEN_DELAY = 0;
+// Délai avant que les pages commencent à flipper — laisse la cover s'écarter d'abord
+const PAGE_START_DELAY = 200;
 
 interface BookMeshProps {
   story: { title: string; theme: string; coverImage: string; colorKey: string };
@@ -118,7 +118,7 @@ export const BookMesh = ({
 
     // Retourner chaque page avec un délai staggeré
     for (let i = 0; i < PAGE_COUNT; i++) {
-      const delay = COVER_OPEN_DELAY + i * PER_PAGE_DELAY;
+      const delay = PAGE_START_DELAY + i * PER_PAGE_DELAY;
       timers.push(
         setTimeout(() => {
           setTurnedPages(prev => {
@@ -131,7 +131,7 @@ export const BookMesh = ({
     }
 
     // V4 : suspension magique 700ms après la dernière page
-    const totalDuration = COVER_OPEN_DELAY + (PAGE_COUNT - 1) * PER_PAGE_DELAY + 700;
+    const totalDuration = PAGE_START_DELAY + (PAGE_COUNT - 1) * PER_PAGE_DELAY + 700;
     timers.push(
       setTimeout(() => {
         if (!completedRef.current) {
@@ -148,7 +148,6 @@ export const BookMesh = ({
   // V4 : spring avec fort momentum initial → décélération naturelle
   const { coverRotY } = useSpring({
     coverRotY: opening ? -Math.PI * 0.58 : 0,
-    delay: COVER_OPEN_DELAY,
     config: { mass: 2.4, tension: 72, friction: 22 },
   });
 

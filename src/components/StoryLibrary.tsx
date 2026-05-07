@@ -8,8 +8,8 @@ import OpeningAnimationV2 from './OpeningAnimationV2';
 import wallpaper from '@/assets/papierpaint.png';
 import { GOLD, THEME } from '@/lib/theme';
 
-// ── BookScene3D lazy-loadé (Three.js ne charge qu'au déclenchement) ──────────
-const BookScene3D = lazy(() => import('./BookScene3D'));
+// ── FocusScene3D lazy-loadé (Three.js ne charge qu'au clic sur un livre) ─────
+const FocusScene3D = lazy(() => import('./BookScene3D/FocusScene3D'));
 
 // ── ErrorBoundary pour capturer les crashs WebGL/Three.js ────────────────────
 interface EBProps { fallback: ReactNode; children: ReactNode; }
@@ -324,11 +324,11 @@ const LibraryScreen = ({ stories, active, setActive, onSelect, header }: {
   );
 };
 
-// ── Screen: Focus (drag UP to open the book) ──────────────────────────────────
-const FocusScreen = ({ story, onBack, onOpen }: { story: Story; onBack: () => void; onOpen: () => void }) => {
+// ── Screen: Focus — livre 3D seamless, swipe up déclenche l'ouverture ─────────
+const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () => void; onComplete: () => void }) => {
   const { t } = useLanguage();
   const [dragY, setDragY] = useState(0);
-  const [springing, setSpringing] = useState(false);
+  const [triggered, setTriggered] = useState(false);
   const startYRef = useRef<number | null>(null);
   const isDragging = useRef(false);
   const dragYRef = useRef(0);
@@ -338,6 +338,7 @@ const FocusScreen = ({ story, onBack, onOpen }: { story: Story; onBack: () => vo
   const th = THEME[story.colorKey] ?? THEME.peach;
 
   useEffect(() => {
+    if (triggered) return;
     const handleMove = (e: MouseEvent | TouchEvent) => {
       if (!isDragging.current || startYRef.current === null) return;
       e.preventDefault();
@@ -351,8 +352,12 @@ const FocusScreen = ({ story, onBack, onOpen }: { story: Story; onBack: () => vo
       if (!isDragging.current) return;
       isDragging.current = false;
       const p = Math.min(1, Math.max(0, -dragYRef.current) / THRESHOLD);
-      if (p >= 0.68) onOpen();
-      else { setSpringing(true); setTimeout(() => { setDragY(0); dragYRef.current = 0; setSpringing(false); }, 400); }
+      if (p >= 0.68) {
+        setTriggered(true);
+      } else {
+        setDragY(0);
+        dragYRef.current = 0;
+      }
     };
     document.addEventListener('touchmove', handleMove, { passive: false });
     document.addEventListener('touchend', handleUp);
@@ -364,75 +369,73 @@ const FocusScreen = ({ story, onBack, onOpen }: { story: Story; onBack: () => vo
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleUp);
     };
-  }, [onOpen]);
+  }, [triggered]);
 
   const startDrag = (e: React.MouseEvent | React.TouchEvent) => {
+    if (triggered) return;
     e.preventDefault();
     startYRef.current = (e as React.TouchEvent).touches?.[0]?.clientY ?? (e as React.MouseEvent).clientY;
     isDragging.current = true;
-    setSpringing(false);
   };
 
-  const rotX = 5 + prog * 52;
-  const rotY = 28 - prog * 10;
-  const liftY = prog * -40;
-  const glowSize = 180 + prog * 120;
-
   return (
-    <div style={{
-      position: 'absolute', inset: 0,
-      background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})`,
-      display: 'flex', flexDirection: 'column', alignItems: 'center',
-      userSelect: 'none', overflow: 'hidden',
-    }}>
-      {/* Bg stars */}
-      {BG_STARS.slice(0, 10).map(s => (
-        <div key={s.id} style={{ position: 'absolute', left: s.x + '%', top: s.y + '%', width: s.size, height: s.size, borderRadius: '50%', background: 'white', opacity: 0.6, animation: `twinkle ${s.dur}s ${s.delay}s ease-in-out infinite`, pointerEvents: 'none', zIndex: 0 }} />
-      ))}
+    <div
+      style={{ position: 'absolute', inset: 0, userSelect: 'none', touchAction: 'none' }}
+      onMouseDown={startDrag}
+      onTouchStart={startDrag}
+    >
+      {/* Scène 3D — remplace StoryCard, occupe tout l'écran */}
+      <Suspense fallback={
+        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})` }} />
+      }>
+        <FocusScene3D
+          story={story}
+          triggered={triggered}
+          dragProgress={prog}
+          onComplete={onComplete}
+        />
+      </Suspense>
 
-      {/* Glow orb */}
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: glowSize, height: glowSize, borderRadius: '50%', background: `radial-gradient(${th.glow}, ${th.glow2}, transparent 70%)`, pointerEvents: 'none', zIndex: 0, transition: 'width 0.1s, height 0.1s' }} />
-      {isReady && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: glowSize * 1.5, height: glowSize * 1.5, borderRadius: '50%', background: `radial-gradient(${th.glow}, transparent 60%)`, pointerEvents: 'none', zIndex: 0, animation: 'pulseGlow 0.6s ease-in-out infinite' }} />}
-
-      {/* Back button */}
-      <button onClick={onBack} style={{ position: 'absolute', top: 52, left: 16, zIndex: 50, background: 'rgba(255,255,255,0.60)', border: 'none', borderRadius: '50%', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backdropFilter: 'blur(8px)' }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="hsl(25,30%,22%)" strokeWidth="2.5" strokeLinecap="round">
-          <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
-        </svg>
-      </button>
-
-      {/* Book */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 }}>
-        <div
-          onMouseDown={startDrag} onTouchStart={startDrag}
-          style={{ transform: `translateY(${liftY + dragY * 0.3}px)`, transition: springing ? 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)' : 'none', cursor: 'grab', touchAction: 'none', userSelect: 'none' }}
+      {/* UI overlay — disparaît quand triggered */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 10,
+        pointerEvents: triggered ? 'none' : 'auto',
+        opacity: triggered ? 0 : 1,
+        transition: triggered ? 'opacity 0.4s ease-out' : 'none',
+      }}>
+        {/* Back button */}
+        <button
+          onClick={onBack}
+          style={{ position: 'absolute', top: 52, left: 16, zIndex: 50, background: 'rgba(255,255,255,0.60)', border: 'none', borderRadius: '50%', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', backdropFilter: 'blur(8px)' }}
         >
-          <StoryCard story={story} onOpen={() => {}} index={0} isActive={true} customRotX={rotX} customRotY={rotY} />
-        </div>
-      </div>
-
-      {/* Swipe hint */}
-      <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', zIndex: 2, opacity: isReady ? 0 : 0.75, transition: 'opacity 0.3s', pointerEvents: 'none' }}>
-        <div style={{ animation: 'swipeHint 1.6s ease-in-out infinite' }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(25,30%,30%)" strokeWidth="2" strokeLinecap="round">
-            <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="hsl(25,30%,22%)" strokeWidth="2.5" strokeLinecap="round">
+            <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
           </svg>
-        </div>
-        <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 600, color: 'hsl(25,30%,35%)', marginTop: 4 }}>{t.swipeHint}</div>
-      </div>
-      {isReady && (
-        <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', zIndex: 2, animation: 'fadeInUp 0.3s ease-out' }}>
-          <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 16, fontWeight: 700, color: th.spine, textShadow: '0 0 20px white', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-            <Sparkle size={14} color={th.spine} />
-            <span>{t.releaseToOpen}</span>
-            <Sparkle size={12} color={th.spine} />
-          </div>
-        </div>
-      )}
+        </button>
 
-      {/* Progress bar */}
-      <div style={{ position: 'absolute', bottom: 60, left: 60, right: 60, height: 4, background: 'rgba(40,20,5,0.10)', borderRadius: 2, zIndex: 2, overflow: 'hidden' }}>
-        <div style={{ height: '100%', width: (prog * 100) + '%', background: `linear-gradient(to right, ${th.spine}, ${GOLD})`, borderRadius: 2, transition: 'width 0.05s' }} />
+        {/* Swipe hint */}
+        <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', zIndex: 2, opacity: isReady ? 0 : 0.75, transition: 'opacity 0.3s', pointerEvents: 'none' }}>
+          <div style={{ animation: 'swipeHint 1.6s ease-in-out infinite' }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(25,30%,30%)" strokeWidth="2" strokeLinecap="round">
+              <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
+            </svg>
+          </div>
+          <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 600, color: 'hsl(25,30%,35%)', marginTop: 4 }}>{t.swipeHint}</div>
+        </div>
+        {isReady && (
+          <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', zIndex: 2, animation: 'fadeInUp 0.3s ease-out' }}>
+            <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 16, fontWeight: 700, color: th.spine, textShadow: '0 0 20px white', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Sparkle size={14} color={th.spine} />
+              <span>{t.releaseToOpen}</span>
+              <Sparkle size={12} color={th.spine} />
+            </div>
+          </div>
+        )}
+
+        {/* Progress bar */}
+        <div style={{ position: 'absolute', bottom: 60, left: 60, right: 60, height: 4, background: 'rgba(40,20,5,0.10)', borderRadius: 2, zIndex: 2, overflow: 'hidden' }}>
+          <div style={{ height: '100%', width: (prog * 100) + '%', background: `linear-gradient(to right, ${th.spine}, ${GOLD})`, borderRadius: 2, transition: 'width 0.05s' }} />
+        </div>
       </div>
     </div>
   );
@@ -446,7 +449,7 @@ interface StoryLibraryProps {
 
 const StoryLibrary = ({ header }: StoryLibraryProps) => {
   const { stories } = useStories();
-  const [screen, setScreen] = useState<'library' | 'focus' | 'opening' | 'reading'>('library');
+  const [screen, setScreen] = useState<'library' | 'focus' | 'reading'>('library');
   const [activeIndex, setActiveIndex] = useState(0);
   const [story, setStory] = useState<Story | null>(null);
 
@@ -464,13 +467,8 @@ const StoryLibrary = ({ header }: StoryLibraryProps) => {
         <LibraryScreen stories={stories} active={activeIndex} setActive={setActiveIndex} onSelect={select} header={header} />
       )}
       {screen === 'focus' && story && (
-        <FocusScreen story={story} onBack={() => setScreen('library')} onOpen={() => setScreen('opening')} />
-      )}
-      {screen === 'opening' && story && (
         <SceneErrorBoundary fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
-          <Suspense fallback={<OpeningAnimationV2 story={story} onComplete={() => setScreen('reading')} />}>
-            <BookScene3D story={story} onComplete={() => setScreen('reading')} />
-          </Suspense>
+          <FocusScreen story={story} onBack={() => setScreen('library')} onComplete={() => setScreen('reading')} />
         </SceneErrorBoundary>
       )}
       {screen === 'reading' && story && (

@@ -95,6 +95,7 @@ const LibraryScreen = ({ stories, active, setActive, onSelect, header }: {
   const [dragX, setDragX] = useState(0);
   const [springing, setSpringing] = useState(false);
   const [transitioning, setTransitioning] = useState<'left' | 'right' | null>(null);
+  const [selectBounce, setSelectBounce] = useState(false);
   const bookRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -208,7 +209,9 @@ const LibraryScreen = ({ stories, active, setActive, onSelect, header }: {
 
   const handleClick = () => {
     if (movedRef.current) return;
-    onSelect(story);
+    // Bounce + glow flash avant de partir en 3D
+    setSelectBounce(true);
+    setTimeout(() => onSelect(story), 280);
   };
 
   const swipeTilt = Math.max(-12, Math.min(12, dragX * 0.04));
@@ -254,13 +257,14 @@ const LibraryScreen = ({ stories, active, setActive, onSelect, header }: {
           onMouseDown={startDrag} onTouchStart={startDrag}
           onClick={handleClick}
           style={{
-            animation: 'floatBook 3.2s ease-in-out infinite',
+            animation: selectBounce ? 'selectBounce 0.28s ease-out forwards' : 'floatBook 3.2s ease-in-out infinite',
             cursor: 'pointer',
             transform: `translateX(${dragX}px)`,
             transition: springing ? 'transform 0.42s cubic-bezier(0.34,1.56,0.64,1)' : 'none',
             touchAction: 'pan-y',
             userSelect: 'none',
             WebkitUserSelect: 'none',
+            filter: selectBounce ? `drop-shadow(0 0 28px ${th.spark}) brightness(1.15)` : undefined,
           }}
         >
           <StoryCard story={story} onOpen={handleClick as any} index={active} isActive={true} reflectionX={ptr?.x} reflectionY={ptr?.y} swipeTilt={swipeTilt} />

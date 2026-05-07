@@ -16,9 +16,10 @@ import { Story } from '@/data/stories';
 import { THEME } from '@/lib/theme';
 
 // ── Caméra : part de loin/isométrique → frontale quand triggered ─────────────
-const CameraRig = ({ triggered }: { triggered: boolean }) => {
+const CameraRig = ({ triggered, dragProgress }: { triggered: boolean; dragProgress: number }) => {
   const { camera } = useThree();
-  const targetRef = useRef({ x: 0.35, y: 0.28, z: 6.8 });
+  // Focus : légèrement décalé pour montrer l'aspect 3D du livre
+  const targetRef = useRef({ x: 0.28, y: 0.22, z: 7.5 });
 
   useEffect(() => {
     if (triggered) {
@@ -27,10 +28,12 @@ const CameraRig = ({ triggered }: { triggered: boolean }) => {
   }, [triggered]);
 
   useFrame((_, delta) => {
-    const speed = triggered ? 2.2 : 0.9;
+    // La caméra se rapproche aussi légèrement au fur et à mesure du drag
+    const zTarget = triggered ? targetRef.current.z : 7.5 - dragProgress * 0.8;
+    const speed = triggered ? 2.8 : 1.2;
     camera.position.x += (targetRef.current.x - camera.position.x) * speed * delta;
     camera.position.y += (targetRef.current.y - camera.position.y) * speed * delta;
-    camera.position.z += (targetRef.current.z - camera.position.z) * speed * delta;
+    camera.position.z += (zTarget - camera.position.z) * speed * delta;
     camera.lookAt(0, 0, 0);
   });
 
@@ -48,26 +51,29 @@ interface FloatingBookProps {
 const FloatingBook = ({ story, phase, dragProgress, onOpenComplete }: FloatingBookProps) => {
   const th = THEME[story.colorKey] ?? THEME.peach;
   const floatRef = useRef(0);
+  const posYRef = useRef(0);
   const meshGroupRef = useRef<THREE.Group>(null!);
 
   useFrame((_, delta) => {
+    if (!meshGroupRef.current) return;
     floatRef.current += delta;
-    if (meshGroupRef.current) {
-      meshGroupRef.current.position.y = Math.sin(floatRef.current * 0.8) * 0.04;
-    }
+    // Flottement de base + montée sur Y au fur du drag (livre s'envole)
+    const floatY  = Math.sin(floatRef.current * 0.8) * 0.04;
+    const targetY = phase >= 1 ? 0 : dragProgress * 1.4; // monte jusqu'à 1.4 unités
+    posYRef.current += (targetY - posYRef.current) * Math.min(1, delta * 8);
+    meshGroupRef.current.position.y = floatY + posYRef.current;
   });
 
-  // Focus: isométrique. Le drag tire le livre vers la caméra (inclinaison diminue).
-  // Triggered phase 1+: frontal pur.
+  // Inclinaison isométrique forte au repos → s'effondre vers la caméra au drag (dramatique)
   const { rotX, rotY } = useSpring({
-    rotX: phase >= 1 ? 0.05 : Math.max(0.06, 0.26 - dragProgress * 0.20),
-    rotY: phase >= 1 ? 0.0  : Math.min(0, -0.14 + dragProgress * 0.10),
-    config: { mass: 1.4, tension: 110, friction: 26 },
+    rotX: phase >= 1 ? 0.05 : 0.22 + dragProgress * 0.55,  // penche vers caméra au drag
+    rotY: phase >= 1 ? 0.0  : -0.16 + dragProgress * 0.12,
+    config: { mass: 0.8, tension: 180, friction: 18 },      // spring rapide et punchy
   });
 
   const { scale } = useSpring({
-    scale: phase >= 2 ? 1.06 : 1.0 + dragProgress * 0.05,
-    config: { mass: 1, tension: 120, friction: 22 },
+    scale: phase >= 2 ? 1.06 : 0.88 + dragProgress * 0.18, // part plus petit, grandit au drag
+    config: { mass: 0.8, tension: 160, friction: 16 },
   });
 
   return (
@@ -178,7 +184,7 @@ const FocusSceneInner = ({ story, triggered, dragProgress, onTransitionToReader 
 
   return (
     <>
-      <CameraRig triggered={triggered} />
+      <CameraRig triggered={triggered} dragProgress={dragProgress} />
       <BookLights openProgress={openProgress} glowColor={th.glow} spineColor={th.spark} />
       <FloatingBook story={story} phase={phase} dragProgress={dragProgress} onOpenComplete={handleOpenComplete} />
       <MagicParticles active={phase >= 3} themeColors={themeColors} />
@@ -200,7 +206,15 @@ interface FocusScene3DProps {
 
 export const FocusScene3D = ({ story, triggered, dragProgress, onComplete }: FocusScene3DProps) => {
   const [overlayOpacity, setOverlayOpacity] = useState(0);
+  const [introOpacity, setIntroOpacity] = useState(0);
   const th = THEME[story.colorKey] ?? THEME.peach;
+
+  // Fade-in d'entrée — la scène apparaît doucement depuis la bibliothèque
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setIntroOpacity(1));
+    });
+  }, []);
 
   const handleTransitionToReader = useCallback(() => {
     setOverlayOpacity(1);
@@ -211,9 +225,11 @@ export const FocusScene3D = ({ story, triggered, dragProgress, onComplete }: Foc
     <div style={{
       position: 'absolute', inset: 0,
       background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})`,
+      opacity: introOpacity,
+      transition: 'opacity 0.35s ease-out',
     }}>
       <Canvas
-        camera={{ position: [0.35, 0.28, 6.8], fov: 42 }}
+        camera={{ position: [0.28, 0.22, 7.5], fov: 42 }}
         shadows
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         style={{ width: '100%', height: '100%' }}

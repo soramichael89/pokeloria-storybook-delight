@@ -17,6 +17,7 @@ import { useFrame } from '@react-three/fiber';
 import { useSpring, animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { PagePlane, PAGE_W, PAGE_H } from './PagePlane';
+import { generateCoverTexture } from './coverTextureGenerator';
 
 const BOOK_D  = 0.18;  // épaisseur totale
 const SPINE_W = 0.08;  // largeur de la tranche
@@ -28,19 +29,16 @@ const PER_PAGE_DELAY = 160;
 const COVER_OPEN_DELAY = 0;
 
 interface BookMeshProps {
-  coverImageUrl: string;
-  spineColor: string;    // hex
-  frontColor: string;    // hex
-  /** true = déclenche l'animation d'ouverture */
+  story: { title: string; theme: string; coverImage: string; colorKey: string };
+  spineColor: string;
+  frontColor: string;
   opening: boolean;
-  /** callback quand l'animation est terminée */
   onOpenComplete: () => void;
-  /** Pages recto/verso : [recto1, verso1, recto2, verso2, ...] */
   bookPages?: string[];
 }
 
 export const BookMesh = ({
-  coverImageUrl,
+  story,
   spineColor,
   frontColor,
   opening,
@@ -50,35 +48,26 @@ export const BookMesh = ({
   const [turnedPages, setTurnedPages] = useState<boolean[]>(Array(PAGE_COUNT).fill(false));
   const completedRef = useRef(false);
 
-  // --- Matériaux (mémorisés) ---
+  // --- Matériaux ---
   const spineMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: spineColor,
-    roughness: 0.75,
-    metalness: 0.05,
+    color: spineColor, roughness: 0.75, metalness: 0.05,
   }), [spineColor]);
 
   const frontMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: frontColor,
-    roughness: 0.78,
-    metalness: 0.04,
+    color: frontColor, roughness: 0.78, metalness: 0.04,
   }), [frontColor]);
 
-  // Couverture : matériau créé une fois, texture injectée impérativement quand elle charge
+  // Couverture générée via Canvas 2D (même look que StoryCard)
   const coverMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: frontColor,
-    roughness: 0.78,
-    metalness: 0.04,
+    color: frontColor, roughness: 0.78, metalness: 0.04,
   }), [frontColor]);
 
-  // --- Charger la texture de couverture et l'injecter directement ---
   useEffect(() => {
-    const loader = new THREE.TextureLoader();
-    loader.load(coverImageUrl, (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace;
+    generateCoverTexture(story, (tex) => {
       coverMat.map = tex;
       coverMat.needsUpdate = true;
     });
-  }, [coverImageUrl, coverMat]);
+  }, [story, coverMat]);
 
   const pageBlockCream = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#f8f0dc', roughness: 0.9, metalness: 0.0,

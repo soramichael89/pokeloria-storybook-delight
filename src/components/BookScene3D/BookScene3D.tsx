@@ -95,7 +95,7 @@ const FloatingBook = ({ story, phase, onOpenComplete }: FloatingBookProps) => {
       scale={scale}
     >
       <BookMesh
-        coverImageUrl={story.coverImage}
+        story={story}
         spineColor={th.spine}
         frontColor={th.front}
         opening={phase >= 2}

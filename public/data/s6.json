@@ -1,0 +1,138 @@
+{
+  "id": "s6",
+  "title": {
+    "fr": "Les étoiles dansantes de la montagne",
+    "es": "Las estrellas danzantes de la montaña",
+    "gl": "As estrelas danzantes da montaña"
+  },
+  "theme": {
+    "fr": "Patience · Foi · Présence",
+    "es": "Paciencia · Fe · Presencia",
+    "gl": "Paciencia · Fe · Presenza"
+  },
+  "colorKey": "lavender",
+  "coverImage": "/assets/images/s6/kadabra.png",
+  "pages": [
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "Un matin calme à Pokopia, Maître Kadabra convoqua Tartard et Hoothoot.\n\n— J'ai besoin de vous pour une mission… différente. Rendez-vous sur la montagne sacrée. Vous y trouverez quelque chose. Observez. Et revenez.",
+        "es": "Una mañana tranquila en Pokopia, el Maestro Kadabra convocó a Poliwrath y Hoothoot.\n\n— Os necesito para una misión… diferente. Id a la montaña sagrada. Allí encontraréis algo. Observad. Y regresad.",
+        "gl": "Unha mañá tranquila en Pokopia, o Mestre Kadabra convocou a Poliwrath e Hoothoot.\n\n— Necesítovos para unha misión… diferente. Ide á montaña sagrada. Alí atoparedes algo. Observade. E regresade."
+      },
+      "image": "/assets/images/s6/kadabra.png"
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Tartard fronça les sourcils.\n\n— Mais Maître… que sommes-nous censés faire exactement ?\n\nKadabra eut un léger sourire.\n\n— Vous le découvrirez bien assez tôt. Mais il faudra être patients. Très patients.\n\nTartard et Hoothoot échangèrent un regard. Puis ils prirent la route.",
+        "es": "Poliwrath frunció el ceño.\n\n— Pero Maestro… ¿qué se supone que tenemos que hacer exactamente?\n\nKadabra esbozó una leve sonrisa.\n\n— Lo descubriréis muy pronto. Pero tendréis que ser pacientes. Muy pacientes.\n\nPoliwrath y Hoothoot intercambiaron una mirada. Luego se pusieron en camino.",
+        "gl": "Poliwrath engurrou o cello.\n\n— Pero Mestre… que se supón que temos que facer exactamente?\n\nKadabra esbozou un leve sorriso.\n\n— Descubriredelo moi pronto. Pero teredes que ser pacientes. Moi pacientes.\n\nPoliwrath e Hoothoot intercambiaron unha mirada. Logo puxéronse en camiño."
+      }
+    },
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "Le voyage les mena à travers une forêt sombre. Les arbres s'élevaient haut, leurs branches enlacées au-dessus du sentier. La lumière y entrait à peine.\n\n— J'espère qu'on ne monte pas pour rien… grommela Tartard.\n\n— Tout semble si calme ici, murmura Hoothoot.",
+        "es": "El viaje los llevó a través de un bosque oscuro. Los árboles se elevaban altos, sus ramas entrelazadas sobre el sendero. La luz apenas entraba.\n\n— Espero que no subamos para nada… refunfuñó Poliwrath.\n\n— Todo parece tan tranquilo aquí, murmuró Hoothoot.",
+        "gl": "A viaxe levounos a través dun bosque escuro. As árbores erguíanse altas, as súas pólas entrelazadas sobre o sendeiro. A luz apenas entraba.\n\n— Espero que non subamos para nada… rosmou Poliwrath.\n\n— Todo parece tan tranquilo aquí, murmurou Hoothoot."
+      },
+      "image": "/assets/images/s6/foret.png"
+    },
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "Au sommet, ils découvrirent une grotte. À l'intérieur, un lac parfaitement immobile.\n\nEt au centre… Starmie. Silencieuse. Immobile. Comme endormie.\n\n— Là ! s'écria Tartard. C'est ça qu'on devait trouver !",
+        "es": "En la cima, descubrieron una cueva. Dentro, un lago perfectamente inmóvil.\n\nY en el centro… Starmie. Silenciosa. Inmóvil. Como dormida.\n\n— ¡Ahí! exclamó Poliwrath. ¡Eso es lo que teníamos que encontrar!",
+        "gl": "No cumio, descubriron unha cova. Dentro, un lago perfectamente inmóbil.\n\nE no centro… Starmie. Silenciosa. Inmóbil. Coma durmida.\n\n— Aí! exclamou Poliwrath. É iso o que tiñamos que atopar!"
+      },
+      "image": "/assets/images/s6/starmie.png"
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Tartard s'approcha rapidement.\n\n— Hé ! Réveille-toi ! C'est toi qu'on cherche ?\n\nAucune réponse. Starmie ne bougeait pas.\n\nLe premier jour passa. Starmie ne bougea pas.\n\nLe deuxième jour, Tartard commençait à perdre patience.\n\n— Mais qu'est-ce qu'elle attend à la fin ?!\n\nIl s'approcha et la poussa doucement. Rien. Il la poussa un peu plus fort. Toujours rien.\n\n— Hé ! Tu m'entends ? On est venus de loin pour toi !",
+        "es": "Poliwrath se acercó rápidamente.\n\n— ¡Eh! ¡Despierta! ¿Eres a ti a quien buscamos?\n\nNinguna respuesta. Starmie no se movía.\n\nPasó el primer día. Starmie no se movió.\n\nAl segundo día, Poliwrath empezaba a perder la paciencia.\n\n— ¿¡Pero qué está esperando al fin y al cabo!?\n\nSe acercó y la empujó suavemente. Nada. La empujó un poco más fuerte. Seguía nada.\n\n— ¡Eh! ¿Me oyes? ¡Hemos venido de lejos por ti!",
+        "gl": "Poliwrath achegouse rapidamente.\n\n— Ei! Esperta! É a ti a quen buscamos?\n\nNingunha resposta. Starmie non se movía.\n\nPasou o primeiro día. Starmie non se moveu.\n\nAo segundo día, Poliwrath comezaba a perder a paciencia.\n\n— Pero que está agardando ao final?!\n\nAchegouse e empurrouna suavemente. Nada. Empurrouna un pouco máis forte. Seguía nada.\n\n— Ei! Óesme? Viñemos de lonxe por ti!"
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Hoothoot, posé tranquillement sur un rocher, ouvrit un œil.\n\n— Tartard… arrête.\n\n— Mais elle ne fait rien ! Elle dort ou quoi ?\n\n— Peut-être. Peut-être pas. Ce n'est pas à nous de décider.\n\nLe troisième jour, Tartard s'assit lourdement au bord du lac.\n\n— Hoothoot… on perd notre temps. On devrait rentrer.\n\n— Et si on rentrait sans avoir vu ce qu'on était venus voir ?\n\n— Mais il n'y a rien à voir ! Elle ne bouge pas ! Elle ne parle pas !",
+        "es": "Hoothoot, posado tranquilamente sobre una roca, abrió un ojo.\n\n— Poliwrath… detente.\n\n— ¡Pero no hace nada! ¿Está dormida o qué?\n\n— Quizás. Quizás no. No nos toca a nosotros decidirlo.\n\nAl tercer día, Poliwrath se sentó pesadamente junto al lago.\n\n— Hoothoot… estamos perdiendo el tiempo. Deberíamos volver.\n\n— ¿Y si volviéramos sin haber visto lo que vinimos a ver?\n\n— ¡Pero no hay nada que ver! ¡No se mueve! ¡No habla!",
+        "gl": "Hoothoot, pousado tranquilamente sobre unha rocha, abriu un ollo.\n\n— Poliwrath… detente.\n\n— Pero non fai nada! Está durmida ou que?\n\n— Quizais. Quizais non. Non nos toca a nós decidilo.\n\nAo terceiro día, Poliwrath sentouse pesadamente á beira do lago.\n\n— Hoothoot… estamos a perder o tempo. Deberiamos volver.\n\n— E se volveramos sen ter visto o que viñemos ver?\n\n— Pero non hai nada que ver! Non se move! Non fala!"
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Hoothoot le regarda calmement.\n\n— Tartard… tu cherches une réponse qui vienne tout de suite. Mais parfois, il faut juste… avoir la foi.\n\n— La foi ? répéta Tartard.\n\n— Oui. Faire confiance, même quand on ne comprend pas encore. Ne pas paniquer parce que rien n'arrive. Ce qui doit arriver arrivera. À son rythme.\n\nTartard ne répondit pas. Mais quelque chose en lui s'apaisa, juste un peu.\n\nLe temps passa. Lentement. Tartard regardait l'eau. Hoothoot regardait Tartard.\n\nPuis… la nuit tomba.",
+        "es": "Hoothoot lo miró con calma.\n\n— Poliwrath… buscas una respuesta que llegue enseguida. Pero a veces, solo hay que… tener fe.\n\n— ¿Fe? repitió Poliwrath.\n\n— Sí. Confiar, incluso cuando aún no entendemos. No entrar en pánico porque nada sucede. Lo que tenga que pasar, pasará. A su ritmo.\n\nPoliwrath no respondió. Pero algo en él se calmó, aunque solo un poco.\n\nEl tiempo pasó. Lentamente. Poliwrath miraba el agua. Hoothoot miraba a Poliwrath.\n\nLuego… cayó la noche.",
+        "gl": "Hoothoot mirouno con calma.\n\n— Poliwrath… buscas unha resposta que chegue de seguida. Pero ás veces, só hai que… ter fe.\n\n— Fe? repetiu Poliwrath.\n\n— Si. Confiar, mesmo cando aínda non entendemos. Non entrar en pánico porque nada sucede. O que teña que pasar, pasará. Ao seu ritmo.\n\nPoliwrath non respondeu. Pero algo nel calmouse, aínda que só un pouco.\n\nO tempo pasou. Lentamente. Poliwrath miraba a auga. Hoothoot miraba a Poliwrath.\n\nLogo… caeu a noite."
+      }
+    },
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "Soudain… Starmie commença à briller. Doucement.\n\n— Hoothoot ! souffla Tartard. Regarde !\n\nElle s'éleva, sans bruit. Toujours plus haut. Jusqu'à devenir une étoile parmi les autres.\n\n— Elle attendait juste le bon moment ?\n\n— Elle attendait, sourit Hoothoot. Comme nous.",
+        "es": "De pronto… Starmie comenzó a brillar. Suavemente.\n\n— ¡Hoothoot! susurró Poliwrath. ¡Mira!\n\nSe elevó, sin ruido. Cada vez más alto. Hasta convertirse en una estrella entre las otras.\n\n— ¿Solo estaba esperando el momento adecuado?\n\n— Esperaba, sonrió Hoothoot. Como nosotros.",
+        "gl": "De súpeto… Starmie comezou a brillar. Suavemente.\n\n— Hoothoot! murmurou Poliwrath. Mira!\n\nElevouse, sen ruído. Cada vez máis alto. Ata converterse nunha estrela entre as outras.\n\n— Só estaba agardando o momento axeitado?\n\n— Agardaba, sorriu Hoothoot. Coma nós."
+      },
+      "image": "/assets/images/s6/starmie_sky.png"
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Le lac refléta alors le ciel. Des centaines d'étoiles.\n\nHoothoot murmura :\n\n— Regarde…\n\nTartard observa. Au début, rien. Puis… il ralentit. Il arrêta de chercher. Il regarda… simplement.\n\nEt alors… les étoiles commencèrent à bouger. Doucement. Comme une danse. Comme si le ciel était vivant.",
+        "es": "El lago reflejó entonces el cielo. Cientos de estrellas.\n\nHoothoot murmuró:\n\n— Mira…\n\nPoliwrath observó. Al principio, nada. Luego… aminoró. Dejó de buscar. Miró… simplemente.\n\nY entonces… las estrellas comenzaron a moverse. Suavemente. Como una danza. Como si el cielo estuviera vivo.",
+        "gl": "O lago reflectiu entón o ceo. Centos de estrelas.\n\nHoothoot murmurou:\n\n— Mira…\n\nPoliwrath observou. Ao principio, nada. Logo… aminorou. Deixou de buscar. Mirou… simplemente.\n\nE entón… as estrelas comezaron a moverse. Suavemente. Coma unha danza. Coma se o ceo estivese vivo."
+      }
+    },
+    {
+      "type": "text-image",
+      "text": {
+        "fr": "Tartard resta silencieux.\n\n— Elles… dansent…\n\nUne sensation traversa l'air. Comme un murmure invisible.\n\n— Regarde… sans chercher.",
+        "es": "Poliwrath se quedó en silencio.\n\n— Están… danzando…\n\nUna sensación atravesó el aire. Como un murmullo invisible.\n\n— Mira… sin buscar.",
+        "gl": "Poliwrath quedou en silencio.\n\n— Están… danzando…\n\nUnha sensación atravesou o aire. Coma un murmurio invisible.\n\n— Mira… sen buscar."
+      },
+      "image": "/assets/images/s6/dance_stars.png"
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Le silence revint. Mais plus rien n'était pareil.\n\nLe lendemain, ils redescendirent. Sans parler. Apaisés.\n\nDe retour à Pokopia, Kadabra les observa. Il n'eut pas besoin de poser de question. Il se contenta de sourire.",
+        "es": "El silencio volvió. Pero ya nada era igual.\n\nAl día siguiente, descendieron. Sin hablar. Serenos.\n\nDe vuelta en Pokopia, Kadabra los observó. No necesitó hacer ninguna pregunta. Se limitó a sonreír.",
+        "gl": "O silencio volveu. Pero xa nada era igual.\n\nAo día seguinte, descenderon. Sen falar. Serenos.\n\nDe volta en Pokopia, Kadabra observounos. Non precisou facer ningunha pregunta. Limitouse a sorrir."
+      }
+    },
+    {
+      "type": "text",
+      "text": {
+        "fr": "Depuis ce jour… Tartard levait souvent les yeux vers le ciel.\n\nEt il savait… que les étoiles n'avaient jamais cessé de danser.\n\nCar certaines choses n'apparaissent… que lorsque l'on cesse de les chercher.\n\nEt ce que tu cherches… est déjà là.",
+        "es": "Desde aquel día… Poliwrath levantaba a menudo los ojos al cielo.\n\nY sabía… que las estrellas nunca habían dejado de danzar.\n\nPorque algunas cosas solo aparecen… cuando dejamos de buscarlas.\n\nY lo que buscas… ya está aquí.",
+        "gl": "Dende aquel día… Poliwrath erguía a miúdo os ollos ao ceo.\n\nE sabía… que as estrelas nunca deixaran de danzar.\n\nPorque algunhas cousas só aparecen… cando deixamos de buscalas.\n\nE o que buscas… xa está aquí."
+      }
+    }
+  ],
+  "bookPages": [
+    "/animation_open_book_images/1.jpg",
+    "/animation_open_book_images/2.jpg",
+    "/animation_open_book_images/3.jpg",
+    "/animation_open_book_images/4.jpg",
+    "/animation_open_book_images/5.jpg",
+    "/animation_open_book_images/6.jpg",
+    "/animation_open_book_images/7.jpg",
+    "/animation_open_book_images/8.jpg",
+    "/animation_open_book_images/9.jpg",
+    "/animation_open_book_images/10.jpg",
+    "/animation_open_book_images/11.jpg",
+    "/animation_open_book_images/12.jpg",
+    "/animation_open_book_images/13.jpg",
+    "/animation_open_book_images/14.jpg",
+    "/animation_open_book_images/15.jpg",
+    "/animation_open_book_images/16.jpg",
+    "/animation_open_book_images/17.jpg",
+    "/animation_open_book_images/last-page.jpg"
+  ]
+}

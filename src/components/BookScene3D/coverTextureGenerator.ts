@@ -248,10 +248,11 @@ export function generateCoverTexture(
     }
 
     // Theme / subtitle
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = 'rgba(255,255,255,0.60)';
-    ctx.font = `400 ${28}px Quicksand, sans-serif`;
-    ctx.fillText(story.theme, W / 2, ty + 6);
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = 'rgba(0,0,0,0.40)';
+    ctx.fillStyle = 'rgba(255,255,255,0.88)';
+    ctx.font = `600 ${32}px Quicksand, sans-serif`;
+    ctx.fillText(story.theme, W / 2, ty + 8);
 
     // ── 8. Build THREE.Texture ──
     const tex = new THREE.Texture(canvas);

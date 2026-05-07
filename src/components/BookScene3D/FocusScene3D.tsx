@@ -57,22 +57,22 @@ const FloatingBook = ({ story, phase, dragProgress, onOpenComplete }: FloatingBo
   useFrame((_, delta) => {
     if (!meshGroupRef.current) return;
     floatRef.current += delta;
-    // Flottement de base + montée sur Y au fur du drag (livre s'envole)
-    const floatY  = Math.sin(floatRef.current * 0.8) * 0.04;
+    // Flottement rapide comme la lib CSS (period ~3.2s → ω≈1.96), amplitude visible
+    const floatY  = Math.sin(floatRef.current * 1.9) * 0.09;
     const targetY = phase >= 1 ? 0 : dragProgress * 1.4; // monte jusqu'à 1.4 unités
     posYRef.current += (targetY - posYRef.current) * Math.min(1, delta * 8);
     meshGroupRef.current.position.y = floatY + posYRef.current;
   });
 
-  // Inclinaison isométrique forte au repos → s'effondre vers la caméra au drag (dramatique)
+  // Inclinaison légère au repos (cover bien visible) → penche vers caméra au drag
   const { rotX, rotY } = useSpring({
-    rotX: phase >= 1 ? 0.05 : 0.22 + dragProgress * 0.55,  // penche vers caméra au drag
-    rotY: phase >= 1 ? 0.0  : -0.16 + dragProgress * 0.12,
-    config: { mass: 0.8, tension: 180, friction: 18 },      // spring rapide et punchy
+    rotX: phase >= 1 ? 0.05 : 0.12 + dragProgress * 0.55,  // part face-on, penche au drag
+    rotY: phase >= 1 ? 0.0  : -0.10 + dragProgress * 0.10,
+    config: { mass: 0.8, tension: 180, friction: 18 },
   });
 
   const { scale } = useSpring({
-    scale: phase >= 2 ? 1.06 : 0.88 + dragProgress * 0.18, // part plus petit, grandit au drag
+    scale: phase >= 2 ? 1.06 : 0.92 + dragProgress * 0.16, // grandit au drag
     config: { mass: 0.8, tension: 160, friction: 16 },
   });
 
@@ -224,7 +224,6 @@ export const FocusScene3D = ({ story, triggered, dragProgress, onComplete }: Foc
   return (
     <div style={{
       position: 'absolute', inset: 0,
-      background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})`,
       opacity: introOpacity,
       transition: 'opacity 0.35s ease-out',
     }}>

@@ -382,16 +382,29 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
     isDragging.current = true;
   };
 
+  const glowSize = 180 + prog * 140;
+
   return (
     <div
-      style={{ position: 'absolute', inset: 0, userSelect: 'none', touchAction: 'none' }}
+      style={{
+        position: 'absolute', inset: 0, userSelect: 'none', touchAction: 'none',
+        background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})`,
+        overflow: 'hidden',
+      }}
       onMouseDown={startDrag}
       onTouchStart={startDrag}
     >
-      {/* Scène 3D — remplace StoryCard, occupe tout l'écran */}
-      <Suspense fallback={
-        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(175deg, ${th.bg1}, ${th.bg2})` }} />
-      }>
+      {/* Étoiles de fond */}
+      {BG_STARS.slice(0, 10).map(s => (
+        <div key={s.id} style={{ position: 'absolute', left: s.x + '%', top: s.y + '%', width: s.size, height: s.size, borderRadius: '50%', background: 'white', opacity: 0.6, animation: `twinkle ${s.dur}s ${s.delay}s ease-in-out infinite`, pointerEvents: 'none', zIndex: 0 }} />
+      ))}
+
+      {/* Glow orb couleur du thème */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: glowSize, height: glowSize, borderRadius: '50%', background: `radial-gradient(${th.glow}, ${th.glow2}, transparent 70%)`, pointerEvents: 'none', zIndex: 0, transition: 'width 0.1s, height 0.1s' }} />
+      {isReady && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: glowSize * 1.5, height: glowSize * 1.5, borderRadius: '50%', background: `radial-gradient(${th.glow}, transparent 60%)`, pointerEvents: 'none', zIndex: 0, animation: 'pulseGlow 0.6s ease-in-out infinite' }} />}
+
+      {/* Scène 3D (canvas transparent, laisse voir les étoiles/glow derrière) */}
+      <Suspense fallback={null}>
         <FocusScene3D
           story={story}
           triggered={triggered}
@@ -417,17 +430,17 @@ const FocusScreen = ({ story, onBack, onComplete }: { story: Story; onBack: () =
           </svg>
         </button>
 
-        {/* Swipe hint */}
-        <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', zIndex: 2, opacity: isReady ? 0 : 0.75, transition: 'opacity 0.3s', pointerEvents: 'none' }}>
-          <div style={{ animation: 'swipeHint 1.6s ease-in-out infinite' }}>
+        {/* Swipe hint — centré avec flexbox */}
+        <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', zIndex: 2, opacity: isReady ? 0 : 0.75, transition: 'opacity 0.3s', pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+          <div style={{ animation: 'swipeHint 1.6s ease-in-out infinite', display: 'flex', justifyContent: 'center' }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="hsl(25,30%,30%)" strokeWidth="2" strokeLinecap="round">
               <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
             </svg>
           </div>
-          <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 600, color: 'hsl(25,30%,35%)', marginTop: 4 }}>{t.swipeHint}</div>
+          <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 12, fontWeight: 600, color: 'hsl(25,30%,35%)', whiteSpace: 'nowrap' }}>{t.swipeHint}</div>
         </div>
         {isReady && (
-          <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', zIndex: 2, animation: 'fadeInUp 0.3s ease-out' }}>
+          <div style={{ position: 'absolute', bottom: 96, left: '50%', transform: 'translateX(-50%)', zIndex: 2, animation: 'fadeInUp 0.3s ease-out', whiteSpace: 'nowrap' }}>
             <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 16, fontWeight: 700, color: th.spine, textShadow: '0 0 20px white', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <Sparkle size={14} color={th.spine} />
               <span>{t.releaseToOpen}</span>

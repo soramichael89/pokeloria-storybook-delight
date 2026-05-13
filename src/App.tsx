@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { DisplayModeProvider } from "@/contexts/DisplayModeContext";
 import { StoriesProvider } from "@/contexts/StoriesContext";
 import { CharactersProvider } from "@/contexts/CharactersContext";
 import { LocationsProvider } from "@/contexts/LocationsContext";
@@ -14,6 +15,7 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <DisplayModeProvider>
     <LanguageProvider>
       <StoriesProvider>
       <CharactersProvider>
@@ -33,6 +35,7 @@ const App = () => (
       </CharactersProvider>
       </StoriesProvider>
     </LanguageProvider>
+    </DisplayModeProvider>
   </QueryClientProvider>
 );
 

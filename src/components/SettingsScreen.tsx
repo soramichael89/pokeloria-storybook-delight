@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Language, useLanguage } from '@/contexts/LanguageContext';
 import { useStories } from '@/contexts/StoriesContext';
 import { GOLD } from '@/lib/theme';
+import { DisplayModeToggle } from './DisplayModeToggle';
 
 interface SettingsScreenProps {
   onClose: () => void;
@@ -161,6 +162,9 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
                   }} />
                 </div>
               </div>
+
+              {/* Display mode toggle */}
+              <DisplayModeToggle />
 
               {/* Language picker */}
               <div style={{ padding: '14px 0', borderBottom: '0.5px solid rgba(40,20,5,0.10)' }}>

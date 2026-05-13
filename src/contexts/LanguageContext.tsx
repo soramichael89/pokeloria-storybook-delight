@@ -26,6 +26,9 @@ interface Translations {
   discover: string;
   explore: string;
   sounds: string;
+  display: string;
+  modeIphone: string;
+  modeIpad: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -52,6 +55,7 @@ const translations: Record<Language, Translations> = {
     discover: 'Découvrir',
     explore: 'Explorer',
     sounds: 'Sons & musique',
+    display: 'Affichage', modeIphone: 'iPhone', modeIpad: 'iPad',
   },
   es: {
     stories: 'Biblioteca Mágica',
@@ -76,6 +80,7 @@ const translations: Record<Language, Translations> = {
     discover: 'Descubrir',
     explore: 'Explorar',
     sounds: 'Sonidos y música',
+    display: 'Pantalla', modeIphone: 'iPhone', modeIpad: 'iPad',
   },
   gl: {
     stories: 'Biblioteca Máxica',
@@ -100,6 +105,7 @@ const translations: Record<Language, Translations> = {
     discover: 'Descobrir',
     explore: 'Explorar',
     sounds: 'Sons e música',
+    display: 'Pantalla', modeIphone: 'iPhone', modeIpad: 'iPad',
   },
 };
 

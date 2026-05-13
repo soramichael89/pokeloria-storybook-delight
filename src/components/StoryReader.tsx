@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Story } from '@/data/stories';
 import { GOLD, THEME } from '@/lib/theme';
 import wallpaper from '@/assets/papierpaint.png';
+import { useDisplayMode } from '@/contexts/DisplayModeContext';
+import { useOrientation } from '@/hooks/useOrientation';
 
 interface StoryReaderProps {
   story: Story;
@@ -13,12 +15,22 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
   const [animKey, setAnimKey] = useState(0);
   const [touchX, setTouchX] = useState<number | null>(null);
 
+  const { isIpad } = useDisplayMode();
+  const { isLandscape } = useOrientation();
+  const isTwoPage = isIpad && isLandscape;
+
   const total = story.pages.length;
   const p = story.pages[page];
+  const pNext = isTwoPage ? story.pages[page + 1] : null;
   const t = THEME[story.colorKey] ?? THEME.peach;
 
+  const step = isTwoPage ? 2 : 1;
+  const spreadTotal = isTwoPage ? Math.ceil(total / 2) : total;
+  const spreadIndex = isTwoPage ? Math.floor(page / 2) : page;
+  const isLastSpread = isTwoPage ? page >= total - 2 : page === total - 1;
+
   const go = (d: number) => {
-    const next = page + d;
+    const next = page + d * step;
     if (next < 0 || next >= total) return;
     setPage(next);
     setAnimKey(k => k + 1);
@@ -86,7 +98,7 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
           background: 'rgba(255,255,255,0.65)', borderRadius: 12,
           padding: '3px 10px', backdropFilter: 'blur(8px)',
         }}>
-          {page + 1}/{total}
+          {spreadIndex + 1}/{spreadTotal}
         </div>
       </div>
 
@@ -97,40 +109,46 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
         onTouchEnd={onTouchEnd}
         style={{
           flex: 1, position: 'relative', zIndex: 3,
-          display: 'flex', flexDirection: 'column',
+          display: 'flex', flexDirection: isTwoPage ? 'row' : 'column',
           alignItems: 'center', justifyContent: 'center',
           padding: '0 28px', gap: 20,
           animation: 'fadeInUp 0.35s ease-out',
           overflow: 'hidden',
         }}
       >
-        {p.image && (
-          <img
-            src={p.image} alt=""
-            style={{
-              width: '100%', maxWidth: 300, display: 'block',
-              objectFit: 'contain',
-              mixBlendMode: 'multiply',
-            }}
-          />
-        )}
+        {/* Page gauche */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
+          {p.image && (
+            <img src={p.image} alt="" style={{ width: '100%', maxWidth: 300, display: 'block', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+          )}
+          <p style={{ fontFamily: "'Nunito',sans-serif", fontSize: 17, lineHeight: 1.9, color: 'hsl(25,30%,22%)', textAlign: 'center', maxWidth: 320, margin: 0 }}>
+            {p.text}
+          </p>
+          {!isTwoPage && page === total - 1 && (
+            <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700, color: t.spine, background: `linear-gradient(135deg, ${t.bg1}, ${t.bg2})`, padding: '8px 20px', borderRadius: 20, marginTop: 8 }}>✨ Fin</div>
+          )}
+        </div>
 
-        <p style={{
-          fontFamily: "'Nunito',sans-serif", fontSize: 17, lineHeight: 1.9,
-          color: 'hsl(25,30%,22%)', textAlign: 'center', maxWidth: 320, margin: 0,
-        }}>
-          {p.text}
-        </p>
-
-        {page === total - 1 && (
-          <div style={{
-            fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700,
-            color: t.spine,
-            background: `linear-gradient(135deg, ${t.bg1}, ${t.bg2})`,
-            padding: '8px 20px', borderRadius: 20, marginTop: 8,
-          }}>
-            ✨ Fin
-          </div>
+        {/* Séparateur + page droite (iPad landscape seulement) */}
+        {isTwoPage && (
+          <>
+            <div style={{ width: 1, alignSelf: 'stretch', margin: '20px 0', background: `linear-gradient(to bottom, transparent, ${t.spine}55, ${t.spine}88, ${t.spine}55, transparent)`, flexShrink: 0 }} />
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
+              {pNext ? (
+                <>
+                  {pNext.image && (
+                    <img src={pNext.image} alt="" style={{ width: '100%', maxWidth: 300, display: 'block', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+                  )}
+                  <p style={{ fontFamily: "'Nunito',sans-serif", fontSize: 17, lineHeight: 1.9, color: 'hsl(25,30%,22%)', textAlign: 'center', maxWidth: 320, margin: 0 }}>
+                    {pNext.text}
+                  </p>
+                  {page + 1 === total - 1 && (
+                    <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700, color: t.spine, background: `linear-gradient(135deg, ${t.bg1}, ${t.bg2})`, padding: '8px 20px', borderRadius: 20, marginTop: 8 }}>✨ Fin</div>
+                  )}
+                </>
+              ) : <div style={{ flex: 1 }} />}
+            </div>
+          </>
         )}
       </div>
 
@@ -158,17 +176,17 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
           </svg>
         </button>
 
-        {/* Page dots */}
+        {/* Page dots — spreads en mode deux pages */}
         <div style={{ display: 'flex', gap: 5 }}>
-          {story.pages.map((_, i) => (
+          {Array.from({ length: spreadTotal }, (_, i) => (
             <div
               key={i}
-              onClick={() => { setPage(i); setAnimKey(k => k + 1); }}
+              onClick={() => { setPage(isTwoPage ? i * 2 : i); setAnimKey(k => k + 1); }}
               style={{
                 cursor: 'pointer',
-                height: 6, width: i === page ? 24 : 6,
+                height: 6, width: i === spreadIndex ? 24 : 6,
                 borderRadius: 3,
-                background: i === page ? t.spine : 'hsl(25,15%,75%)',
+                background: i === spreadIndex ? t.spine : 'hsl(25,15%,75%)',
                 transition: 'all 0.3s',
               }}
             />
@@ -176,10 +194,10 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
         </div>
 
         <button
-          onClick={() => page === total - 1 ? onClose() : go(1)}
+          onClick={() => isLastSpread ? onClose() : go(1)}
           style={{
             width: 48, height: 48, borderRadius: '50%',
-            background: page === total - 1 ? t.spine : 'rgba(255,255,255,0.75)',
+            background: isLastSpread ? t.spine : 'rgba(255,255,255,0.75)',
             border: 'none',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer',
@@ -187,7 +205,7 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
             boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
           }}
         >
-          {page === total - 1
+          {isLastSpread
             ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
             : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(25,30%,22%)" strokeWidth="2" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
           }

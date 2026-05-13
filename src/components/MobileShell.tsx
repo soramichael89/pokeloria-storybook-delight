@@ -13,8 +13,8 @@ const MobileShell = ({ children }: MobileShellProps) => {
   // → la chaîne de hauteur est identique donc le Canvas Three.js fonctionne
   if (isIpad) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-muted/50">
-        <div className="relative w-full h-[100dvh] overflow-hidden">
+      <div className="flex min-h-[100dvh] items-center justify-center bg-muted/50 sm:py-8">
+        <div className="relative w-full h-[100dvh] sm:h-[860px] overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-repeat"
             style={{ backgroundImage: `url(${wallpaper})` }}

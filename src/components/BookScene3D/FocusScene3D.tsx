@@ -197,10 +197,6 @@ const FocusSceneInner = ({ story, triggered, dragX, dragY, onTransitionToReader 
       <BookLights openProgress={openProgress} glowColor={th.glow} spineColor={th.spark} />
       <FloatingBook story={story} phase={phase} dragX={dragX} dragY={dragY} onOpenComplete={handleOpenComplete} />
       <MagicParticles active={phase >= 3} themeColors={themeColors} />
-      <mesh position={[0, -2.5, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
-        <shadowMaterial transparent opacity={0.12} />
-      </mesh>
     </>
   );
 };
@@ -239,13 +235,10 @@ export const FocusScene3D = ({ story, triggered, dragX, dragY, onComplete }: Foc
     }}>
       <Canvas
         camera={{ position: [0.28, 0.22, 7.5], fov: 42 }}
-        shadows
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: false, alpha: true, premultipliedAlpha: false, powerPreference: 'default', failIfMajorPerformanceCaveat: false }}
         style={{ width: '100%', height: '100%' }}
         onCreated={({ gl }) => {
           gl.setClearColor(new THREE.Color(th.bg1), 0);
-          gl.shadowMap.enabled = true;
-          gl.shadowMap.type = THREE.PCFSoftShadowMap;
         }}
       >
         <FocusSceneInner

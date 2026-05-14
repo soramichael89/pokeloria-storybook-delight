@@ -4,6 +4,7 @@ import { GOLD, THEME } from '@/lib/theme';
 import wallpaper from '@/assets/papierpaint.png';
 import { useDisplayMode } from '@/contexts/DisplayModeContext';
 import { useOrientation } from '@/hooks/useOrientation';
+import { PageTurnSpread } from './StoryReader/PageTurnSpread';
 
 interface StoryReaderProps {
   story: Story;
@@ -104,51 +105,43 @@ const StoryReader = ({ story, onClose }: StoryReaderProps) => {
 
       {/* Page content */}
       <div
-        key={animKey}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
         style={{
           flex: 1, position: 'relative', zIndex: 3,
-          display: 'flex', flexDirection: isTwoPage ? 'row' : 'column',
-          alignItems: 'center', justifyContent: 'center',
-          padding: '0 28px', gap: 20,
-          animation: 'fadeInUp 0.35s ease-out',
           overflow: 'hidden',
         }}
       >
-        {/* Page gauche */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
-          {p.image && (
-            <img src={p.image} alt="" style={{ width: '100%', maxWidth: 300, display: 'block', objectFit: 'contain', mixBlendMode: 'multiply' }} />
-          )}
-          <p style={{ fontFamily: "'Nunito',sans-serif", fontSize: 17, lineHeight: 1.9, color: 'hsl(25,30%,22%)', textAlign: 'center', maxWidth: 320, margin: 0 }}>
-            {p.text}
-          </p>
-          {!isTwoPage && page === total - 1 && (
-            <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700, color: t.spine, background: `linear-gradient(135deg, ${t.bg1}, ${t.bg2})`, padding: '8px 20px', borderRadius: 20, marginTop: 8 }}>✨ Fin</div>
-          )}
-        </div>
-
-        {/* Séparateur + page droite (iPad landscape seulement) */}
-        {isTwoPage && (
-          <>
-            <div style={{ width: 1, alignSelf: 'stretch', margin: '20px 0', background: `linear-gradient(to bottom, transparent, ${t.spine}55, ${t.spine}88, ${t.spine}55, transparent)`, flexShrink: 0 }} />
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
-              {pNext ? (
-                <>
-                  {pNext.image && (
-                    <img src={pNext.image} alt="" style={{ width: '100%', maxWidth: 300, display: 'block', objectFit: 'contain', mixBlendMode: 'multiply' }} />
-                  )}
-                  <p style={{ fontFamily: "'Nunito',sans-serif", fontSize: 17, lineHeight: 1.9, color: 'hsl(25,30%,22%)', textAlign: 'center', maxWidth: 320, margin: 0 }}>
-                    {pNext.text}
-                  </p>
-                  {page + 1 === total - 1 && (
-                    <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700, color: t.spine, background: `linear-gradient(135deg, ${t.bg1}, ${t.bg2})`, padding: '8px 20px', borderRadius: 20, marginTop: 8 }}>✨ Fin</div>
-                  )}
-                </>
-              ) : <div style={{ flex: 1 }} />}
-            </div>
-          </>
+        {isTwoPage ? (
+          /* ── iPad landscape: page-turn spread ── */
+          <PageTurnSpread
+            pages={story.pages}
+            pageIndex={page}
+            onPageChange={setPage}
+            spineColor={t.spine}
+          />
+        ) : (
+          /* ── iPhone / portrait: classic scroll ── */
+          <div
+            key={animKey}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+            style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+              padding: '0 28px', gap: 20,
+              animation: 'fadeInUp 0.35s ease-out',
+            }}
+          >
+            {p.image && (
+              <img src={p.image} alt="" style={{ width: '100%', maxWidth: 300, display: 'block', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+            )}
+            <p style={{ fontFamily: "'Nunito',sans-serif", fontSize: 17, lineHeight: 1.9, color: 'hsl(25,30%,22%)', textAlign: 'center', maxWidth: 320, margin: 0 }}>
+              {p.text}
+            </p>
+            {page === total - 1 && (
+              <div style={{ fontFamily: "'Quicksand',sans-serif", fontSize: 13, fontWeight: 700, color: t.spine, background: `linear-gradient(135deg, ${t.bg1}, ${t.bg2})`, padding: '8px 20px', borderRadius: 20, marginTop: 8 }}>✨ Fin</div>
+            )}
+          </div>
         )}
       </div>
 

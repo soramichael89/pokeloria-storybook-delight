@@ -310,6 +310,11 @@ html, body {
   50%       { transform: rotate(-45deg) translateY(-4px); }
 }
 
+/* ── react-pageflip: opaque page background (canvas rasterisation fix) ── */
+.flip-page {
+  background-color: hsl(44, 38%, 97%) !important;
+}
+
 /* ── V2 Opening Animation ── */
 @keyframes v2BookRise {
   from {
